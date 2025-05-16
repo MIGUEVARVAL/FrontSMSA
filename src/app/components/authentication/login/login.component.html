@@ -1,0 +1,77 @@
+<main class="body">
+
+
+    <div class="bg-primary-90 rounded-end-top-unal d-flex flex-column flex-grow-1">
+        <div class="container d-flex flex-column flex-grow-1">
+            <div
+                class="d-flex column-gap-15 row-gap-4 flex-column justify-content-center align-items-center py-7 px-4 flex-grow-1 flex-lg-row">
+
+                <div class="d-flex flex-column row-gap-4 row-gap-lg-8 col-lg px-lg-10 text-center text-lg-start"
+                    id="information">
+                    <h1 class="fw-bold lh-1 text-primary-10">!Te damos la bienvenida a <br class="d-none d-xl-block">
+                        Sistema de Monitoreo y Seguimiento Académico UNAL!</h1>
+                    <h4 class="text-wrap text-justify fw-light text-primary-10">
+                        Esta aplicación tiene como objetivo brindar un espacio para el <strong> seguimiento y
+                            acompañamiento</strong> de los estudiantes de la Universidad Nacional de Colombia, en su
+                        proceso académico.
+                    </h4>
+                </div>
+
+                <form class="col-lg login rounded-4" method="POST">
+                    <div class="d-flex flex-column justify-content-center align-self-stretch">
+                        <p id="header-login" class="text-center mb-9 text-primary-10">
+                            Ingresa con tu usuario
+                            UNAL
+                        </p>
+
+                        <div class="d-flex flex-column gap-3 mb-8">
+                            <div>
+                                <label class="form-label required">Login</label>
+                                <div class="input-group">
+                                    <span class="input-group-text start material-symbols-outlined">person</span>
+                                    <input type="texto" class="form-control" placeholder="Ej. msuarez" id="username"
+                                        name="username" required>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="form-label required">Contraseña</label>
+                                <div class="input-group">
+                                    <span class="input-group-text start material-symbols-outlined">lock</span>
+                                    <input type="password" placeholder="Ej. asdf123-" class="form-control" id="password"
+                                        name="password" required>
+                                    <span class="input-group-text end material-symbols-outlined"
+                                        style="cursor: pointer;">visibility_off</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="mb-8">
+
+                        <div class="form-check mb-8">
+                            <input class="form-check-input" type="checkbox" value="" id="tratamientoDatos"
+                                name="tratamientoDatos" required checked>
+                            <label class="form-check-label text-justify">
+                                De acuerdo a la Ley 1581 de 2012 de Protección de Datos Personales, he leído,
+                                entendido
+                                y
+                                aceptado los términos descritos en la <a class="text-primary fw-black"
+                                    href="https://legal.unal.edu.co/rlunal/home/doc.jsp?d_i=93798"
+                                    target="_blank">Política
+                                    de Tratamiento de Datos Personales</a>.
+                            </label>
+                        </div>
+
+                        <button class="btn btn-primary mb-3 w-100" type="submit" name="inicioSesion">Iniciar
+                            sesión</button>
+                        <a href="/signup" class="btn btn-outline-primary mb-3 w-100">Registrarse</a>
+                        <a href="/recuperar-contrasenia" target="_blank" class="btn btn-link-primary w-100">Olvidé mi
+                            contraseña</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</main>
