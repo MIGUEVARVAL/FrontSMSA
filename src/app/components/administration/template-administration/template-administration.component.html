@@ -1,0 +1,71 @@
+<main class="body">
+
+    <div class="row m-0">
+        <div class="col-12 col-lg-2">
+            <nav class="navbar navbar-expand-lg m-0 p-0 p-lg-auto d-block h-100" style="--bs-navbar-min-height:0;">
+                <div class="container-fluid p-0 h-100">
+                    <div class="collapse navbar-collapse w-100 h-100 m-0" id="sidenavMenu">
+                        <div class="sidenav-link">
+                            <div class="close d-flex d-lg-none">
+                                <button type="button" class="btn-close" data-bs-toggle="collapse"
+                                    data-bs-target="#sidenavMenu" aria-controls="sidenavMenu" aria-expanded="false"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="section">
+                                <div class="header"></div>
+
+                                <div class="items">
+
+
+                                    <a href="/administrador/admin_usuarios" class="item-link">
+                                        <div class="item">
+                                            <span class="material-symbols-outlined icon">groups</span>
+                                            <div class="text">Usuarios</div>
+                                        </div>
+                                    </a>
+                                    <a href="/administrador/admin_estudiantes" class="item-link">
+                                        <div class="item">
+                                            <span class="material-symbols-outlined icon">account_circle</span>
+                                            <div class="text">Estudiantes en riesgo</div>
+                                        </div>
+                                    </a>
+                                    <a href="/administrador/admin_asignaturas_notas" class="item-link">
+                                        <div class="item">
+                                            <span class="material-symbols-outlined icon">history</span>
+                                            <div class="text">Historial de notas</div>
+                                        </div>
+                                    </a>
+                                    <a href="/administrador/admin_asignaturas_cancelaciones" class="item-link">
+                                        <div class="item">
+                                            <span class="material-symbols-outlined icon">hourglass_pause</span>
+                                            <div class="text">Asignaturas canceladas</div>
+                                        </div>
+                                    </a>
+                                    <!-- <a href="/administrador/admin_facultad" class="item-link">
+                                    <div class="item">
+                                        <span class="material-symbols-outlined icon">domain</span>
+                                        <div class="text">Facultades</div>
+                                    </div>
+                                </a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+
+        <!-- Se agregan los componentes de los módulos de administración -->
+
+        <div class="col d-flex flex-column gap-3 p-4">
+
+        <router-outlet></router-outlet>
+
+
+        </div>
+
+
+    </div>
+
+</main>
