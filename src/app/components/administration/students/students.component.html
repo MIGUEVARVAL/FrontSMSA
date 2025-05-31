@@ -4,6 +4,7 @@
     <h2>Cargar estudiantes</h2>
 </div>
 
+@if (isSuccess) {
 <div class="alert alert-success">
     <div class="alert-header">
     <div class="alert-icon">
@@ -13,9 +14,10 @@
     </div>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    
 </div>
+}
 
+@if (isError) {
 <div class="alert alert-danger">
     <div class="alert-header">
     <div class="alert-icon">
@@ -30,6 +32,7 @@
         <li></li>
     </ul>
 </div>
+}
 
 <div class="form-complete container mt-4">
     <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
@@ -44,6 +47,9 @@
                     <select class="form-select mb-4" aria-label="Default select example" name="facultad"
                         required>
                         <option selected disabled>Seleccione la facultad</option>
+                        @for (facultad of facultades; track $index) {
+                            <option value="{{ facultad.id }}">{{ facultad.nombre }}</option>
+                        }
                     </select>
 
                     <div class="input-group form-file" type-file="drag-drop">

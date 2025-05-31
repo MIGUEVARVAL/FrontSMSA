@@ -1,12 +1,23 @@
-import { Routes } from '@angular/router';
-import { LoginComponent } from './components/authentication/login/login.component';
-import { SignupComponent } from './components/authentication/signup/signup.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
 export const routes: Routes = [
 
-    { path: '', redirectTo: 'login', pathMatch: 'full' }, // Ruta por defecto
-    { path: 'login', component: LoginComponent }, // Ruta para el componente de inicio de sesión
-    { path: 'signup', component: SignupComponent }, // Ruta para el componente de registro
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    
+    { path: 'login', loadComponent: () => import('./components/authentication/login/login.component').then(m => m.LoginComponent) },
+    { path: 'signup', loadComponent: () => import('./components/authentication/signup/signup.component').then(m => m.SignupComponent) },
+    
+    {
+        path: 'administration',
+        loadComponent: () => import('./components/administration/template-administration/template-administration.component').then(m => m.TemplateAdministrationComponent),
+        children: [
+            { path: 'students', loadComponent: () => import('./components/administration/students/students.component').then(m => m.StudentsComponent) },
+            { path: 'users', loadComponent: () => import('./components/administration/users/users.component').then(m => m.UsersComponent) },
+            { path: 'final-grades', loadComponent: () => import('./components/administration/final-grades/final-grades.component').then(m => m.FinalGradesComponent) },
+            { path: 'cancellations', loadComponent: () => import('./components/administration/cancellations/cancellations.component').then(m => m.CancellationsComponent) },
+        ],
+    },
 
-
+    
 ];

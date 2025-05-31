@@ -1,1 +1,60 @@
-<p>final-grades works!</p>
+
+
+<div class="col d-flex flex-column gap-3 p-4">
+
+    <div class="pt-9">
+        <h2>Asignaturas con notas finales</h2>
+    </div>
+
+    <div class="form-complete container mt-4">
+        <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
+
+
+
+            <form method="POST" enctype="multipart/form-data">
+
+                <div class="form-complete container">
+                    <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
+
+                        <div class="input-group form-file" type-file="drag-drop">
+                            <label class="form-label required">Notas finales</label>
+                            <div class="form-description">Este reporte se extrae de BI Publisher y se carga sin realizar
+                                cambios</div>
+                            <input type="file" class="form-control is-invalid" name="fileEstudiantes" required />
+
+                            <button class="upload-area" type="button" data-bs-upload>
+                                <span class="material-symbols-outlined">
+                                    upload_file
+                                </span>
+                                <span class="upload-area-title"> Arrastra y suelta tus archivos o </span>
+                                <span class="upload-area-caption"> Selecciona desde dispositivo </span>
+                            </button>
+
+                            <div class="invalid-feedback">Debes seleccionar un archivo</div>
+                            <div class="form-info end">Archivos soportados: PDF, png, jpg, jpeg</div>
+                            <div class="form-text is-files">Archivos seleccionados:</div>
+
+                            <ul class="file-list" data-bs-list-files></ul>
+                        </div>
+
+                        <div class="form-footer text-center mt-4">
+                            <button class="btn btn-primary me-2" name="cargarNotas" type="submit">
+                                Cargar
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const formFileTriggerList = document.querySelectorAll('.form-file')
+    const formFileList = [...formFileTriggerList].map(formFileTriggerEl => {
+        let formFile = new kitUnal.FormFile(formFileTriggerEl);
+        formFile.init();
+    })
+</script>

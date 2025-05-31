@@ -10,4 +10,9 @@ import { RouterModule } from '@angular/router';
 })
 export class UsersComponent {
 
+  // Variables booleadas para mostrar carga, exito y error
+  isLoading: boolean = false;
+  isSuccess: boolean = false;
+  isError: boolean = false;
+
 }
