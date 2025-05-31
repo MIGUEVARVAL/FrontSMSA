@@ -1,0 +1,455 @@
+<main class="body">
+
+    <div class="row m-0">
+        <div class="col-12 col-lg-2">
+
+            <form action="" method="post">
+
+                <div class="filter">
+                    <div class="d-flex flex-column gap-8">
+
+                        <div class="d-flex flex-column gap-3">
+                            <h3 class="text-neutral-30 d-flex align-items-center gap-2">
+                                <span class="material-symbols-outlined">filter_alt</span>
+                                Filtrar búsqueda
+                            </h3>
+                            <div class="d-flex flex-column gap-2">
+                                <p class="text-neutral-30">20 estudiantes</p>
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <button class="btn btn-link-primary fw-black" type="button">
+                                <span>Limpiar todos los filtros</span>
+                                <span class="material-symbols-outlined icon">delete</span>
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column gap-1">
+                        <div class="d-flex flex-column gap-3">
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <div>
+                                    <label for="ordenar" class="form-label">Ordenar por</label>
+                                    <select id="ordenar" class="form-select" name="ordenar">
+                                        <option value="" disabled selected>Seleccione</option>
+                                        <option value="nombres">Nombre completo</option>
+                                        <option value="avance_carrera">Avance</option>
+                                        <option value="papa">P.A.P.A.</option>
+                                        <option value="creditos_disponibles">Créditos Disponibles</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="orden" class="form-label">Orden</label>
+                                    <select id="orden" class="form-select" name="orden">
+                                        <option value="ASC" selected>Ascendente</option>
+                                        <option value="DESC">Descendente</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="documento" class="form-label">Documento</label>
+                                <input type="text" class="form-control" id="documento" placeholder="12345"
+                                    name="documento" />
+                            </div>
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <div>
+                                    <label for="nombres" class="form-label">Nombres</label>
+                                    <input type="text" class="form-control" id="nombres" placeholder="Miguel"
+                                        name="nombres" />
+                                </div>
+
+                                <div>
+                                    <label for="apellidos" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" id="apellidos" placeholder="Vargas"
+                                        name="apellidos" />
+                                </div>
+                            </div>
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <div>
+                                    <label for="login" class="form-label">Login</label>
+                                    <input type="text" class="form-control" id="login" placeholder="mivargasv"
+                                        name="login" />
+                                </div>
+
+                                <div>
+                                    <label for="edad" class="form-label">Edad</label>
+                                    <input type="text" class="form-control" id="edad" placeholder="21" name="edad" />
+                                </div>
+                            </div>
+                            <div>
+                                <label for="programa" class="form-label">Programa</label>
+                                <select id="programa" class="form-select" placeholder="Ejemplo campo de área"
+                                    name="programa">
+                                    <option selected="" value="0" disabled="">Seleccione</option>
+
+                                    <option value="54">3528 - INGENIERÍA ADMINISTRATIVA</option>
+
+                                    <option value="55">3536 - INGENIERÍA GEOLÓGICA</option>
+
+                                    <option value="56">3534 - INGENIERÍA DE SISTEMAS E INFORMÁTICA</option>
+
+                                    <option value="57">3537 - INGENIERÍA INDUSTRIAL</option>
+
+                                    <option value="58">3515 - INGENIERÍA ADMINISTRATIVA</option>
+
+                                    <option value="59">3522 - INGENIERÍA GEOLÓGICA</option>
+
+                                    <option value="60">3518 - INGENIERÍA DE MINAS Y METALURGIA</option>
+
+                                    <option value="61">3517 - INGENIERÍA DE CONTROL</option>
+
+                                    <option value="62">3516 - INGENIERÍA CIVIL</option>
+
+                                    <option value="63">3523 - INGENIERÍA INDUSTRIAL</option>
+
+                                    <option value="64">3533 - INGENIERÍA DE PETRÓLEOS</option>
+
+                                    <option value="65">3531 - INGENIERÍA DE CONTROL</option>
+
+                                    <option value="66">3527 - INGENIERÍA AMBIENTAL</option>
+
+                                    <option value="67">3519 - INGENIERÍA DE PETRÓLEOS</option>
+
+                                    <option value="68">3529 - INGENIERÍA AMBIENTAL</option>
+
+                                    <option value="69">3538 - INGENIERÍA MECÁNICA</option>
+
+                                    <option value="70">3532 - INGENIERÍA DE MINAS Y METALURGIA</option>
+
+                                    <option value="71">3521 - INGENIERÍA ELÉCTRICA</option>
+
+                                    <option value="72">3539 - INGENIERÍA QUÍMICA</option>
+
+                                    <option value="73">3530 - INGENIERÍA CIVIL</option>
+
+                                    <option value="74">3535 - INGENIERÍA ELÉCTRICA</option>
+
+                                    <option value="75">3525 - INGENIERÍA QUÍMICA</option>
+
+                                    <option value="76">3524 - INGENIERÍA MECÁNICA</option>
+
+                                    <option value="77">3520 - INGENIERÍA DE SISTEMAS E INFORMÁTICA</option>
+
+                                </select>
+                            </div>
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <div>
+                                    <label for="acceso" class="form-label">Acceso</label>
+                                    <select id="acceso" class="form-select" name="acceso">
+                                        <option selected="" value="0" disabled="">Seleccione</option>
+
+                                        <option value="EXAMEN DE ADMISIÓN A LA UNIVERSIDAD">EXAMEN DE ADMISIÓN A LA
+                                            UNIVERSIDAD</option>
+
+                                        <option value="TRASLADO">TRASLADO</option>
+
+                                        <option value="TRASLADO ENTRE SEDES">TRASLADO ENTRE SEDES</option>
+
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="subacceso" class="form-label">Subacceso</label>
+                                    <select id="subacceso" class="form-select" name="subacceso">
+                                        <option selected="" value="0" disabled="">Seleccione</option>
+
+                                        <option value="REGULAR DE PREGRADO">REGULAR DE PREGRADO</option>
+
+                                        <option value="VÍCTIMAS DEL CONFLICTO ARMADO EN COLOMBIA">VÍCTIMAS DEL CONFLICTO
+                                            ARMADO EN COLOMBIA</option>
+
+                                        <option
+                                            value="PEAMA - CARIBE - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA">
+                                            PEAMA - CARIBE - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA
+                                        </option>
+
+                                        <option
+                                            value="PEAMA - ORINOQUÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA">
+                                            PEAMA - ORINOQUÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA
+                                        </option>
+
+                                        <option value="PAES - POBLACION NEGRA, AFROCOLOMBIANA, PALENQUERA Y RAIZAL">PAES
+                                            - POBLACION NEGRA, AFROCOLOMBIANA, PALENQUERA Y RAIZAL</option>
+
+                                        <option value="PAES - INDÍGENA">PAES - INDÍGENA</option>
+
+                                        <option
+                                            value="PEAMA - AMAZONÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA">
+                                            PEAMA - AMAZONÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA
+                                        </option>
+
+                                        <option
+                                            value="PEAMA - TUMACO - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA">
+                                            PEAMA - TUMACO - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA
+                                        </option>
+
+                                        <option value="PAES - MUNICIPIO">PAES - MUNICIPIO</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <div>
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <select id="estado" class="form-select" name="estado">
+                                        <option selected value="0" disabled>Seleccione</option>
+                                        <option value="SI">SI</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="matriculas" class="form-label">Matriculas</label>
+                                    <select id="matriculas" class="form-select" name="matriculas">
+                                        <option selected value="0" disabled>Seleccione</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label">P.A.P.A.</label>
+
+                                <div class="row row-cols-1 row-cols-md-2">
+                                    <div>
+                                        <div class="input-group form-range" bs-range>
+                                            <label for="papaMin" class="form-label">Mínimo</label>
+                                            <input class="form-control" type="range" name="papaMin" value="0" min="0"
+                                                max="5" step="0.1" />
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="input-group form-range" bs-range>
+                                            <label for="papaMax" class="form-label">Máximo</label>
+                                            <input class="form-control" type="range" name="papaMax" value="5" min="0"
+                                                max="5" step="0.1" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div>
+                                <label class="form-label">Avance Carrera</label>
+
+                                <div class="row row-cols-1 row-cols-md-2">
+                                    <div>
+                                        <div class="input-group form-range" bs-range>
+                                            <label for="avanceMin" class="form-label">Mínimo</label>
+                                            <input class="form-control" type="range" name="avanceMin" value="0" min="0"
+                                                max="100" step="1" />
+
+                                        </div>
+
+                                    </div>
+
+                                    <div>
+                                        <div class="input-group form-range" bs-range>
+                                            <label for="avanceMax" class="form-label">Máximo</label>
+                                            <input class="form-control" type="range" name="avanceMax" value="100"
+                                                min="0" max="100" step="1" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex flex-column gap-4">
+                        <button class="btn btn-primary" type="submit" name="filtrarEstudiantes">
+                            <span class="material-symbols-outlined">filter_alt</span>
+                            <span>Filtrar</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="col d-flex flex-column gap-3 p-4">
+
+            <h2 class="text-neutral-30 text-center my-2">Estudiantes en Riesgo Facultad de Minas</h2>
+
+            <div class="vstack gap-4">
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nombre completo</th>
+                                <th>Avance</th>
+                                <th>P.A.P.A.</th>
+                                <th>Créditos Disponibles</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+
+                            @for (estudiante of students; track $index) {
+                                <tr>
+                                    <td>
+                                        <button 
+                                            class="accordion-button collapsed" 
+                                            type="button" 
+                                            data-bs-toggle="collapse"
+                                            attr.data-bs-target="#collapse{{ estudiante.id }}" 
+                                            aria-expanded="true"
+                                            attr.aria-controls="collapse{{ estudiante.id }}">
+                                        </button>
+                                    </td>
+                                    <td>{{estudiante.nombres}} {{estudiante.apellidos}}</td>
+                                    <td>{{estudiante.avance_carrera}}</td>
+                                    <td [ngClass]="{'fw-bold': estudiante.papa <= 3.2}">
+                                        @if (estudiante.papa <= 3.2) {
+                                            <ng-container>
+                                            <div class="toolbar sm bg-fixed-warning" role="group" aria-label="Basic example">
+                                                {{ estudiante.papa }}
+                                            </div>
+                                            </ng-container>
+                                        }
+
+                                        @else {
+                                            {{ estudiante.papa }}
+                                        }
+                                    </td>
+                                    <td [ngClass]="{'fw-bold': estudiante.creditos_disponibles <= 10}">
+                                        @if (estudiante.creditos_disponibles <= 10) { 
+                                            <ng-container>
+                                                <div class="toolbar sm bg-fixed-warning" role="group" aria-label="Basic example">
+                                                {{ estudiante.creditos_disponibles }}
+                                                </div>
+                                            </ng-container>
+                                        } @else {
+                                            <ng-container>
+                                                <div>
+                                                {{ estudiante.creditos_disponibles }}
+                                                </div>
+                                            </ng-container>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (estudiante.matricula_periodo_activo === 'SI') {
+                                        <button class="tag tag-success">Activo</button>
+                                        } @else {
+                                        <button class="tag tag-danger">Inactivo</button>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="toolbar sm bg-fixed-success" role="group" aria-label="Basic example">
+                                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir">
+                                                <span class='material-symbols-fill'>visibility</span>
+                                            </a>
+                                        </div>
+                                        <div class="toolbar sm bg-fixed-warning" role="group" aria-label="Basic example">
+                                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir">
+                                                <span class='material-symbols-fill'>edit</span>
+                                            </a>
+                                        </div>
+                                        <div class="toolbar sm bg-fixed-danger" role="group" aria-label="Basic example">
+                                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir">
+                                                <span class='material-symbols-fill'>delete</span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="collapse-row accordion">
+                                    <td colspan="8" class="accordion-item">
+                                        <div id="collapse{{estudiante.id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample0">
+                                            <div class="accordion-body row row-cols-1 g-4">
+                                                <div class="col">
+                                                    <dl>
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10 text-truncate">
+                                                                Tipo de identificación</dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">
+                                                                {{ estudiante.tipo_documento }}</dd>
+                                                        </div>
+
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10">Número de
+                                                                identificación</dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">{{ estudiante.documento }}
+                                                            </dd>
+                                                        </div>
+
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10">Correo
+                                                                electrónico</dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">
+                                                                {{ estudiante.correo_institucional }}</dd>
+                                                        </div>
+
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10">Correo
+                                                                electrónico alterno</dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">
+                                                                {{ estudiante.correo_alterno }}</dd>
+                                                        </div>
+
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10">Plan
+                                                            </dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">
+                                                                INGENIERÍA</dd>
+                                                        </div>
+
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10">Cupo de créditos
+                                                            </dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">
+                                                                {{ estudiante.cupo_creditos }}</dd>
+                                                        </div>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center">
+                <p class="flex-grow-1">Página 1 de 1</p>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination pagination-neutral">
+    
+                        <li class="page-item active">
+                            <a class="page-link" href="#">20</a>
+                        </li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Siguiente">
+                                &rsaquo;
+                            </a>
+                        </li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Última">
+                                &raquo;
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+</main>
