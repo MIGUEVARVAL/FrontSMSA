@@ -12,10 +12,13 @@ declare const kitUnal: any;
 })
 export class StudentsComponent {
 
-  // Variables booleadas para mostrar carga, exito y error
+  // Variables booleanas para mostrar carga, exito y error
   isLoading: boolean = false;
-  isSuccess: boolean = false;
-  isError: boolean = false;
+  isSuccess: boolean = true;
+  messageSuccess: string = "50 estudiantes fueron cargados correctamente, 200 estudiantes fueron actualizados correctamente.";
+  isError: boolean = true;
+  messageError: string = "No se lograron cargar 5 estudiantes, por favor verifique el archivo y vuelva a intentarlo, puede descargar el archivo de error para ver los detalles.";
+
 
   // Variable con las facultades
   facultades = 

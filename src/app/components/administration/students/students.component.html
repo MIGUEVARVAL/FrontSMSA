@@ -1,88 +1,83 @@
 
 
-<div class="pt-9">
-    <h2>Cargar estudiantes</h2>
-</div>
-
-@if (isSuccess) {
-<div class="alert alert-success">
-    <div class="alert-header">
-    <div class="alert-icon">
-        <span class="material-symbols-outlined">info</span>
+    <div class="pt-9">
+        <h2>Cargar estudiantes en riesgo</h2>
     </div>
-    <div class="alert-title">
-    </div>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
-}
 
-@if (isError) {
-<div class="alert alert-danger">
-    <div class="alert-header">
-    <div class="alert-icon">
-        <span class="material-symbols-outlined">info</span>
-    </div>
-    <div class="alert-title">
-        Estudiantes no cargados
-    </div>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    <ul>
-        <li></li>
-    </ul>
-</div>
-}
-
-<div class="form-complete container mt-4">
-    <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
-
-
-
-        <form method="POST" enctype="multipart/form-data">
-
-            <div class="form-complete container">
-                <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
-
-                    <select class="form-select mb-4" aria-label="Default select example" name="facultad"
-                        required>
-                        <option selected disabled>Seleccione la facultad</option>
-                        @for (facultad of facultades; track $index) {
-                            <option value="{{ facultad.id }}">{{ facultad.nombre }}</option>
-                        }
-                    </select>
-
-                    <div class="input-group form-file" type-file="drag-drop">
-                        <label class="form-label required">Estudiantes</label>
-                        <div class="form-description">Cargue el listado de los estudiantes que se encuentran
-                            en riesgo por facultad</div>
-                        <input type="file" class="form-control is-invalid" name="fileEstudiantes"
-                            required />
-
-                        <button class="upload-area" type="button" data-bs-upload>
-                            <span class="material-symbols-outlined">
-                                upload_file
-                            </span>
-                            <span class="upload-area-title"> Arrastra y suelta tus archivos o </span>
-                            <span class="upload-area-caption"> Selecciona desde dispositivo </span>
-                        </button>
-
-                        <div class="invalid-feedback">Debes seleccionar un archivo</div>
-                        <div class="form-info end">Archivos soportados: PDF, png, jpg, jpeg</div>
-                        <div class="form-text is-files">Archivos seleccionados:</div>
-
-                        <ul class="file-list" data-bs-list-files></ul>
-                    </div>
-
-                    <div class="form-footer text-center mt-4">
-                        <button class="btn btn-primary me-2" name="crearEstudiantes" type="submit">
-                            Cargar
-                        </button>
-                    </div>
-
-                </div>
+    @if (isSuccess) {
+    <div class="alert alert-success">
+        <div class="alert-header">
+            <div class="alert-icon">
+                <span class="material-symbols-outlined">info</span>
             </div>
-        </form>
-
+            <div class="alert-title">
+                {{messageSuccess}}
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     </div>
-</div>
+    }
+
+    @if (isError) {
+    <div class="alert alert-danger">
+        <div class="alert-header">
+            <div class="alert-icon">
+                <span class="material-symbols-outlined">info</span>
+            </div>
+            <div class="alert-title">
+                {{messageError}}
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    }
+
+    <div class="form-complete container mt-4">
+        <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                <div class="form-complete container">
+                    <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
+
+                        <select class="form-select mb-4" aria-label="Default select example" name="facultad" required>
+                            <option selected disabled>Seleccione la facultad</option>
+                            @for (facultad of facultades; track $index) {
+                            <option value="{{ facultad.id }}">{{ facultad.nombre }}</option>
+                            }
+                        </select>
+
+                        <div class="input-group form-file" type-file="drag-drop">
+                            <label class="form-label required">Estudiantes</label>
+                            <div class="form-description">Cargue el listado de los estudiantes que se encuentran
+                                en riesgo por facultad</div>
+                            <input type="file" class="form-control is-invalid" name="fileEstudiantes" required
+                                accept=".xlsx,.xls,.ods" />
+
+                            <button class="upload-area" type="button" data-bs-upload>
+                                <span class="material-symbols-outlined">
+                                    upload_file
+                                </span>
+                                <span class="upload-area-title"> Arrastra y suelta tus archivos o </span>
+                                <span class="upload-area-caption"> Selecciona desde dispositivo </span>
+                            </button>
+
+                            <div class="invalid-feedback">Debes seleccionar un archivo</div>
+                            <div class="form-info end">Archivos soportados: xlsx, xls, ods</div>
+                            <div class="form-text is-files">Archivos seleccionados:</div>
+
+                            <ul class="file-list" data-bs-list-files></ul>
+                        </div>
+
+                        <div class="form-footer text-center mt-4">
+                            <button class="btn btn-primary me-2" name="crearEstudiantes" type="submit">
+                                Cargar
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>

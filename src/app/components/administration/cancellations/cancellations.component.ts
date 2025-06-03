@@ -12,10 +12,12 @@ declare const kitUnal: any;
 })
 export class CancellationsComponent {
 
-  // Variables booleadas para mostrar carga, exito y error
+  // Variables booleanas para mostrar carga, exito y error
   isLoading: boolean = false;
-  isSuccess: boolean = false;
-  isError: boolean = false;
+  isSuccess: boolean = true;
+  messageSuccess: string = "Las asignaturas canceladas fueron cargadas correctamente.";
+  isError: boolean = true;
+  messageError: string = "No se lograron cargar las asignaturas canceladas, por favor verifique el archivo y vuelva a intentarlo";
 
 
   // Función para abrir el explorador de archivos para subir un archivo

@@ -1,10 +1,36 @@
 
 
-<div class="col d-flex flex-column gap-3 p-4">
-
     <div class="pt-9">
         <h2>Asignaturas con notas finales</h2>
     </div>
+
+    @if (isSuccess) {
+        <div class="alert alert-success">
+            <div class="alert-header">
+                <div class="alert-icon">
+                    <span class="material-symbols-outlined">info</span>
+                </div>
+                <div class="alert-title">
+                    {{messageSuccess}}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        }
+    
+        @if (isError) {
+        <div class="alert alert-danger">
+            <div class="alert-header">
+                <div class="alert-icon">
+                    <span class="material-symbols-outlined">info</span>
+                </div>
+                <div class="alert-title">
+                    {{messageError}}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        }
 
     <div class="form-complete container mt-4">
         <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
@@ -20,7 +46,7 @@
                             <label class="form-label required">Notas finales</label>
                             <div class="form-description">Este reporte se extrae de BI Publisher y se carga sin realizar
                                 cambios</div>
-                            <input type="file" class="form-control is-invalid" name="fileEstudiantes" required />
+                            <input type="file" class="form-control is-invalid" name="fileEstudiantes" required accept=".xlsx,.xls,.ods"/>
 
                             <button class="upload-area" type="button" data-bs-upload>
                                 <span class="material-symbols-outlined">
@@ -31,7 +57,7 @@
                             </button>
 
                             <div class="invalid-feedback">Debes seleccionar un archivo</div>
-                            <div class="form-info end">Archivos soportados: PDF, png, jpg, jpeg</div>
+                            <div class="form-info end">Archivos soportados: xlsx, xls, ods</div>
                             <div class="form-text is-files">Archivos seleccionados:</div>
 
                             <ul class="file-list" data-bs-list-files></ul>
@@ -49,12 +75,4 @@
 
         </div>
     </div>
-</div>
 
-<script>
-    const formFileTriggerList = document.querySelectorAll('.form-file')
-    const formFileList = [...formFileTriggerList].map(formFileTriggerEl => {
-        let formFile = new kitUnal.FormFile(formFileTriggerEl);
-        formFile.init();
-    })
-</script>

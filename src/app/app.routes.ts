@@ -19,5 +19,17 @@ export const routes: Routes = [
         ],
     },
 
+    {path: 'home', loadComponent: () => import('./components/students/home/home.component').then(m => m.HomeComponent)},
+
+    {
+        path: 'students',
+        children: [
+            {path: 'student-list', loadComponent: () => import('./components/students/students-list/students-list.component').then(m => m.StudentsListComponent)},
+            {path: 'student-info', loadComponent: () => import('./components/students/students-info/students-info.component').then(m => m.StudentsInfoComponent)},
+            {path: 'student-support-strategy', loadComponent: () => import('./components/students/Strategy/student-support-strategy/student-support-strategy.component').then(m => m.StudentSupportStrategyComponent)},
+            {path: 'strategy-detail', loadComponent: () => import('./components/students/Strategy/strategy-detail/strategy-detail.component').then(m => m.StrategyDetailComponent)},
+        ],
+    },
+
     
 ];
