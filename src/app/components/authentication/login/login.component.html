@@ -17,12 +17,26 @@
                     </h4>
                 </div>
 
-                <form class="col-lg login rounded-4" method="POST">
+                <form class="col-lg login rounded-4" [formGroup]="loginForm" (ngSubmit)="login()" >
                     <div class="d-flex flex-column justify-content-center align-self-stretch">
                         <p id="header-login" class="text-center mb-9 text-primary-10">
                             Ingresa con tu usuario
                             UNAL
                         </p>
+
+                        @if (isError) {
+                            <div class="alert alert-danger">
+                                <div class="alert-header">
+                                    <div class="alert-icon">
+                                        <span class="material-symbols-outlined">info</span>
+                                    </div>
+                                    <div class="alert-title">
+                                        {{errorMessage}}
+                                    </div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            }
 
                         <div class="d-flex flex-column gap-3 mb-8">
                             <div>
@@ -30,7 +44,8 @@
                                 <div class="input-group">
                                     <span class="input-group-text start material-symbols-outlined">person</span>
                                     <input type="texto" class="form-control" placeholder="Ej. msuarez" id="username"
-                                        name="username" required>
+                                    formControlName="username"  >
+                                    
                                 </div>
                             </div>
 
@@ -39,7 +54,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text start material-symbols-outlined">lock</span>
                                     <input type="password" placeholder="Ej. asdf123-" class="form-control" id="password"
-                                        name="password" required>
+                                    formControlName="password" >
                                     <span class="input-group-text end material-symbols-outlined"
                                         style="cursor: pointer;">visibility_off</span>
                                 </div>
@@ -62,9 +77,8 @@
                             </label>
                         </div>
 
-                        <button class="btn btn-primary mb-3 w-100" type="submit" name="inicioSesion">Iniciar Sesión</button>
+                        <button class="btn btn-primary mb-3 w-100" type="submit" [disabled]="!loginForm.valid">Iniciar Sesión</button>
                         <a routerLink="/signup" class="btn btn-outline-primary mb-3 w-100">Registrarse</a>
-                        <a routerLink="/home" class="btn btn-outline-primary mb-3 w-100">Cont</a>
                         <a routerLink="/recuperar-contrasenia" target="_blank" class="btn btn-link-primary w-100">Olvidé mi
                             contraseña</a>
                     </div>

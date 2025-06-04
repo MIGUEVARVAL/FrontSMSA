@@ -17,8 +17,8 @@
                     <div class="user-section-avatar-info">
                         <div class="avatar avatar-mn" data-bs-toggle="dropdown" aria-expanded="false"></div>
                         <div>
-                            <p class="fw-bold">Miguel</p>
-                            <p>mivargasv</p>
+                            <p class="fw-bold">{{fullName}}</p>
+                            <p>{{login}}</p>
                         </div>
                     </div>
 
@@ -48,7 +48,7 @@
 
                     <hr class="hr bg-neutral-80">
 
-                    <a class="user-section-menu-item d-flex gap-3" routerLink="/">
+                    <a class="user-section-menu-item d-flex gap-3 mouseClick" (click)="onLogout()">
                         <div class="user-section-menu-item-content">
                             Cerrar Sesión
                         </div>
