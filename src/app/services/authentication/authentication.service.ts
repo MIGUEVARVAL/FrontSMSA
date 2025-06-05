@@ -12,11 +12,11 @@ export class AuthenticationService {
   constructor() {
 
     // Verifica el estado de autenticación al iniciar el servicio
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
     this.isLoggedInSubject.next(isLoggedIn);
 
-    // Si hay información del usuario en localStorage, la carga
-    const userInfo = localStorage.getItem('userInfo');
+    // Si hay información del usuario en sessionStorage, la carga
+    const userInfo = sessionStorage.getItem('userInfo');
     if (userInfo) {
       this.userInfo = JSON.parse(userInfo);
     }
@@ -30,15 +30,15 @@ export class AuthenticationService {
   login(login: string, fullName: string): void {
     this.userInfo = { login, fullName };
     this.isLoggedInSubject.next(true); // Cambia el estado a logeado
-    localStorage.setItem('isLoggedIn', 'true'); // Guarda el estado en localStorage
-    localStorage.setItem('userInfo', JSON.stringify(this.userInfo)); // Guarda la información del usuario en localStorage
+    sessionStorage.setItem('isLoggedIn', 'true'); // Guarda el estado en sessionStorage
+    sessionStorage.setItem('userInfo', JSON.stringify(this.userInfo)); // Guarda la información del usuario en sessionStorage
   }
 
   // Método para cerrar sesión
   logout(): void {
     this.userInfo = null;
     this.isLoggedInSubject.next(false); // Cambia el estado a no logeado
-    localStorage.setItem('isLoggedIn', 'false'); // Guarda el estado en localStorage
+    sessionStorage.setItem('isLoggedIn', 'false'); // Guarda el estado en sessionStorage
 
   }
 

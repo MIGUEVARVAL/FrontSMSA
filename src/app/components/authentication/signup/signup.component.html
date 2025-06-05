@@ -3,7 +3,7 @@
         class="vstack justify-content-center align-items-center py-7 px-4 flex-grow-1 flex-lg-row bg-primary-90 rounded-end-top-unal">
 
 
-        <form class="bg-neutral-99 rounded-4 px-lg-20 px-8 py-14 w-lg-50" method="POST">
+        <form class="bg-neutral-99 rounded-4 px-lg-20 px-8 py-14 w-lg-50" [formGroup]="signupForm" (ngSubmit)="signup()" >
             <div class="vstack justify-content-center align-self-stretch gap-8">
                 <h3 class="text-center text-neutral-30">
                     Registro
@@ -15,8 +15,7 @@
                             <label class="form-label required">Nombres</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">person</span>
-                                <input type="texto" name="nombres" class="form-control" placeholder="Ej. Juan Felipe"
-                                    required>
+                                <input type="texto" class="form-control" placeholder="Ej. Juan Felipe" formControlName="firstName">
                             </div>
                         </div>
 
@@ -24,8 +23,7 @@
                             <label class="form-label required">Apellidos</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">person</span>
-                                <input type="texto" name="apellidos" class="form-control" placeholder="Ej. Ortiz Pérez"
-                                    required>
+                                <input type="texto" class="form-control" placeholder="Ej. Ortiz Pérez" formControlName="lastName">
                             </div>
                         </div>
 
@@ -33,8 +31,7 @@
                             <label class="form-label required">Login</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">mail</span>
-                                <input type="texto" name="username" class="form-control" placeholder="Ej. juanfl"
-                                    required>
+                                <input type="texto" class="form-control" placeholder="Ej. juanfl" formControlName="login">
                             </div>
                         </div>
 
@@ -42,16 +39,15 @@
                             <label class="form-label required">Cargo o Dependencia</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">mail</span>
-                                <input type="texto" name="username" class="form-control"
-                                    placeholder="Coordinador Unidad.." required>
+                                <input type="texto" class="form-control"
+                                    placeholder="Coordinador Unidad.." formControlName="dependence">
                             </div>
                         </div>
                         <div>
                             <label class="form-label required">Contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">lock</span>
-                                <input type="password" name="password" placeholder="Ej. asdf123-" class="form-control"
-                                    required>
+                                <input type="password" placeholder="Ej. asdf123-" class="form-control" formControlName="password">
                                 <span class="input-group-text end material-symbols-outlined">visibility</span>
                             </div>
                         </div>
@@ -60,8 +56,8 @@
                             <label class="form-label required">Confirmar contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">lock</span>
-                                <input type="password" name="confPassword" placeholder="Ej. asdf123-"
-                                    class="form-control" required>
+                                <input type="password" placeholder="Ej. asdf123-"
+                                    class="form-control" formControlName="confirmPassword">
                                 <span class="input-group-text end material-symbols-outlined">visibility</span>
                             </div>
                         </div>
@@ -71,7 +67,7 @@
                 <hr>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" required checked>
+                    <input class="form-check-input" type="checkbox" checked formControlName="ley1581" checked>
                     <label class="form-check-label text-justify">
                         De acuerdo a la Ley 1581 de 2012 de Protección de Datos Personales, he leído, entendido y
                         aceptado los términos
@@ -81,7 +77,7 @@
                     </label>
                 </div>
                 <div class="vstack align-items-center justify-content-center gap-3">
-                    <button class="btn btn-neutral btn-lg mb-3" type="submit" name="registro">Regístrarse</button>
+                    <button class="btn btn-neutral btn-lg mb-3" type="submit" [disabled]="!signupForm.valid">Regístrarse</button>
                     <a routerLink="/" class="link link-neutral text-center btn-lg">Iniciar sesión</a>
                 </div>
             </div>

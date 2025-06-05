@@ -9,7 +9,7 @@
             <span class="material-symbols-outlined">info</span>
         </div>
         <div class="alert-title">
-            {{messageSuccess}}
+            {{successMessage}}
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -23,7 +23,7 @@
             <span class="material-symbols-outlined">info</span>
         </div>
         <div class="alert-title">
-            {{messageError}}
+            {{errorMessage}}
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -35,7 +35,7 @@
 
 
 
-        <form method="POST" enctype="multipart/form-data">
+        <form enctype="multipart/form-data" [formGroup]="loadCancellationsForm" (ngSubmit)="loadCancellations()">
 
             <div class="form-complete container">
                 <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
@@ -44,7 +44,7 @@
                         <label class="form-label required">Cancelaciones</label>
                         <div class="form-description">Este reporte se extrae de BI Publisher y se carga sin realizar
                             cambios</div>
-                        <input type="file" class="form-control is-invalid" name="fileEstudiantes" required
+                        <input type="file" class="form-control is-invalid" formControlName="file" 
                             accept=".xlsx,.xls,.ods" />
 
                         <button class="upload-area" type="button" data-bs-upload>
@@ -74,3 +74,24 @@
 
     </div>
 </div>
+
+@if (isLoading) {
+    <div class="modal fade show" tabindex="-1" id="exampleModal10" data-bs-backdrop="static" data-bs-keyboard="false"
+        style="display: block; background-color: rgba(0, 0, 0, 0.425);" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="spinner-border text-primary"></div>
+                        </div>
+                        <div class="modal-header">
+                            <h5 class="modal-title m-0 text-center text-neutral-40">Cargando</h5>
+                        </div>
+                        <p class="text-neutral-40">Por favor, espere un momento.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }

@@ -68,16 +68,17 @@
                                 name="tratamientoDatos" required checked>
                             <label class="form-check-label text-justify">
                                 De acuerdo a la Ley 1581 de 2012 de Protección de Datos Personales, he leído,
-                                entendido
-                                y
-                                aceptado los términos descritos en la <a class="text-primary fw-black"
+                                entendido y aceptado los términos descritos en la <a class="text-primary fw-black"
                                     href="https://legal.unal.edu.co/rlunal/home/doc.jsp?d_i=93798"
                                     target="_blank">Política
                                     de Tratamiento de Datos Personales</a>.
                             </label>
                         </div>
-
-                        <button class="btn btn-primary mb-3 w-100" type="submit" [disabled]="!loginForm.valid">Iniciar Sesión</button>
+                        @if (isLoading) {
+                            <button class="btn btn-primary mb-3 w-100" disabled ><div class="spinner-border spinner-mn"></div> Cargando...</button>
+                        }@else {
+                            <button class="btn btn-primary mb-3 w-100" type="submit">Iniciar Sesión</button>
+                        }
                         <a routerLink="/signup" class="btn btn-outline-primary mb-3 w-100">Registrarse</a>
                         <a routerLink="/recuperar-contrasenia" target="_blank" class="btn btn-link-primary w-100">Olvidé mi
                             contraseña</a>
