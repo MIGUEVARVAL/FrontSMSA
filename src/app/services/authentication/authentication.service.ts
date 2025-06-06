@@ -4,10 +4,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
-  private isLoggedInSubject = new BehaviorSubject<boolean>(false); // Estado inicial: no logeado
 
-  private userInfo: { login: string; fullName: string } | null = null; // Información del usuario
+export class AuthenticationService {
+
+  /**
+   * BehaviorSubject que mantiene el estado de autenticación del usuario.
+   * @private
+   * @type {BehaviorSubject<boolean>}
+   */
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false); 
+
+  /**
+   * Información del usuario logueado.
+   * @private
+   * @type {{ login: string; fullName: string } | null}
+   */
+  private userInfo: { login: string; fullName: string } | null = null; 
 
   constructor() {
 
@@ -23,32 +35,55 @@ export class AuthenticationService {
 
   }
 
-  // Observable para exponer el estado de autenticación
-  isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
+  /**
+   * Observable que emite el estado de autenticación del usuario.
+   * Permite a los componentes suscribirse para recibir actualizaciones.
+   * @type {Observable<boolean>}
+   * @public
+   */
+  public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
-  // Método para iniciar sesión
-  login(login: string, fullName: string): void {
+  /**
+   * Funcón que guarda la información del usuario y cambia el estado de autenticación.
+   * @param {string} login - Login institucional del usuario.
+   * @param {string} fullName - Nombre completo del usuario.
+   * @returns {void}
+   * @public
+   */
+  public login(login: string, fullName: string): void {
     this.userInfo = { login, fullName };
-    this.isLoggedInSubject.next(true); // Cambia el estado a logeado
-    sessionStorage.setItem('isLoggedIn', 'true'); // Guarda el estado en sessionStorage
-    sessionStorage.setItem('userInfo', JSON.stringify(this.userInfo)); // Guarda la información del usuario en sessionStorage
+    this.isLoggedInSubject.next(true);
+    sessionStorage.setItem('isLoggedIn', 'true'); 
+    sessionStorage.setItem('userInfo', JSON.stringify(this.userInfo)); 
   }
 
-  // Método para cerrar sesión
-  logout(): void {
+  /**
+   * Función que cierra la sesión del usuario y cambia el estado de autenticación.
+   * @returns {void}
+   * @pulic
+   */
+  public logout(): void {
     this.userInfo = null;
-    this.isLoggedInSubject.next(false); // Cambia el estado a no logeado
-    sessionStorage.setItem('isLoggedIn', 'false'); // Guarda el estado en sessionStorage
+    this.isLoggedInSubject.next(false);
+    sessionStorage.setItem('isLoggedIn', 'false');
 
   }
 
-  // Método para verificar si el usuario está logeado
-  isUserLoggedIn(): boolean {
-    return this.isLoggedInSubject.getValue(); // Obtiene el valor actual del BehaviorSubject
+  /**
+   * Método para obtener el estado de autenticación del usuario.
+   * @returns {Observable<boolean>} Observable que emite el estado de autenticación.
+   * @public
+   */
+  public isUserLoggedIn(): boolean {
+    return this.isLoggedInSubject.getValue();
   }
 
-  // Método para obtener la información del usuario
-  getUserInfo(): { login: string; fullName: string } | null {
+  /**
+   * Método para obtener el Observable del estado de autenticación del usuario.
+   * @returns {{ login: string; fullName: string } | null} 
+   * @public
+   */
+  public getUserInfo(): { login: string; fullName: string } | null {
     return this.userInfo;
   }
     

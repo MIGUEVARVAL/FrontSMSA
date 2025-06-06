@@ -10,14 +10,35 @@ import { Subscription } from 'rxjs';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
+
 export class NavbarComponent {
 
-  isLoggedIn = false;
+  /**
+   * Variable para indicar si el usuario está logueado.
+   * @type {boolean}
+   * @protected
+   */
+  protected isLoggedIn = false;
+
+  /**
+   * Suscripción para manejar el estado de autenticación del usuario.
+   * @type {Subscription}
+   * @private
+   */
   private subscription: Subscription = new Subscription();
 
+  /**
+   * Información del usuario logueado.
+   * @type {string | null}
+   * @protected
+   */
   protected login: string | null = null;
   protected fullName: string | null = null;
 
+  /**
+   * @param {AuthenticationService} authService - Servicio de autenticación.
+   * @param {Router} route - Servicio de enrutamiento para redirección.
+   */
   constructor(
     private authService: AuthenticationService,
     private route : Router
@@ -25,27 +46,44 @@ export class NavbarComponent {
     this.getInfoUser();
   }
 
+  /**
+   * Función que se ejecuta al inicializar el componente.
+   * @returns {void}
+   * @ngOnInit
+   */
   ngOnInit(): void {
-    // Suscríbete al observable para recibir actualizaciones en tiempo real
+    //Se suscribe al observable del servicio de autenticación para recibir actualizaciones en tiempo real.
     this.subscription = this.authService.isLoggedIn$.subscribe((loggedIn: boolean) => {
       this.isLoggedIn = loggedIn;
     });
   }
 
-  getInfoUser(): void {
-    // Obtiene la información del usuario desde el servicio de autenticación
+  /**
+   * Método para obtener la información del usuario logueado.
+   * @returns {void}
+   * @protected
+   */
+  protected getInfoUser(): void {
     this.login = this.authService.getUserInfo()?.login || null;
     this.fullName = this.authService.getUserInfo()?.fullName || null;
   }
 
-  onLogout(): void {
+  /**
+   * Método para cerrar sesión del usuario.
+   * @returns {void}
+   * @protected
+   */
+  protected onLogout(): void {
     this.authService.logout();
-    // Redirige al usuario a la página de inicio después de cerrar sesión
     this.route.navigate(['/login']);
   }
 
+  /**
+   * Se cancela la suscripción para evitar fugas de memoria.
+   * @returns {void}
+   * @ngOnDestroy
+   */
   ngOnDestroy(): void {
-    // Cancela la suscripción para evitar fugas de memoria
     this.subscription.unsubscribe();
   }
 

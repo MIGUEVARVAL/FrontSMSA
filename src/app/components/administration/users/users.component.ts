@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -11,11 +12,26 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 })
 export class UsersComponent {
 
-  // Variables booleadas para mostrar carga, exito y error
-  isLoading: boolean = false;
-  isSuccess: boolean = false;
-  isError: boolean = false;
+  /**
+   * Variables booleanas para mostrar carga, exito y error
+   * @protected
+   * @property {boolean} isLoading - Indica si se está cargando el formulario.
+   * @property {boolean} isSuccess - Indica si la carga fue exitosa.
+   * @property {string} successMessage - Mensaje de éxito a mostrar.
+   * @property {boolean} isError - Indica si hubo un error en la carga.
+   * @property {string} errorMessage - Mensaje de error a mostrar.
+   */
+  protected isLoading: boolean = false;
+  protected isSuccess: boolean = false;
+  protected successMessage: string = "";
+  protected isError: boolean = false;
+  protected errorMessage: string = "";
 
+  /**
+   * Formulario reactivo para editar un usuario
+   * @protected
+   * @type {FormGroup}
+   */
   protected UserEditForm = new FormGroup({
     firstName: new FormControl('Miguel Ángel', Validators.required),
     lastName: new FormControl('Vargas Valencia', Validators.required),
@@ -23,7 +39,13 @@ export class UsersComponent {
     dependence: new FormControl('Dirección Académica', Validators.required)
   });
 
-  userEdit() {
+  /**
+   * Función para editar un usuario.
+   * Está función se ejecuta al enviar el formulario.
+   * @protected
+   * @returns {void}
+   */
+  protected editUser() {
   }
 
 }

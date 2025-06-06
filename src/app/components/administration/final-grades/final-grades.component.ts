@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 
+
+/**
+ * Utilizada para el manejo de archivos y formularios
+ * @type {any}
+ */
 declare const kitUnal: any;
 
 
@@ -12,21 +18,40 @@ declare const kitUnal: any;
   templateUrl: './final-grades.component.html',
   styleUrl: './final-grades.component.scss'
 })
+
 export class FinalGradesComponent {
 
-  // Variables booleanas para mostrar carga, exito y error
-  isLoading: boolean = false;
-  isSuccess: boolean = false;
-  successMessage: string = "";
-  isError: boolean = false;
-  errorMessage: string = "";
+  /**
+   * Variables booleanas para mostrar carga, exito y error
+   * @protected
+   * @property {boolean} isLoading - Indica si se está cargando el formulario.
+   * @property {boolean} isSuccess - Indica si la carga fue exitosa.
+   * @property {string} successMessage - Mensaje de éxito a mostrar.
+   * @property {boolean} isError - Indica si hubo un error en la carga.
+   * @property {string} errorMessage - Mensaje de error a mostrar.
+   */
+  protected isLoading: boolean = false;
+  protected isSuccess: boolean = false;
+  protected successMessage: string = "";
+  protected isError: boolean = false;
+  protected errorMessage: string = "";
 
+  /**
+   * Formulario reactivo para cargar las notas finales
+   * @protected
+   * @type {FormGroup}
+   */
   protected loadFinalGradesForm = new FormGroup({
     file: new FormControl('', Validators.required),
   });
 
-  // Función para cargar los estudiantes
-  loadFinalGrades() {
+  /**
+   * Función para cargar las notas finales.
+   * Está función se ejecuta al enviar el formulario.
+   * @protected
+   * @returns {void}
+   */
+  protected loadFinalGrades() {
     this.isLoading = true;
 
     if (this.loadFinalGradesForm.invalid) {
@@ -35,7 +60,6 @@ export class FinalGradesComponent {
       this.errorMessage = "Por favor, complete todos los campos requeridos.";
       return;
     }
-    // Simula una carga de estudiantes
     setTimeout(() => {
       this.loadFinalGradesForm.reset();
       this.isLoading = false;
@@ -46,8 +70,10 @@ export class FinalGradesComponent {
     }, 2000);
   }
 
-
-  // Función para abrir el explorador de archivos para subir un archivo
+  /**
+   * Método del ciclo de vida de Angular que se ejecuta después de que la vista del componente ha sido inicializada.
+   * Aquí se inicializan los componentes de carga de archivos.
+   */
   ngAfterViewInit(): void {
     const formFileTriggerList = document.querySelectorAll('.form-file');
     [...formFileTriggerList].forEach((formFileTriggerEl) => {

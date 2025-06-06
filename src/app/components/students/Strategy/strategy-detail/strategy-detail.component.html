@@ -132,7 +132,8 @@
                         </li>
                         <li class="breadcrumb-item active"><a routerLink="/students/student-info">Información
                                 estudiante</a></li>
-                        <li class="breadcrumb-item active"><a routerLink="/students/student-support-strategy">Seguimiento</a></li>
+                        <li class="breadcrumb-item active"><a
+                                routerLink="/students/student-support-strategy">Seguimiento</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Acompañamiento Tutor</li>
                     </ol>
                 </nav>
@@ -229,7 +230,8 @@
                         </div>
                         <p class="my-2">Creado el 22 de abril de 2025</p>
 
-                        <p class="my-4">Se asigna el tutor José Restrepo, profesor de planta con conocimientos en
+                        <p class="my-4">
+                            Se asigna el tutor José Restrepo, profesor de planta con conocimientos en
                             matemáticas. Esto con el fin de acompañar al estudiante en asignaturas como
                             cálculo en varias variables la cual se le ha dificultado mucho al estudiantes
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, amet deserunt
@@ -237,12 +239,14 @@
                             aliquam natus quas fugiat quos doloremque provident quasi modi? Doloribus.
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eaque, maiores ea
                             dolore id a corporis voluptatibus cupiditate beatae rem distinctio quibusdam
-                            tempora rerum, eligendi assumenda! Explicabo laborum harum tenetur?</p>
+                            tempora rerum, eligendi assumenda! Explicabo laborum harum tenetur?
+                        </p>
 
-
+                        <h4 class="my-5">Seguimiento</h4>
                         <div class="flex-grow-1 d-flex flex-column gap-4">
                             <div class="d-flex flex-column">
-                                <a href="#"
+                                @for (item of [1,2,3,4,5]; track $index) {
+                                <a type="button" data-bs-toggle="modal" data-bs-target="#followupDetail"
                                     class="text-decoration-none p-4 d-flex align-items-center gap-4 border-top border-bottom border-neutral-80 bg-hover-tertiary-blue-99">
                                     <div class="flex-grow-1 d-flex flex-column flex-md-row gap-2 gap-md-4">
                                         <div class="flex-grow-1">
@@ -253,16 +257,15 @@
                                                     class="material-symbols-outlined text-neutral-50 icon-sm">group</span>
                                                 <p class="text-neutral-50">Unidad de Permanencia Facultad Minas</p>
                                             </div>
+                                        </div>
+                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
+
                                             <div class="d-flex align-items-center gap-3">
                                                 <span
                                                     class="material-symbols-outlined text-neutral-50 icon-sm">calendar_month</span>
-                                                <p class="text-neutral-50">Creado el 25 de abril de 2025</p>
+                                                <p class="text-neutral-50">25 de abril de 2025</p>
                                             </div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
-                                            <div>
-                                                <button class="tag tag-light-warning">En proceso</button>
-                                            </div>
+
                                         </div>
                                     </div>
                                     <div>
@@ -271,267 +274,28 @@
                                         </span>
                                     </div>
                                 </a>
-                                <a href="#"
-                                    class="text-decoration-none p-4 d-flex align-items-center gap-4 border-top border-bottom border-neutral-80 bg-hover-tertiary-blue-99">
-                                    <div class="flex-grow-1 d-flex flex-column flex-md-row gap-2 gap-md-4">
-                                        <div class="flex-grow-1">
-                                            <p class="h5 text-neutral-40">Se notifica la asignación del tutor al
-                                                estudiante</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">group</span>
-                                                <p class="text-neutral-50">Unidad de Permanencia Facultad Minas</p>
+                                <div class="modal fade" tabindex="-1" id="followupDetail">
+                                    <div class="modal-dialog modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">calendar_month</span>
-                                                <p class="text-neutral-50">Creado el 25 de abril de 2025</p>
+                                            <div class="modal-title">Se notifica la asignación del tutor al
+                                                estudiante</div>
+                                            <div class="modal-body my-3">
+                                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad unde rem tempora, blanditiis nulla molestias possimus eligendi similique culpa recusandae nihil repellat, alias corrupti aspernatur qui quod laudantium impedit atque?
+                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi nemo error quo eaque eum doloribus cum ex laborum harum minima, ad voluptatibus accusamus delectus voluptatum a consequuntur ea vero? Numquam?
+                                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis reprehenderit tempora commodi quod, officia inventore! Eius nesciunt, ratione fugiat consequatur adipisci asperiores rem aperiam corporis ea tenetur ipsa debitis magni.  
                                             </div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
-                                            <div>
-                                                <button class="tag tag-light-warning">En proceso</button>
+                                            <div class="modal-footer my-5 text-primary" >
+                                                Creado por: Melissa Velasco - Unidad de Permanencia Facultad Minas 
                                             </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <span class="material-symbols-outlined icon-md text-neutral-60">
-                                            chevron_right
-                                        </span>
-                                    </div>
-                                </a>
-                                <a href="#"
-                                    class="text-decoration-none p-4 d-flex align-items-center gap-4 border-top border-bottom border-neutral-80 bg-hover-tertiary-blue-99">
-                                    <div class="flex-grow-1 d-flex flex-column flex-md-row gap-2 gap-md-4">
-                                        <div class="flex-grow-1">
-                                            <p class="h5 text-neutral-40">Se notifica la asignación del tutor al
-                                                estudiante</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">group</span>
-                                                <p class="text-neutral-50">Unidad de Permanencia Facultad Minas</p>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">calendar_month</span>
-                                                <p class="text-neutral-50">Creado el 25 de abril de 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
-                                            <div>
-                                                <button class="tag tag-light-warning">En proceso</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="material-symbols-outlined icon-md text-neutral-60">
-                                            chevron_right
-                                        </span>
-                                    </div>
-                                </a>
-                                <a href="#"
-                                    class="text-decoration-none p-4 d-flex align-items-center gap-4 border-top border-bottom border-neutral-80 bg-hover-tertiary-blue-99">
-                                    <div class="flex-grow-1 d-flex flex-column flex-md-row gap-2 gap-md-4">
-                                        <div class="flex-grow-1">
-                                            <p class="h5 text-neutral-40">Se notifica la asignación del tutor al
-                                                estudiante</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">group</span>
-                                                <p class="text-neutral-50">Unidad de Permanencia Facultad Minas</p>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">calendar_month</span>
-                                                <p class="text-neutral-50">Creado el 25 de abril de 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
-                                            <div>
-                                                <button class="tag tag-light-warning">En proceso</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="material-symbols-outlined icon-md text-neutral-60">
-                                            chevron_right
-                                        </span>
-                                    </div>
-                                </a>
-                                <a href="#"
-                                    class="text-decoration-none p-4 d-flex align-items-center gap-4 border-top border-bottom border-neutral-80 bg-hover-tertiary-blue-99">
-                                    <div class="flex-grow-1 d-flex flex-column flex-md-row gap-2 gap-md-4">
-                                        <div class="flex-grow-1">
-                                            <p class="h5 text-neutral-40">Se notifica la asignación del tutor al
-                                                estudiante</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">group</span>
-                                                <p class="text-neutral-50">Unidad de Permanencia Facultad Minas</p>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">calendar_month</span>
-                                                <p class="text-neutral-50">Creado el 25 de abril de 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
-                                            <div>
-                                                <button class="tag tag-light-warning">En proceso</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="material-symbols-outlined icon-md text-neutral-60">
-                                            chevron_right
-                                        </span>
-                                    </div>
-                                </a>
-                                <a href="#"
-                                    class="text-decoration-none p-4 d-flex align-items-center gap-4 border-top border-bottom border-neutral-80 bg-hover-tertiary-blue-99">
-                                    <div class="flex-grow-1 d-flex flex-column flex-md-row gap-2 gap-md-4">
-                                        <div class="flex-grow-1">
-                                            <p class="h5 text-neutral-40">Se notifica la asignación del tutor al
-                                                estudiante</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">group</span>
-                                                <p class="text-neutral-50">Unidad de Permanencia Facultad Minas</p>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">calendar_month</span>
-                                                <p class="text-neutral-50">Creado el 25 de abril de 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
-                                            <div>
-                                                <button class="tag tag-light-warning">En proceso</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="material-symbols-outlined icon-md text-neutral-60">
-                                            chevron_right
-                                        </span>
-                                    </div>
-                                </a>
-                                <a href="#"
-                                    class="text-decoration-none p-4 d-flex align-items-center gap-4 border-top border-bottom border-neutral-80 bg-hover-tertiary-blue-99">
-                                    <div class="flex-grow-1 d-flex flex-column flex-md-row gap-2 gap-md-4">
-                                        <div class="flex-grow-1">
-                                            <p class="h5 text-neutral-40">Se notifica la asignación del tutor al
-                                                estudiante</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">group</span>
-                                                <p class="text-neutral-50">Unidad de Permanencia Facultad Minas</p>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">calendar_month</span>
-                                                <p class="text-neutral-50">Creado el 25 de abril de 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
-                                            <div>
-                                                <button class="tag tag-light-warning">En proceso</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="material-symbols-outlined icon-md text-neutral-60">
-                                            chevron_right
-                                        </span>
-                                    </div>
-                                </a>
-                                <a href="#"
-                                    class="text-decoration-none p-4 d-flex align-items-center gap-4 border-top border-bottom border-neutral-80 bg-hover-tertiary-blue-99">
-                                    <div class="flex-grow-1 d-flex flex-column flex-md-row gap-2 gap-md-4">
-                                        <div class="flex-grow-1">
-                                            <p class="h5 text-neutral-40">Se notifica la asignación del tutor al
-                                                estudiante</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">group</span>
-                                                <p class="text-neutral-50">Unidad de Permanencia Facultad Minas</p>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">calendar_month</span>
-                                                <p class="text-neutral-50">Creado el 25 de abril de 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
-                                            <div>
-                                                <button class="tag tag-light-warning">En proceso</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="material-symbols-outlined icon-md text-neutral-60">
-                                            chevron_right
-                                        </span>
-                                    </div>
-                                </a>
-                                <a href="#"
-                                    class="text-decoration-none p-4 d-flex align-items-center gap-4 border-top border-bottom border-neutral-80 bg-hover-tertiary-blue-99">
-                                    <div class="flex-grow-1 d-flex flex-column flex-md-row gap-2 gap-md-4">
-                                        <div class="flex-grow-1">
-                                            <p class="h5 text-neutral-40">Se notifica la asignación del tutor al
-                                                estudiante</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">group</span>
-                                                <p class="text-neutral-50">Unidad de Permanencia Facultad Minas</p>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">calendar_month</span>
-                                                <p class="text-neutral-50">Creado el 25 de abril de 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
-                                            <div>
-                                                <button class="tag tag-light-warning">En proceso</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="material-symbols-outlined icon-md text-neutral-60">
-                                            chevron_right
-                                        </span>
-                                    </div>
-                                </a>
-                                <a href="#"
-                                    class="text-decoration-none p-4 d-flex align-items-center gap-4 border-top border-bottom border-neutral-80 bg-hover-tertiary-blue-99">
-                                    <div class="flex-grow-1 d-flex flex-column flex-md-row gap-2 gap-md-4">
-                                        <div class="flex-grow-1">
-                                            <p class="h5 text-neutral-40">Se notifica la asignación del tutor al
-                                                estudiante</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">group</span>
-                                                <p class="text-neutral-50">Unidad de Permanencia Facultad Minas</p>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <span
-                                                    class="material-symbols-outlined text-neutral-50 icon-sm">calendar_month</span>
-                                                <p class="text-neutral-50">Creado el 25 de abril de 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 align-items-start align-items-md-end">
-                                            <div>
-                                                <button class="tag tag-light-warning">En proceso</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="material-symbols-outlined icon-md text-neutral-60">
-                                            chevron_right
-                                        </span>
-                                    </div>
-                                </a>
+                                </div>
+                                }
+
 
                             </div>
                             <div class="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center">
