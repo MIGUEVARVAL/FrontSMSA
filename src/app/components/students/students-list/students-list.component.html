@@ -3,7 +3,7 @@
     <div class="row m-0">
         <div class="col-12 col-lg-2">
 
-            <form action="" method="post">
+            <form [formGroup]="filterForm">
 
                 <div class="filter">
                     <div class="d-flex flex-column gap-8">
@@ -32,7 +32,7 @@
                             <div class="row row-cols-1 row-cols-md-2">
                                 <div>
                                     <label for="ordenar" class="form-label">Ordenar por</label>
-                                    <select id="ordenar" class="form-select" name="ordenar">
+                                    <select id="ordenar" class="form-select" formControlName="orderBy" >
                                         <option value="" disabled selected>Seleccione</option>
                                         <option value="nombres">Nombre completo</option>
                                         <option value="avance_carrera">Avance</option>
@@ -42,7 +42,7 @@
                                 </div>
                                 <div>
                                     <label for="orden" class="form-label">Orden</label>
-                                    <select id="orden" class="form-select" name="orden">
+                                    <select id="orden" class="form-select" formControlName="orderDirection">
                                         <option value="ASC" selected>Ascendente</option>
                                         <option value="DESC">Descendente</option>
                                     </select>
@@ -51,158 +51,78 @@
                             <div>
                                 <label for="documento" class="form-label">Documento</label>
                                 <input type="text" class="form-control" id="documento" placeholder="12345"
-                                    name="documento" />
+                                    formControlName="documento" />
                             </div>
                             <div class="row row-cols-1 row-cols-md-2">
                                 <div>
                                     <label for="nombres" class="form-label">Nombres</label>
                                     <input type="text" class="form-control" id="nombres" placeholder="Miguel"
-                                        name="nombres" />
+                                    formControlName="nombres" />
                                 </div>
 
                                 <div>
                                     <label for="apellidos" class="form-label">Apellidos</label>
                                     <input type="text" class="form-control" id="apellidos" placeholder="Vargas"
-                                        name="apellidos" />
+                                    formControlName="apellidos" />
                                 </div>
                             </div>
                             <div class="row row-cols-1 row-cols-md-2">
                                 <div>
                                     <label for="login" class="form-label">Login</label>
                                     <input type="text" class="form-control" id="login" placeholder="mivargasv"
-                                        name="login" />
+                                    formControlName="login" />
                                 </div>
 
                                 <div>
                                     <label for="edad" class="form-label">Edad</label>
-                                    <input type="text" class="form-control" id="edad" placeholder="21" name="edad" />
+                                    <input type="text" class="form-control" id="edad" placeholder="21" 
+                                    formControlName="edad" />
                                 </div>
                             </div>
                             <div>
                                 <label for="programa" class="form-label">Programa</label>
-                                <select id="programa" class="form-select" placeholder="Ejemplo campo de área"
-                                    name="programa">
-                                    <option selected="" value="0" disabled="">Seleccione</option>
-
-                                    <option value="54">3528 - INGENIERÍA ADMINISTRATIVA</option>
-
-                                    <option value="55">3536 - INGENIERÍA GEOLÓGICA</option>
-
-                                    <option value="56">3534 - INGENIERÍA DE SISTEMAS E INFORMÁTICA</option>
-
-                                    <option value="57">3537 - INGENIERÍA INDUSTRIAL</option>
-
-                                    <option value="58">3515 - INGENIERÍA ADMINISTRATIVA</option>
-
-                                    <option value="59">3522 - INGENIERÍA GEOLÓGICA</option>
-
-                                    <option value="60">3518 - INGENIERÍA DE MINAS Y METALURGIA</option>
-
-                                    <option value="61">3517 - INGENIERÍA DE CONTROL</option>
-
-                                    <option value="62">3516 - INGENIERÍA CIVIL</option>
-
-                                    <option value="63">3523 - INGENIERÍA INDUSTRIAL</option>
-
-                                    <option value="64">3533 - INGENIERÍA DE PETRÓLEOS</option>
-
-                                    <option value="65">3531 - INGENIERÍA DE CONTROL</option>
-
-                                    <option value="66">3527 - INGENIERÍA AMBIENTAL</option>
-
-                                    <option value="67">3519 - INGENIERÍA DE PETRÓLEOS</option>
-
-                                    <option value="68">3529 - INGENIERÍA AMBIENTAL</option>
-
-                                    <option value="69">3538 - INGENIERÍA MECÁNICA</option>
-
-                                    <option value="70">3532 - INGENIERÍA DE MINAS Y METALURGIA</option>
-
-                                    <option value="71">3521 - INGENIERÍA ELÉCTRICA</option>
-
-                                    <option value="72">3539 - INGENIERÍA QUÍMICA</option>
-
-                                    <option value="73">3530 - INGENIERÍA CIVIL</option>
-
-                                    <option value="74">3535 - INGENIERÍA ELÉCTRICA</option>
-
-                                    <option value="75">3525 - INGENIERÍA QUÍMICA</option>
-
-                                    <option value="76">3524 - INGENIERÍA MECÁNICA</option>
-
-                                    <option value="77">3520 - INGENIERÍA DE SISTEMAS E INFORMÁTICA</option>
-
+                                <select id="programa" class="form-select"
+                                formControlName="programa">
+                                    <option selected="" value="" disabled>Seleccione</option>
+                                    @for (programa of programas; track $index) {
+                                        <option value="{{programa.id}}">{{programa.nombre}}</option>
+                                    } 
                                 </select>
                             </div>
                             <div class="row row-cols-1 row-cols-md-2">
                                 <div>
                                     <label for="acceso" class="form-label">Acceso</label>
-                                    <select id="acceso" class="form-select" name="acceso">
-                                        <option selected="" value="0" disabled="">Seleccione</option>
-
-                                        <option value="EXAMEN DE ADMISIÓN A LA UNIVERSIDAD">EXAMEN DE ADMISIÓN A LA
-                                            UNIVERSIDAD</option>
-
-                                        <option value="TRASLADO">TRASLADO</option>
-
-                                        <option value="TRASLADO ENTRE SEDES">TRASLADO ENTRE SEDES</option>
-
+                                    <select id="acceso" class="form-select" formControlName="acceso">
+                                        <option selected="" value="" disabled>Seleccione</option>
+                                        @for (acceso of accesos; track $index) {
+                                            <option value="{{acceso.id}}">{{acceso.nombre}}</option>
+                                        }
                                     </select>
                                 </div>
 
                                 <div>
                                     <label for="subacceso" class="form-label">Subacceso</label>
-                                    <select id="subacceso" class="form-select" name="subacceso">
-                                        <option selected="" value="0" disabled="">Seleccione</option>
-
-                                        <option value="REGULAR DE PREGRADO">REGULAR DE PREGRADO</option>
-
-                                        <option value="VÍCTIMAS DEL CONFLICTO ARMADO EN COLOMBIA">VÍCTIMAS DEL CONFLICTO
-                                            ARMADO EN COLOMBIA</option>
-
-                                        <option
-                                            value="PEAMA - CARIBE - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA">
-                                            PEAMA - CARIBE - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA
-                                        </option>
-
-                                        <option
-                                            value="PEAMA - ORINOQUÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA">
-                                            PEAMA - ORINOQUÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA
-                                        </option>
-
-                                        <option value="PAES - POBLACION NEGRA, AFROCOLOMBIANA, PALENQUERA Y RAIZAL">PAES
-                                            - POBLACION NEGRA, AFROCOLOMBIANA, PALENQUERA Y RAIZAL</option>
-
-                                        <option value="PAES - INDÍGENA">PAES - INDÍGENA</option>
-
-                                        <option
-                                            value="PEAMA - AMAZONÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA">
-                                            PEAMA - AMAZONÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA
-                                        </option>
-
-                                        <option
-                                            value="PEAMA - TUMACO - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA">
-                                            PEAMA - TUMACO - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA
-                                        </option>
-
-                                        <option value="PAES - MUNICIPIO">PAES - MUNICIPIO</option>
-
+                                    <select id="subacceso" class="form-select" formControlName="subacceso">
+                                        <option selected="" value="" disabled>Seleccione</option>
+                                        @for (subacceso of subaccesos; track $index) {
+                                            <option value="{{subacceso.id}}">{{subacceso.nombre}}</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
                             <div class="row row-cols-1 row-cols-md-2">
                                 <div>
                                     <label for="estado" class="form-label">Estado</label>
-                                    <select id="estado" class="form-select" name="estado">
-                                        <option selected value="0" disabled>Seleccione</option>
-                                        <option value="SI">SI</option>
-                                        <option value="NO">NO</option>
+                                    <select id="estado" class="form-select" formControlName="estado">
+                                        <option selected value="" disabled>Seleccione</option>
+                                        <option value="SI">Activo</option>
+                                        <option value="NO">Inactivo</option>
                                     </select>
                                 </div>
 
                                 <div>
                                     <label for="matriculas" class="form-label">Matriculas</label>
-                                    <select id="matriculas" class="form-select" name="matriculas">
+                                    <select id="matriculas" class="form-select" formControlName="matriculas">
                                         <option selected value="0" disabled>Seleccione</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -219,7 +139,7 @@
                                     <div>
                                         <div class="input-group form-range" bs-range>
                                             <label for="papaMin" class="form-label">Mínimo</label>
-                                            <input class="form-control" type="range" name="papaMin" value="0" min="0"
+                                            <input class="form-control" type="range" formControlName="papaMin" value="0" min="0"
                                                 max="5" step="0.1" />
 
                                         </div>
@@ -227,7 +147,7 @@
                                     <div>
                                         <div class="input-group form-range" bs-range>
                                             <label for="papaMax" class="form-label">Máximo</label>
-                                            <input class="form-control" type="range" name="papaMax" value="5" min="0"
+                                            <input class="form-control" type="range" formControlName="papaMax" value="5" min="0"
                                                 max="5" step="0.1" />
                                         </div>
                                     </div>
@@ -243,17 +163,15 @@
                                     <div>
                                         <div class="input-group form-range" bs-range>
                                             <label for="avanceMin" class="form-label">Mínimo</label>
-                                            <input class="form-control" type="range" name="avanceMin" value="0" min="0"
+                                            <input class="form-control" type="range" formControlName="avanceMin" value="0" min="0"
                                                 max="100" step="1" />
-
                                         </div>
-
                                     </div>
 
                                     <div>
                                         <div class="input-group form-range" bs-range>
                                             <label for="avanceMax" class="form-label">Máximo</label>
-                                            <input class="form-control" type="range" name="avanceMax" value="100"
+                                            <input class="form-control" type="range" formControlName="avanceMax" value="100"
                                                 min="0" max="100" step="1" />
                                         </div>
                                     </div>
@@ -265,7 +183,7 @@
                     </div>
 
                     <div class="d-flex flex-column gap-4">
-                        <button class="btn btn-primary" type="submit" name="filtrarEstudiantes">
+                        <button class="btn btn-primary" type="submit" >
                             <span class="material-symbols-outlined">filter_alt</span>
                             <span>Filtrar</span>
                         </button>

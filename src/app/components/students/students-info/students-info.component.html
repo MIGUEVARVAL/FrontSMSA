@@ -236,16 +236,17 @@
 
                                                     <div class="d-flex flex-column gap-2">
 
+                                                        <p class="h5 text-neutral-40">Asignatura</p>
                                                         <div class="d-flex gap-4">
                                                             <div class="flex-grow-1">
-                                                                <label for="rangeDate1"
-                                                                    class="form-label required">Código</label>
+                                                                <label for="creditos_disponibles"
+                                                                    class="form-label" required>Código</label>
                                                                 <div class="input-group">
                                                                     <input type="text" class="form-control">
                                                                 </div>
                                                             </div>
                                                             <div class="flex-grow-3">
-                                                                <label for="rangeDate2"
+                                                                <label for="creditosAsignatura"
                                                                     class="form-label required">Créditos</label>
                                                                 <div class="input-group">
                                                                     <input type="number" class="form-control" >
@@ -253,7 +254,7 @@
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <label for="rangeDate2"
+                                                            <label for="nombreAsignatura"
                                                                     class="form-label required">Nombre de la asignatura</label>
                                                                 <div class="input-group">
                                                                     <input type="text" class="form-control" >
@@ -261,16 +262,45 @@
                                                         </div>
 
                                                     </div>
+                                                    <hr class="hr bg-neutral-80" />
+                                                    <div class="d-flex flex-column gap-2">
+                                                        <p class="h5 text-neutral-40">Calificación</p>
+                                                        <div class="d-flex gap-4">
+                                                            <div class="flex-grow-1">
+                                                                <label for="creditos_disponibles"
+                                                                    class="form-label" required>Estado</label>
+                                                                <div class="input-group">
+                                                                    <select class="form-select">
+                                                                        <option value="" selected>Todos</option>
+                                                                        <option value="AP">Aprobada</option>
+                                                                        <option value="RE">Reprobada</option>
+                                                                        <option value="CANCELADA">Cancelada</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-grow-3">
+                                                                <label for="creditosAsignatura"
+                                                                    class="form-label required">Veces vista</label>
+                                                                <div class="input-group">
+                                                                    <input type="number" class="form-control" value="1">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="form-label">Nota</label>
+
+                            
+                                                        </div>
+                                                    </div>
                                                     
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-primary"
-                                                data-bs-dismiss="modal">
+                                            <button type="reset" class="btn btn-outline-primary">
                                                 Limpiar todos los filtros
                                             </button>
-                                            <button type="button" class="btn btn-primary">
+                                            <button type="submit" class="btn btn-primary">
                                                 Aplicar filtros
                                             </button>
                                         </div>

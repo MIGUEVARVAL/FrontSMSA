@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 
 /**

@@ -275,7 +275,7 @@
                                     </div>
                                 </a>
                                 <div class="modal fade" tabindex="-1" id="followupDetail">
-                                    <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -341,7 +341,7 @@
                 </div>
                 <div class="modal-title">Seguimiento</div>
                 <div class="modal-body">
-                    <form method="POST" enctype="multipart/form-data">
+                    <form [formGroup]="strategyDetailForm" >
 
                         <div class="form-complete container">
                             <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
@@ -350,21 +350,20 @@
                                     <div class="input-group">
                                         <span class="input-group-text start material-symbols-outlined">tactic</span>
                                         <input type="text́" class="form-control" aria-describedby="start-group"
-                                            placeholder="Acompañamiento...">
+                                            placeholder="Acompañamiento..." formControlName="title">
                                     </div>
                                 </div>
                                 <div class="mt-4">
                                     <label for="exampleInput" class="form-label required">Descripción del seguimiento
                                         implementado</label>
                                     <textarea type="text́" class="form-control" aria-describedby="valText"
-                                        rows="8"></textarea>
+                                        rows="8" formControlName="description"></textarea>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-footer text-center mt-4">
-                            <button class="btn btn-primary btn-mn" data-bs-toggle="modal"
-                                data-bs-target="#ModalFiltrar">
+                            <button class="btn btn-primary btn-mn" type="submit" [disabled]="!strategyDetailForm.valid">
                                 <span>Crear</span>
                             </button>
                         </div>
