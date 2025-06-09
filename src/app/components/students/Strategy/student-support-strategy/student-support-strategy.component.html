@@ -16,35 +16,41 @@
                             <div class="items">
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">Cédula</div>
+                                        <div class="text">{{studentInfo.tipo_documento}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">1001226585</div>
+                                        <div class="text">{{studentInfo.documento}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">22 años</div>
+                                        <div class="text">{{studentInfo.edad}} años</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">Femenino</div>
+                                        <div class="text">{{studentInfo.genero}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">sofrancomunal.edu.co</div>
+                                        <div class="text">{{studentInfo.correo_institucional}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">sofifrancogmail.com</div>
+                                        <div class="text">{{studentInfo.correo_alterno}}</div>
                                     </div>
                                 </a>
-
+                                @if (studentInfo.telefono){
+                                <a class="item-link">
+                                    <div class="item">
+                                        <div class="text">{{studentInfo.telefono}}</div>
+                                    </div>
+                                </a>
+                                }
                             </div>
                             <hr class="hr my-5">
                             <div class="section ">
@@ -52,33 +58,34 @@
                                 <div class="items">
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">Facultad de Minas</div>
+                                            <div class="text">{{studentInfo.facultad}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">INGENIERÍA GEOLÓGICA</div>
+                                            <div class="text">{{studentInfo.plan_estudio}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text"> 0 semestres cancelados
+                                            <div class="text"> {{studentInfo.semestres_cancelados}} semestres cancelados
                                             </div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">0 reservas de cupo</div>
+                                            <div class="text">{{studentInfo.reserva_cupo}} reservas de cupo</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">57 créditos iniciales</div>
+                                            <div class="text">Cupo de créditos: {{studentInfo.cupo_creditos}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">62 créditos pendientes</div>
+                                            <div class="text">Créditos pendientes: {{studentInfo.creditos_pendientes}}
+                                            </div>
                                         </div>
                                     </a>
                                 </div>
@@ -90,27 +97,27 @@
                                 <div class="items">
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">EXAMEN DE ADMISIÓN A LA UNIVERSIDAD</div>
+                                            <div class="text">{{studentInfo.acceso}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">REGULAR DE PREGRADO</div>
+                                            <div class="text">{{studentInfo.subacceso}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">Puntaje: 622,38</div>
+                                            <div class="text">Puntaje: {{studentInfo.puntaje_admision}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">PBM: 66</div>
+                                            <div class="text">PBM: {{studentInfo.pbm}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">2020-1S </div>
+                                            <div class="text">{{studentInfo.apertura}} </div>
                                         </div>
                                     </a>
                                 </div>
@@ -131,7 +138,7 @@
                         <li class="breadcrumb-item"><a routerLink="/students/student-list">Listado de estudiantes</a>
                         </li>
                         <li class="breadcrumb-item active"><a routerLink="/students/student-info">Información
-                                estudiante</a></li>
+                                del estudiante</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Seguimiento</li>
                     </ol>
                 </nav>
@@ -140,19 +147,22 @@
                 <div class="vstack gap-4 flex-grow-1">
                     <div class="bg-neutral-100 h-100 rounded-5 p-5">
 
-                        <h3 class="text-center">SOFIA FRANCO MONTOYA</h3>
+                        <h3 class="text-center">{{studentInfo.nombres}} {{studentInfo.apellidos}}</h3>
                         <hr class="hr my-4">
 
                         <div class="row row-cols-1 row-cols-md-3 row-cols-xl-5 g-4 justify-content-center">
                             <div class="col">
-                                <div class="card border-0 px-3 py-1 mw-100 h-100 bg-success-90">
+                                <div class="card border-0 px-3 py-1 mw-100 h-100"
+                                    [ngClass]="studentInfo.matricula_periodo_activo === 'SI' ? 'bg-success-90' : 'bg-danger-90'">
                                     <div class="card-body">
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Estado</p>
                                             <h3>
-
+                                                @if (studentInfo.matricula_periodo_activo == "SI") {
                                                 Activo
-
+                                                }@else {
+                                                Inactivo
+                                                }
                                             </h3>
                                         </div>
                                     </div>
@@ -165,7 +175,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Matriculas</p>
                                             <h3>
-                                                11
+                                                {{studentInfo.numero_matriculas}}
                                             </h3>
                                         </div>
                                     </div>
@@ -178,7 +188,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Creditos disponibles</p>
                                             <h3>
-                                                -5
+                                                {{studentInfo.creditos_disponibles}}
                                             </h3>
                                         </div>
                                     </div>
@@ -191,7 +201,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">PAPA</p>
                                             <h3>
-                                                3,4
+                                                {{studentInfo.papa}}
                                             </h3>
                                         </div>
                                     </div>
@@ -204,7 +214,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Avance carrera</p>
                                             <h3>
-                                                65,60
+                                                {{studentInfo.avance_carrera}}
                                             </h3>
                                         </div>
                                     </div>
@@ -231,26 +241,16 @@
 
                         <div class="row row-cols-1 row-cols-md-2 g-4 my-5">
 
+                            @for (strategy of strategies; track $index) {
                             <div class="col">
                                 <div class="card px-3 py-1 mw-100 h-100 rounded-diag-secondary border-3">
                                     <div class="card-body">
                                         <div class="card-stack">
-                                            <h5 class="card-title">Acompañamiento por tutor</h5>
-                                            <h6 class="card-subtitle">Creado el 22 de abril de 2025</h6>
+                                            <h5 class="card-title">{{strategy.title}}</h5>
+                                            <h6 class="card-subtitle">Creado el {{strategy.date}}</h6>
                                         </div>
                                         <p class="card-text overflow-auto" style="max-height: 100px;">
-                                            Se asigna el tutor José Restrepo, profesor de planta con conocimientos en
-                                            matemáticas. Esto con el fin de acompañar al estudiante en asignaturas como
-                                            cálculo en varias variables la cual se le ha dificultado mucho al
-                                            estudiantes
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, amet
-                                            deserunt
-                                            est perferendis sequi consectetur. Eligendi maxime similique eaque, fugit,
-                                            aliquam natus quas fugiat quos doloremque provident quasi modi? Doloribus.
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eaque, maiores
-                                            ea
-                                            dolore id a corporis voluptatibus cupiditate beatae rem distinctio quibusdam
-                                            tempora rerum, eligendi assumenda! Explicabo laborum harum tenetur?
+                                            {{strategy.description}}
                                         </p>
                                         <div class="d-flex gap-3">
                                             <a routerLink="/students/strategy-detail" class="link">Ver
@@ -259,6 +259,7 @@
                                     </div>
                                 </div>
                             </div>
+                            }
 
                         </div>
 
