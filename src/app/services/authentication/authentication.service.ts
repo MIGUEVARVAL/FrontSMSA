@@ -6,6 +6,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 
 export class AuthenticationService {
+  //Definido para el admin role
+  //public getUserRole(): 'admin' | 'user' | null {
+    //return this.userInfo?.role ?? null;
+  //}
+
 
   /**
    * BehaviorSubject que mantiene el estado de autenticación del usuario.
@@ -19,6 +24,9 @@ export class AuthenticationService {
    * @private
    * @type {{ login: string; fullName: string } | null}
    */
+  //replace?
+  //private userInfo: { login: string; fullName: string; role: 'admin' | 'user' } | null = null;
+
   private userInfo: { login: string; fullName: string } | null = null; 
 
   constructor() {
