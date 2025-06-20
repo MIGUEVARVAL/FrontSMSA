@@ -66,12 +66,14 @@
                             Inicio
                         </a>
                     </li>
+                    @if (role === 'admin') {
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/administration/users">
-                            <span class="material-symbols-fill">manage_accounts</span>
-                            Administrar
+                          <span class="material-symbols-fill">manage_accounts</span>
+                          Administrar
                         </a>
                     </li>
+                    }
                 </ul>
             </div>
         </div>

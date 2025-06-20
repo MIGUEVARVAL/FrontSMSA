@@ -79,11 +79,17 @@ export class LoginComponent {
       if (username == "mivargasv" && password == "12345678") {
         setTimeout(() => {
           // Se llama al servicio de autenticación para iniciar sesión
-          this.authService.login(username, "Miguel Vargas");
+          this.authService.login(username, "Miguel Vargas", "admin");
           this.router.navigate(['/home']);
           this.isLoading = false;
         }, 1000);
-
+      } else if (username == "mivargasv" && password == "123456789") {
+        setTimeout(() => {
+          // Se llama al servicio de autenticación para iniciar sesión
+          this.authService.login(username, "José Restrepo", "user");
+          this.router.navigate(['/home']);
+          this.isLoading = false;
+        }, 1000);
       } else {
         // Si las credenciales son incorrectas, se muestra un mensaje de error
         this.isError = true;

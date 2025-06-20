@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
 
@@ -17,6 +18,8 @@ export const routes: Routes = [
             { path: 'final-grades', loadComponent: () => import('./components/administration/final-grades/final-grades.component').then(m => m.FinalGradesComponent) },
             { path: 'cancellations', loadComponent: () => import('./components/administration/cancellations/cancellations.component').then(m => m.CancellationsComponent) },
         ],
+        canActivate: [authGuard],
+        data: { roles: ['admin'] }
     },
 
     {path: 'home', loadComponent: () => import('./components/students/home/home.component').then(m => m.HomeComponent)},
@@ -29,6 +32,8 @@ export const routes: Routes = [
             {path: 'student-support-strategy', loadComponent: () => import('./components/students/Strategy/student-support-strategy/student-support-strategy.component').then(m => m.StudentSupportStrategyComponent)},
             {path: 'strategy-detail', loadComponent: () => import('./components/students/Strategy/strategy-detail/strategy-detail.component').then(m => m.StrategyDetailComponent)},
         ],
+        canActivate: [authGuard],
+        data: { roles: ['user', 'admin'] }
     },
 
     
