@@ -22,7 +22,11 @@ export const routes: Routes = [
         data: { roles: ['admin'] }
     },
 
-    {path: 'home', loadComponent: () => import('./components/students/home/home.component').then(m => m.HomeComponent)},
+    {
+        path: 'home', loadComponent: () => import('./components/students/home/home.component').then(m => m.HomeComponent),
+        canActivate: [authGuard],
+        data: { roles: ['user', 'admin'] }
+    },
 
     {
         path: 'students',

@@ -28,6 +28,21 @@ export class UrlBackendService {
    */
   protected urlApi = this.urlBackend + 'api/';
 
+  /**
+   * Url de los tokens
+   * @protected
+   * @type {string}
+   */
+  protected urlToken = this.urlApi + 'token/';
+  protected urlRefreshToken = this.urlApi + 'token/refresh/';
+
+  /**
+   * Url de los modelos
+   * @protected
+   * @type {string}
+   */
+  protected urlUsers = this.urlApi + 'user/';
+
 
   constructor() { }
 
