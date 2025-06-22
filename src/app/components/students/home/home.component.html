@@ -1,3 +1,4 @@
+@if (loading) {
 <main class="body">
     <div class="p-4 container">
         <div class="row d-flex flex-grow-1 g-4">
@@ -83,3 +84,8 @@
         </div>
     </div>
 </main>
+}
+@else {
+
+    <app-loading></app-loading>
+}

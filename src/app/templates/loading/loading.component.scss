@@ -1,0 +1,54 @@
+
+  
+  div {
+    margin: auto;
+    transform: translateY(-100px);
+    height: 200px;
+    width: 200px;
+    padding: 20px;
+  }
+  div:after {
+    content: "";
+    position: relative;
+    display: inline-flex;
+    border-top: 5px solid #4d4d4d;
+    border-radius: 250px;
+    padding: 20px;
+    height: 200px;
+    width: 200px;
+    -webkit-animation: spin 1.5s linear infinite;
+    animation: spin 1.5s linear infinite;
+    top: -100%;
+    left: -20%
+  }
+  
+  /* include this only once */
+  @-webkit-keyframes spin {
+      0%   {
+          -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+          -ms-transform: rotate(0deg);  /* IE 9 */
+          transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+      }
+      100% {
+          -webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+          -ms-transform: rotate(360deg);  /* IE 9 */
+          transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+      }
+  }
+  @keyframes spin {
+      0%   {
+          -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+          -ms-transform: rotate(0deg);  /* IE 9 */
+          transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+      }
+      100% {
+          -webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+          -ms-transform: rotate(360deg);  /* IE 9 */
+          transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+      }
+  }
+  
+  img {
+    height: 150px;
+    width: 150px;
+  }
