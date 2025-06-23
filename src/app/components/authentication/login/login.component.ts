@@ -84,10 +84,14 @@ export class LoginComponent {
     // Se llama al servicio de autenticación para iniciar sesión
     this.authService.login({ username, password }).subscribe({
       next: (response) => {
-        console.log("Login successful:", response);
-        this.authService.saveLoginInfo(response.access, response.refresh, response.user);
+        const isSuccess = this.authService.saveLoginInfo(response.access, response.refresh, response.user);
         this.isLoading = false;
-        this.router.navigate(['/home']);
+        if (isSuccess) {
+          this.router.navigate(['/home']);
+        } else {
+          this.isError = true;
+          this.errorMessage = "Su registro no ha sido aprobado. Por favor, contacte al administrador.";
+        }
       },
       error: (error) => {
         this.isLoading = false;

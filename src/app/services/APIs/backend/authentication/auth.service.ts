@@ -88,7 +88,16 @@ export class AuthService {
   }
 
 
-  public saveLoginInfo(token: string, refreshToken: string, user: User): void {
+  /**
+   * Función que guarda la información del usuario y cambia el estado de autenticación.
+   * @param token - Token de acceso del usuario.
+   * @param refreshToken - Token de actualización del usuario.
+   * @param user - Información del usuario.
+   */
+  public saveLoginInfo(token: string, refreshToken: string, user: User): boolean {
+    if (user.nivel_permisos === 0) {
+      return false;  // En caso de no tener permisos, no se guarda la información y no se permite el acceso.
+    }
     localStorage.setItem('token', token);
     localStorage.setItem('refreshToken', refreshToken);
     this.userInfo = user;
@@ -96,6 +105,7 @@ export class AuthService {
     this.userInfoSubject.next(this.userInfo);
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
+    return true;
   }
 
   /**
@@ -114,13 +124,22 @@ export class AuthService {
     localStorage.removeItem('userInfo');
   }
 
-  // Renovar token
+  /**
+   * Función que refresca el token de acceso del usuario.
+   * @param {string} refreshToken - Token de actualización del usuario.
+   * @returns {Observable<AuthResponse>} Observable que emite la respuesta de autenticación.
+   * @public
+   */
   public refreshToken(refreshToken: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.url}token/refresh/`, { refreshToken });
   }
 
-  // Obtener token del almacenamiento local
-  getToken(): string | null {
+  /**
+   * Función que obtiene el token de acceso del usuario.
+   * @returns {string | null} Token de acceso del usuario o null si no está disponible.
+   * @public
+   */
+  public getToken(): string | null {
     return localStorage.getItem('token');
   }
 }

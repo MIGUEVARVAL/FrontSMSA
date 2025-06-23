@@ -105,7 +105,6 @@ export class SignupComponent {
         this.isLoading = false;
         this.isSuccess = true;
         this.successMessage = "Registro exitoso";
-        this.router.navigate(['/login']);
       },
       error: (error) => {
         this.isLoading = false;

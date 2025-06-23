@@ -60,13 +60,7 @@ export class NavbarComponent {
       this.login = user?.username ?? null;
       const fullName = user?.first_name && user?.last_name ? `${user.first_name} ${user.last_name}` : null;
       this.fullName = fullName;
-      if (user?.nivel_permisos !== undefined && user?.nivel_permisos !== null) {
-        this.nivel_permisos = user.nivel_permisos;
-      } else if (user?.is_staff) {
-        this.nivel_permisos = 1;
-      } else {
-        this.nivel_permisos = 0;
-      }
+      this.nivel_permisos = user?.nivel_permisos ?? null;
     });
   }
 

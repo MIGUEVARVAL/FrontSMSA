@@ -2,7 +2,6 @@
     <div
         class="vstack justify-content-center align-items-center py-7 px-4 flex-grow-1 flex-lg-row bg-primary-90 rounded-end-top-unal">
 
-
         <form class="bg-neutral-99 rounded-4 px-lg-20 px-8 py-14 w-lg-50" [formGroup]="signupForm"
             (ngSubmit)="signup()">
             <div class="vstack justify-content-center align-self-stretch gap-8">
@@ -101,11 +100,36 @@
                     </button>
                     }@else {
                     <button class="btn btn-neutral btn-lg mb-3" type="submit"
-                        [disabled]="!signupForm.valid">Regístrarse</button>
+                        [disabled]="!signupForm.valid || isSuccess">Regístrarse</button>
                     }
                     <a routerLink="/" class="link link-neutral text-center btn-lg">Iniciar sesión</a>
                 </div>
             </div>
         </form>
+        
+        @if (isSuccess) {
+
+            <div class="modal modal-success fade show" tabindex="-1" data-bs-backdrop="static"
+                data-bs-keyboard="false" style="display: block; background-color: rgba(0, 0, 0, 0.425);"
+                aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-icon">
+                            <span class="material-symbols-outlined" translate="no">check_circle</span>
+                        </div>
+                        <div class="modal-title">Registro exitoso</div>
+                        <div class="modal-body">El registro se ha realizado con éxito y se ha notificado al
+                            administrador.
+                            <span class="fw-bold">Debe esperar la aprobación de su cuenta por parte del
+                                administrador.</span>
+                        </div>
+                        <div class="modal-footer mt-4">
+                            <a routerLink="/" class="btn btn-primary">Iniciar sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
     </div>
 </main>
