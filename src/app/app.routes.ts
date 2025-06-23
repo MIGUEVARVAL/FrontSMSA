@@ -2,13 +2,20 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 
+
 export const routes: Routes = [
 
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     
-    { path: 'login', loadComponent: () => import('./components/authentication/login/login.component').then(m => m.LoginComponent) },
-    { path: 'signup', loadComponent: () => import('./components/authentication/signup/signup.component').then(m => m.SignupComponent) },
-    
+    { 
+        path: 'login', 
+        loadComponent: () => import('./components/authentication/login/login.component').then(m => m.LoginComponent),
+    },
+    { 
+        path: 'signup', 
+        loadComponent: () => import('./components/authentication/signup/signup.component').then(m => m.SignupComponent),
+    },
+
     {
         path: 'administration',
         loadComponent: () => import('./components/administration/template-administration/template-administration.component').then(m => m.TemplateAdministrationComponent),

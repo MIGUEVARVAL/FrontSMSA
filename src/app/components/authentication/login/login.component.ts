@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 // Importación del servicio de autenticación
-import { AuthenticationService } from '../../../services/authentication/authentication.service';
+import { AuthService } from '../../../services/APIs/backend/authentication/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,11 +16,11 @@ export class LoginComponent {
 
   /**
    * Constructor del componente de inicio de sesión.
-   * @param {AuthenticationService} authService - Servicio de autenticación para manejar el inicio de sesión.
+   * @param {AuthService} authService - Servicio de autenticación para manejar el inicio de sesión.
    * @param {Router} router - Router para redirigir al usuario.
    */
   constructor(
-    private authService: AuthenticationService, 
+    private authService: AuthService,
     private router: Router
   ) { }
 
@@ -71,36 +70,31 @@ export class LoginComponent {
 
     this.isLoading = true;
     // Se obtienen los valores de los campos del formulario
-    const username = this.loginForm.value.username;
-    const password = this.loginForm.value.password;
+    const username = this.loginForm.value.username ?? '';
+    const password = this.loginForm.value.password ?? '';
 
-    // Validar si el formulario es válido
-    if (this.loginForm.valid) {
-      if (username == "mivargasv" && password == "12345678") {
-        setTimeout(() => {
-          // Se llama al servicio de autenticación para iniciar sesión
-          this.authService.login(username, "Miguel Vargas", "admin");
-          this.router.navigate(['/home']);
-          this.isLoading = false;
-        }, 1000);
-      } else if (username == "mivargasv" && password == "123456789") {
-        setTimeout(() => {
-          // Se llama al servicio de autenticación para iniciar sesión
-          this.authService.login(username, "José Restrepo", "user");
-          this.router.navigate(['/home']);
-          this.isLoading = false;
-        }, 1000);
-      } else {
-        // Si las credenciales son incorrectas, se muestra un mensaje de error
-        this.isError = true;
-        this.errorMessage = 'Usuario o contraseña incorrectos';
-      }
-    } else {
-      // Si el formulario no es válido, se muestra un mensaje de error
+    // Se verifica si el formulario es válido
+    if (this.loginForm.invalid) {
+      this.isLoading = false;
       this.isError = true;
-      this.errorMessage = 'Por favor, completa todos los campos requeridos';
+      this.errorMessage = "Por favor, complete todos los campos requeridos.";
+      return;
     }
 
+    // Se llama al servicio de autenticación para iniciar sesión
+    this.authService.login({ username, password }).subscribe({
+      next: (response) => {
+        console.log("Login successful:", response);
+        this.authService.saveLoginInfo(response.access, response.refresh, response.user);
+        this.isLoading = false;
+        this.router.navigate(['/home']);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = "Error al iniciar sesión. Por favor, inténtelo de nuevo.";
+      }
+    });
   }
 
 }

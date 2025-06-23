@@ -1,7 +1,14 @@
 export interface User {
-  id: number;
-  name: string;
+  id?: number;
+  first_name: string;
+  last_name: string;
+  username: string;
   email: string;
-  nivel_permisos: number; // e.g., 'admin' or 'user'
-  isActive: boolean;
+  cargo: string; 
+  nivel_permisos?: number;
+  is_active?: boolean;
+  is_staff?: boolean; 
+  password?: string; 
+  date_joined?: string; 
+  last_login?: string; 
 }

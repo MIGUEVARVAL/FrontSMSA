@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { UserService } from '../../../services/APIs/backend/models/User/user.service';
+import { AuthService } from '../../../services/APIs/backend/authentication/auth.service';
+
 
 @Component({
   selector: 'app-signup',
@@ -15,9 +18,13 @@ export class SignupComponent {
   /**
    * Constructor del componente de registro.
    * @param {Router} router - Router para redirigir al usuario.
+   * @param {UserService} userService - Servicio para manejar la lógica de usuarios.
+   * @param {AuthService} authService - Servicio de autenticación para manejar el inicio de sesión.
    */
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   /**
@@ -50,6 +57,16 @@ export class SignupComponent {
     ley1581: new FormControl(true, Validators.requiredTrue)
   });
     
+  /**
+   * Función que se ejecuta al inicializar el componente.
+   */
+  ngOnInit() {
+    // Se verifica si el usuario ya está logueado
+    if (this.authService.isUserLoggedIn()) {
+      // Si el usuario ya está logueado, se redirige a la página de inicio
+      this.router.navigate(['/home']);
+    }
+  }
 
   /**
    * Función para registrar al usuario.
@@ -58,6 +75,45 @@ export class SignupComponent {
    * @returns {void}
    */
   protected signup() {
+
+    this.isLoading = true;
+
+    if (this.signupForm.invalid) {
+      this.isLoading = false;
+      this.isError = true;
+      this.errorMessage = "Por favor, complete todos los campos requeridos.";
+      return;
+    } else if (this.signupForm.value.password !== this.signupForm.value.confirmPassword) {
+      this.isLoading = false;
+      this.isError = true;
+      this.errorMessage = "Las contraseñas no coinciden.";
+      return;
+    }
+
+    const user = {
+      first_name: this.signupForm.value.firstName ?? '',
+      last_name: this.signupForm.value.lastName ?? '',
+      username: this.signupForm.value.login ?? '',
+      email: this.signupForm.value.login + '@unal.edu.co',
+      password: this.signupForm.value.password ?? '',
+      is_active: true,
+      cargo: this.signupForm.value.dependence ?? ''
+    };
+
+    this.userService.createUser(user).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.isSuccess = true;
+        this.successMessage = "Registro exitoso";
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = "Error en el registro";
+        console.error('Error al registrar el usuario:', error);
+      }
+    });
 
   }
 

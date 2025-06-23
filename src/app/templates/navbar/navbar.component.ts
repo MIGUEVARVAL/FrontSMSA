@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { AuthService } from '../../services/APIs/backend/authentication/auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,19 +13,6 @@ import { Subscription } from 'rxjs';
 
 export class NavbarComponent {
 
-  /**
-   * Variable para indicar si el usuario está logueado.
-   * @type {boolean}
-   * @protected
-   */
-  protected isLoggedIn = false;
-
-  /**
-   * Suscripción para manejar el estado de autenticación del usuario.
-   * @type {Subscription}
-   * @private
-   */
-  private subscriptionLoggedIn: Subscription = new Subscription();
 
   /**
    * Suscripción para manejar la información del usuario.
@@ -41,17 +28,15 @@ export class NavbarComponent {
    */
   protected login: string | null = null;
   protected fullName: string | null = null;
-  protected role: string | null = null;
+  protected nivel_permisos: number | null = null;
 
   /**
-   * @param {AuthenticationService} authService - Servicio de autenticación.
+   * @param {AuthService} authService - Servicio de autenticación.
    * @param {Router} route - Servicio de enrutamiento para redirección.
-   * @param {ViewContainerRef} viewContainerRef - Referencia al contenedor de vistas para limpiar la vista al cerrar sesión.
    */
   constructor(
-    private authService: AuthenticationService,
-    private route : Router,
-    private viewContainerRef: ViewContainerRef
+    private authService: AuthService,
+    private route : Router
   ) {
   }
 
@@ -62,10 +47,6 @@ export class NavbarComponent {
    */
   ngOnInit(): void {
     this.getInfoUser();
-    //Se suscribe al observable del servicio de autenticación para recibir actualizaciones en tiempo real.
-    this.subscriptionLoggedIn = this.authService.isLoggedIn$.subscribe((loggedIn: boolean) => {
-      this.isLoggedIn = loggedIn;
-    });
   }
 
   /**
@@ -75,10 +56,17 @@ export class NavbarComponent {
    */
   protected getInfoUser(): void {
     // Se suscribe al observable del servicio de autenticación para obtener la información del usuario.
-    this.subscriptionUserInfo = this.authService.userInfo$.subscribe((userInfo) => {
-      this.login = userInfo?.login ?? null;
-      this.fullName = userInfo?.fullName ?? null;
-      this.role = userInfo?.role ?? null;
+    this.subscriptionUserInfo = this.authService.userInfo$.subscribe((user) => {
+      this.login = user?.username ?? null;
+      const fullName = user?.first_name && user?.last_name ? `${user.first_name} ${user.last_name}` : null;
+      this.fullName = fullName;
+      if (user?.nivel_permisos !== undefined && user?.nivel_permisos !== null) {
+        this.nivel_permisos = user.nivel_permisos;
+      } else if (user?.is_staff) {
+        this.nivel_permisos = 1;
+      } else {
+        this.nivel_permisos = 0;
+      }
     });
   }
 
@@ -93,7 +81,7 @@ export class NavbarComponent {
     //Se elimina la información del usuario
     this.login = null;
     this.fullName = null;
-    this.role = null;
+    this.nivel_permisos = null;
   }
 
   /**
@@ -102,7 +90,6 @@ export class NavbarComponent {
    * @ngOnDestroy
    */
   ngOnDestroy(): void {
-    this.subscriptionLoggedIn.unsubscribe();
     this.subscriptionUserInfo.unsubscribe();
     
   }

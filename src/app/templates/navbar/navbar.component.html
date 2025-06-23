@@ -1,59 +1,57 @@
-@if (isLoggedIn) {
-    <nav class="navbar navbar-expand-lg bg-neutral-100" data-home="true">
-        <ul class="ms-auto navbar-nav flex-row">
+<nav class="navbar navbar-expand-lg bg-neutral-100" data-home="true">
+    <ul class="ms-auto navbar-nav flex-row">
 
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
-            <div class="dropdown user-section user-section-primary avatar-primary">
-                <div class="user-section-avatar avatar-mn" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="avatar avatar-mn"></div>
-                    <div class="user-section-indicator"></div>
-                </div>
-
-                <div class="user-section-menu dropdown-menu dropdown-menu-end">
-                    <div class="user-section-avatar-info">
-                        <div class="avatar avatar-mn" data-bs-toggle="dropdown" aria-expanded="false"></div>
-                        <div>
-                            <p class="fw-bold">{{fullName}}</p>
-                            <p>{{login}}</p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-
-
-                    <a class="user-section-menu-item d-flex gap-3 mouseClick" (click)="onLogout()">
-                        <div class="user-section-menu-item-content">
-                            Cerrar Sesión
-                        </div>
-                    </a>
-
-                </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+        <div class="dropdown user-section user-section-primary avatar-primary">
+            <div class="user-section-avatar avatar-mn" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="avatar avatar-mn"></div>
+                <div class="user-section-indicator"></div>
             </div>
-        </ul>
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse w-100" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/home">
-                            <span class="material-symbols-fill">home</span>
-                            Inicio
-                        </a>
-                    </li>
-                    @if (role === 'admin') {
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/administration/users">
-                          <span class="material-symbols-fill">manage_accounts</span>
-                          Administrar
-                        </a>
-                    </li>
-                    }
-                </ul>
+
+            <div class="user-section-menu dropdown-menu dropdown-menu-end">
+                <div class="user-section-avatar-info">
+                    <div class="avatar avatar-mn" data-bs-toggle="dropdown" aria-expanded="false"></div>
+                    <div>
+                        <p class="fw-bold">{{fullName}}</p>
+                        <p>{{login}}</p>
+                    </div>
+                </div>
+
+                <hr>
+
+
+
+                <a class="user-section-menu-item d-flex gap-3 mouseClick" (click)="onLogout()">
+                    <div class="user-section-menu-item-content">
+                        Cerrar Sesión
+                    </div>
+                </a>
+
             </div>
         </div>
-    </nav>
-}
+    </ul>
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse w-100" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/home">
+                        <span class="material-symbols-fill">home</span>
+                        Inicio
+                    </a>
+                </li>
+                @if (nivel_permisos === 1) {
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/administration/users">
+                        <span class="material-symbols-fill">manage_accounts</span>
+                        Administrar
+                    </a>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

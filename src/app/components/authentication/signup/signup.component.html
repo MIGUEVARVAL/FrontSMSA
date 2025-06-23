@@ -3,11 +3,25 @@
         class="vstack justify-content-center align-items-center py-7 px-4 flex-grow-1 flex-lg-row bg-primary-90 rounded-end-top-unal">
 
 
-        <form class="bg-neutral-99 rounded-4 px-lg-20 px-8 py-14 w-lg-50" [formGroup]="signupForm" (ngSubmit)="signup()" >
+        <form class="bg-neutral-99 rounded-4 px-lg-20 px-8 py-14 w-lg-50" [formGroup]="signupForm"
+            (ngSubmit)="signup()">
             <div class="vstack justify-content-center align-self-stretch gap-8">
                 <h3 class="text-center text-neutral-30">
                     Registro
                 </h3>
+
+                @if (isError) {
+                <div class="alert alert-danger">
+                    <div class="alert-header">
+                        <div class="alert-icon">
+                            <span class="material-symbols-outlined">info</span>
+                        </div>
+                        <div class="alert-title">
+                            {{errorMessage}}
+                        </div>
+                    </div>
+                </div>
+                }
 
                 <div class="vstack gap-3">
                     <div class="row row-cols-1 row-cols-lg-2 g-3">
@@ -15,7 +29,8 @@
                             <label class="form-label required">Nombres</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">person</span>
-                                <input type="texto" class="form-control" placeholder="Ej. Juan Felipe" formControlName="firstName">
+                                <input type="texto" class="form-control" placeholder="Ej. Juan Felipe"
+                                    formControlName="firstName">
                             </div>
                         </div>
 
@@ -23,7 +38,8 @@
                             <label class="form-label required">Apellidos</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">person</span>
-                                <input type="texto" class="form-control" placeholder="Ej. Ortiz Pérez" formControlName="lastName">
+                                <input type="texto" class="form-control" placeholder="Ej. Ortiz Pérez"
+                                    formControlName="lastName">
                             </div>
                         </div>
 
@@ -31,7 +47,8 @@
                             <label class="form-label required">Login</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">mail</span>
-                                <input type="texto" class="form-control" placeholder="Ej. juanfl" formControlName="login">
+                                <input type="texto" class="form-control" placeholder="Ej. juanfl"
+                                    formControlName="login">
                             </div>
                         </div>
 
@@ -39,15 +56,16 @@
                             <label class="form-label required">Cargo o Dependencia</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">mail</span>
-                                <input type="texto" class="form-control"
-                                    placeholder="Coordinador Unidad.." formControlName="dependence">
+                                <input type="texto" class="form-control" placeholder="Coordinador Unidad.."
+                                    formControlName="dependence">
                             </div>
                         </div>
                         <div>
                             <label class="form-label required">Contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">lock</span>
-                                <input type="password" placeholder="Ej. asdf123-" class="form-control" formControlName="password">
+                                <input type="password" placeholder="Ej. asdf123-" class="form-control"
+                                    formControlName="password">
                                 <span class="input-group-text end material-symbols-outlined">visibility</span>
                             </div>
                         </div>
@@ -56,8 +74,8 @@
                             <label class="form-label required">Confirmar contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text start material-symbols-outlined">lock</span>
-                                <input type="password" placeholder="Ej. asdf123-"
-                                    class="form-control" formControlName="confirmPassword">
+                                <input type="password" placeholder="Ej. asdf123-" class="form-control"
+                                    formControlName="confirmPassword">
                                 <span class="input-group-text end material-symbols-outlined">visibility</span>
                             </div>
                         </div>
@@ -77,7 +95,14 @@
                     </label>
                 </div>
                 <div class="vstack align-items-center justify-content-center gap-3">
-                    <button class="btn btn-neutral btn-lg mb-3" type="submit" [disabled]="!signupForm.valid">Regístrarse</button>
+                    @if (isLoading) {
+                    <button class="btn btn-primary mb-3 " disabled>
+                        <div class="spinner-border spinner-mn"></div> Cargando...
+                    </button>
+                    }@else {
+                    <button class="btn btn-neutral btn-lg mb-3" type="submit"
+                        [disabled]="!signupForm.valid">Regístrarse</button>
+                    }
                     <a routerLink="/" class="link link-neutral text-center btn-lg">Iniciar sesión</a>
                 </div>
             </div>

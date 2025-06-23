@@ -2,14 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from './user.model';
+import { UrlBackendService } from '../../url-backend.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://127.0.0.1:8000/api/users/'; // URL base para el endpoint de usuarios
 
-  constructor(private http: HttpClient) {}
+  private apiUrl: string;
+
+  constructor(private http: HttpClient, private urlBackendService: UrlBackendService) {
+    this.apiUrl = this.urlBackendService.getUrlApi() + 'user/';
+  }
 
   // Obtener todos los usuarios
   getUsers(): Observable<User[]> {
@@ -19,6 +23,11 @@ export class UserService {
   // Obtener un usuario por ID
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}${id}/`);
+  }
+
+  // Obtener un usuario por nombre de usuario
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}?username=${username}`);
   }
 
   // Crear un nuevo usuario
