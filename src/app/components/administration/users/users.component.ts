@@ -13,7 +13,6 @@ import {
 } from '../../../services/APIs/backend/models/User/user.model';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
 import { DatePipe } from '../../../templates/pipes/date.pipe';
-import { first } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -23,17 +22,18 @@ import { first } from 'rxjs';
   styleUrl: './users.component.scss',
 })
 export class UsersComponent {
+  
   /**
    * Variables booleanas para mostrar carga, exito y error
    * @protected
-   * @property {boolean} isLoading - Indica si se está cargando el formulario.
+   * @property {boolean} isLoading - Indica el proceso de carga.
    * @property {boolean} isSuccess - Indica si la carga fue exitosa.
    * @property {string} successMessage - Mensaje de éxito a mostrar.
    * @property {boolean} isError - Indica si hubo un error en la carga.
    * @property {string} errorMessage - Mensaje de error a mostrar.
-   * @property {boolean} isSuccessUpdate - Indica si la actualización del usuario fue exitosa.
-   * @property {boolean} isErrorUpdate - Indica si hubo un error al actualizar el usuario.
-   * @property {string} errorMessageUpdate - Mensaje de error al actualizar el usuario
+   * @property {boolean} isSuccessUpdate - Indica si la actualización fue exitosa.
+   * @property {boolean} isErrorUpdate - Indica si hubo un error al actualizar.
+   * @property {string} errorMessageUpdate - Mensaje de error al actualizar
    */
   protected isLoading: boolean = false;
   protected isSuccess: boolean = false;
@@ -208,8 +208,12 @@ export class UsersComponent {
       next: () => {
         this.isSuccess = true;
         this.successMessage = 'Solicitud aprobada correctamente.';
-        this.getUsersSolicitudes(); // Actualizar la lista de solicitudes
-        this.getUsersActivos(); // Actualizar la lista de usuarios activos
+        // Eliminar el usuario de la lista de solicitudes
+        this.usersSolicitudes.results = this.usersSolicitudes.results.filter(u => u.id !== user.id);
+        const updatedUser: User = { ...user, nivel_permisos: 2 };
+        this.usersActivos.results = [updatedUser, ...this.usersActivos.results];
+        this.usersSolicitudes.count = Math.max(0, this.usersSolicitudes.count - 1);
+        this.usersActivos.count = this.usersActivos.count + 1;
         this.isLoading = false;
       },
       error: (error: any) => {
@@ -256,7 +260,13 @@ export class UsersComponent {
       this.userService.updateUser(userId, userUpdate).subscribe({
         next: () => {
           this.isSuccessUpdate = true;
-          this.getUsersActivos(); // Actualizar la lista de usuarios activos
+          const index = this.usersActivos.results.findIndex(user => user.id === userId);
+          if (index !== -1) {
+            this.usersActivos.results[index] = {
+              ...this.usersActivos.results[index],
+              ...userUpdate,
+            };
+          }
         },
         error: (error: any) => {
           this.isErrorUpdate = true;

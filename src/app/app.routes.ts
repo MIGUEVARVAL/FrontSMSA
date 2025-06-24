@@ -24,6 +24,7 @@ export const routes: Routes = [
             { path: 'users', loadComponent: () => import('./components/administration/users/users.component').then(m => m.UsersComponent) },
             { path: 'final-grades', loadComponent: () => import('./components/administration/final-grades/final-grades.component').then(m => m.FinalGradesComponent) },
             { path: 'cancellations', loadComponent: () => import('./components/administration/cancellations/cancellations.component').then(m => m.CancellationsComponent) },
+            { path: 'facultad', loadComponent: () => import('./components/administration/facultad/facultad.component').then(m => m.FacultadComponent) },
         ],
         canActivate: [authGuard],
         data: { roles: ['admin'] }

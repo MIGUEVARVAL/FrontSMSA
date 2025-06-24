@@ -1,0 +1,247 @@
+<div class="col d-flex flex-column gap-3 p-4">
+
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb p-0">
+      <li class="breadcrumb-item">
+        <a routerLink="/">Inicio</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Facultades
+      </li>
+    </ol>
+  </nav>
+
+  <div class="vstack gap-4">
+
+    <div class="d-flex flex-column flex-md-row gap-2">
+      <form [formGroup]="searchFacultadForm" (ngSubmit)="searchFacultades()">
+
+        <div class="d-flex gap-2 justify-content-center align-items-center">
+          <input type="text" class="form-control" id="codigo" aria-describedby="placeholderText"
+            placeholder="Buscar por código" formControlName="codigo">
+          <input type="text" class="form-control" id="nombre" aria-describedby="placeholderText"
+            placeholder="Buscar por nombre" formControlName="nombre">
+
+          <button class="btn btn-neutral btn-icon btn-sm" type="submit">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+        </div>
+        <div class="mt-4">
+                <div class="d-flex flex-wrap gap-2">
+                    @if (filtrosActivos.codigo) {
+                    <p class="tag tag-tertiary-blue">
+                        Código: {{ filtrosActivos.codigo }}
+                    </p>
+                    }
+                    @if (filtrosActivos.nombre) {
+                    <p class="tag tag-tertiary-blue">
+                        Nombres: {{ filtrosActivos.nombre }}
+                    </p>
+                    } 
+                </div>
+            </div>
+      </form>
+      <div class="flex-grow-1"></div>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalCargarFacultades">
+        <span>Crear</span>
+        <span class="material-symbols-outlined">add</span>
+      </button>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" id="ModalCargarFacultades">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-title">Crear de Facultad</div>
+          <div class="modal-body">
+            <div class="form-complete container">
+              <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
+
+
+                <div class="form-body">
+
+                  <form [formGroup]="createFacultadForm" (ngSubmit)="createFacultad()">
+                    <label for="exampleInput" class="form-label required">Código facultad</label>
+                    <div class="input-group ">
+                      <span class="input-group-text start material-symbols-outlined">nest_secure_alarm</span>
+                      <input type="text" formControlName="codigo" class="form-control" aria-describedby="start-group"
+                        placeholder="30.." />
+                    </div>
+
+                    <label for="exampleInput" class="form-label required mt-2">Nombre Facultad</label>
+                    <div class="input-group">
+                      <span class="input-group-text start material-symbols-outlined">domain</span>
+                      <input type="tel" formControlName="nombre" class="form-control" placeholder="Facultad de .." />
+                    </div>
+
+                    <div class="form-footer text-center mt-4">
+                      <button class="btn btn-outline-primary me-2" name="crearFacultad" type="submit"
+                        data-bs-dismiss="modal">
+                        Crear
+                      </button>
+                    </div>
+
+                  </form>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover ">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nombre Facultad</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          @for (facultad of FacultadListResponse.results; track $index) {
+          <tr>
+            <td>{{ facultad.codigo }}</td>
+            <td>{{ facultad.nombre }}</td>
+            <td>
+              <div class="toolbar sm bg-fixed-warning" role="group" aria-label="btn-groups">
+                <a type="button" class="btn btn-icon" data-bs-toggle="modal"
+                  [attr.data-bs-target]="'#editUserModal' + facultad.id" (click)="openEditFacultadModal(facultad)">
+                  <span class='material-symbols-fill'>edit</span>
+                </a>
+                <div class="modal fade" tabindex="-1" [attr.id]="'editUserModal' + facultad.id">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <form [formGroup]="editFacultadForm" (ngSubmit)="editFacultad(facultad.id!)">
+                        <div class="modal-header">
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-title">Edición de la facultad</div>
+                        <div class="modal-body">
+                          @if (isSuccessUpdate) {
+                          <div class="alert alert-success" role="alert">
+                            Facultad actualizada correctamente.
+                          </div>
+                          }
+                          @if (isErrorUpdate) {
+                          <div class="alert alert-danger" role="alert">
+                            {{ errorMessageUpdate }}
+                          </div>
+                          }
+                          <div class="vstack gap-4">
+                            <div>
+
+                              <label for="exampleInput" class="form-label required">Código facultad</label>
+                              <div class="input-group ">
+                                <span class="input-group-text start material-symbols-outlined">nest_secure_alarm</span>
+                                <input type="text́" formControlName="codigo" class="form-control"
+                                  aria-describedby="start-group" placeholder="30.." />
+                              </div>
+                            </div>
+                            <div>
+
+                              <label for="exampleInput" class="form-label required mt-2">Nombre Facultad</label>
+                              <div class="input-group">
+                                <span class="input-group-text start material-symbols-outlined">domain</span>
+                                <input type="tel" formControlName="nombre" class="form-control"
+                                  placeholder="Facultad de .." />
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="modal-footer mt-4">
+                          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">
+                            Cancelar
+                          </button>
+                          <button type="submit" class="btn btn-primary">
+                            Actualizar
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="toolbar sm bg-fixed-danger" role="group" aria-label="btn-groups">
+                <a type="button" class="btn btn-icon" data-bs-toggle="modal"
+                  [attr.data-bs-target]="'#deleteModal' + facultad.id">
+                  <span class='material-symbols-fill'>delete</span>
+                </a>
+                <div class="modal modal-danger fade" tabindex="-1" [attr.id]="'deleteModal' + facultad.id">
+                  <div class="modal-dialog ">
+                    <div class="modal-content text-center">
+                      <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-icon">
+                        <span class="material-symbols-outlined">warning</span>
+                      </div>
+                      <div class="modal-title">Eliminar Facultad</div>
+                      <div class="modal-body">
+                        La facultad {{facultad.nombre}} con código
+                        {{facultad.codigo}} será eliminada de forma permanente.
+                        <br>
+                        ¿Está seguro de que desea continuar?
+                      </div>
+                      <div class="modal-footer mt-4">
+                        <button type="button" class="btn btn-outline-neutral" data-bs-dismiss="modal">
+                          Cancelar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                          (click)="deleteFacultad(facultad.id!)">
+                          Eliminar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          }
+
+        </tbody>
+      </table>
+      <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
+        <p class="flex-grow-1">
+          Página {{ page }} de {{ totalPages }}
+        </p>
+        <nav aria-label="Page navigation">
+          <ul class="pagination pagination-neutral">
+            <li class="page-item" [class.disabled]="page === 1">
+              <a class="page-link" (click)="onPageChange(1)" aria-label="Primera">&laquo;</a>
+            </li>
+            <li class="page-item" [class.disabled]="page === 1">
+              <a class="page-link" (click)="onPageChange(page - 1)" aria-label="Anterior">&lsaquo;</a>
+            </li>
+            @for (page of [].constructor(totalPages); track $index) {
+            <li class="page-item" [class.active]="page === $index + 1">
+              <a class="page-link" (click)="onPageChange($index + 1)">{{ $index + 1
+                }}</a>
+            </li>
+            }
+            <li class="page-item" [class.disabled]="page === totalPages">
+              <a class="page-link" (click)="onPageChange(page + 1)" aria-label="Siguiente">&rsaquo;</a>
+            </li>
+            <li class="page-item" [class.disabled]="page === totalPages">
+              <a class="page-link" (click)="onPageChange(totalPages)" aria-label="Última">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+@if (isLoading) {
+<app-loading></app-loading>
+}
