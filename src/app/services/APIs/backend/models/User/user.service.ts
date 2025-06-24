@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from './user.model';
+import { User, UserListResponse } from './user.model';
 import { UrlBackendService } from '../../url-backend.service';
 
 @Injectable({
@@ -16,8 +16,18 @@ export class UserService {
   }
 
   // Obtener todos los usuarios
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
+  getUsers(): Observable<UserListResponse> {
+    return this.http.get<UserListResponse>(this.apiUrl);
+  }
+
+  //Obtener usuarios con permisos igual a 0
+  getUsersWithPermissionsZero(): Observable<UserListResponse> {
+    return this.http.get<UserListResponse>(`${this.apiUrl}?nivel_permisos=0`);
+  }
+
+  // Obtener usuarios con permisos mayor a 1
+  getUsersWithPermissionsGreaterThanOne(): Observable<UserListResponse> {
+    return this.http.get<UserListResponse>(`${this.apiUrl}?nivel_permisos__gt=0`);
   }
 
   // Obtener un usuario por ID
@@ -36,12 +46,13 @@ export class UserService {
   }
 
   // Actualizar un usuario existente
-  updateUser(id: number, user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}${id}/`, user);
+  updateUser(id: number, partialUser: Partial<User>): Observable<User> {
+    return this.http.patch<User>(`${this.apiUrl}${id}/`, partialUser);
   }
 
   // Eliminar un usuario
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}${id}/`);
   }
+
 }

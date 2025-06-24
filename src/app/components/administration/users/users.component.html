@@ -20,18 +20,29 @@
                 <p class="text-neutral-50 fw-bold mb-2">Usuarios activos</p>
 
                 <div class="d-flex flex-column gap-3">
-                    @for (item of [1, 2, 3, 4, 5, 6]; track $index) {
+                    @if (usersActivos.results.length === 0) {
                     <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
                         <div class="avatar avatar-neutral avatar-mn"></div>
                         <div class="flex-grow-1">
-                            <p class="fw-bold h5 text-neutral-20">mivargasv</p>
-                            <p class="text-neutral-50">Creado el 15 de abril del 2025</p>
+                            <p class="fw-bold h5 text-neutral-20">No hay usuarios activos</p>
+                            <p class="text-neutral-50">No se han encontrado usuarios activos en el sistema.</p>
                         </div>
-                        <div class="toolbar sm bg-fixed-warning" role="group" aria-label="Basic example">
-                            <a type="button" class="btn btn-icon" data-bs-toggle="modal" data-bs-target="#editUserModal">
+                    </div>
+                    }
+
+                    @for (user of usersActivos.results; track $index) {
+                    <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
+                        <div class="avatar avatar-neutral avatar-mn"></div>
+                        <div class="flex-grow-1">
+                            <p class="fw-bold h5 text-neutral-20">{{ user.username }}</p>
+                            <p class="text-neutral-50">Creado el {{ user.date_joined }}</p>
+                        </div>
+                        <div class="toolbar sm bg-fixed-warning" role="group" aria-label="btn-groups">
+                            <a type="button" class="btn btn-icon" data-bs-toggle="modal"
+                                [attr.data-bs-target]="'#editUserModal' + user.id">
                                 <span class='material-symbols-fill'>edit</span>
                             </a>
-                            <div class="modal fade" tabindex="-1" id="editUserModal">
+                            <div class="modal fade" tabindex="-1" [attr.id]="'editUserModal' + user.id">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <form [formGroup]="UserEditForm" (ngSubmit)="editUser()">
@@ -100,11 +111,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="toolbar sm bg-fixed-danger" role="group" aria-label="Basic example">
-                            <a type="button" class="btn btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <div class="toolbar sm bg-fixed-danger" role="group" aria-label="btn-groups">
+                            <a type="button" class="btn btn-icon" data-bs-toggle="modal"
+                                [attr.data-bs-target]="'#deleteModal' + user.id">
                                 <span class='material-symbols-fill'>delete</span>
                             </a>
-                            <div class="modal modal-danger fade" tabindex="-1" id="deleteModal">
+                            <div class="modal modal-danger fade" tabindex="-1" [attr.id]="'deleteModal' + user.id">
                                 <div class="modal-dialog ">
                                     <div class="modal-content text-center">
                                         <div class="modal-header">
@@ -132,8 +144,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                     }
@@ -159,45 +169,63 @@
                 <p class="text-neutral-50 fw-bold mb-2">Solicitud de registros</p>
 
                 <div class="d-flex flex-column gap-3">
+                    @if (usersSolicitudes.results.length === 0) {
                     <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
                         <div class="avatar avatar-neutral avatar-mn"></div>
                         <div class="flex-grow-1">
-                            <p class="fw-bold h5 text-neutral-20">acastro</p>
-                            <p class="text-neutral-50">Alejandro Castro </p>
-                            <p class="text-neutral-50">Asistente unidad de permanencia facultad ciencias agrarias</p>
-                        </div>
-                        <div class="toolbar sm bg-fixed-success" role="group" aria-label="Basic example">
-                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir">
-                                <span class='material-symbols-fill'>person_check</span>
-                            </a>
-                        </div>
-                        <div class="toolbar sm bg-fixed-danger" role="group" aria-label="Basic example">
-                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir">
-                                <span class='material-symbols-fill'>delete</span>
-                            </a>
+                            <p class="fw-bold h5 text-neutral-20">No hay solicitudes de usuarios</p>
+                            <p class="text-neutral-50">No se han encontrado solicitudes de usuarios en el sistema.</p>
                         </div>
                     </div>
-
+                    }
+                    @for (user of usersSolicitudes.results; track $index) {
                     <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
                         <div class="avatar avatar-neutral avatar-mn"></div>
                         <div class="flex-grow-1">
-                            <p class="fw-bold h5 text-neutral-20">unidadpfca</p>
-                            <p class="text-neutral-50">Juan Pérez </p>
-                            <p class="text-neutral-50">Coordinador unidad de permanencia facultad ciencias agrarias</p>
+                            <p class="fw-bold h5 text-neutral-20">{{ user.username }}</p>
+                            <p class="text-neutral-50">Creado el {{ user.date_joined }}</p>
                         </div>
-                        <div class="toolbar sm bg-fixed-success" role="group" aria-label="Basic example">
-                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir">
+                        <div class="toolbar sm bg-fixed-success" role="group" aria-label="btn-groups">
+                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir" (click)="approveUserRequest(user)">
                                 <span class='material-symbols-fill'>person_check</span>
                             </a>
                         </div>
-                        <div class="toolbar sm bg-fixed-danger" role="group" aria-label="Basic example">
-                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir">
+                        <div class="toolbar sm bg-fixed-danger" role="group" aria-label="btn-groups">
+                            <a type="button" class="btn btn-icon" data-bs-toggle="modal"
+                                [attr.data-bs-target]="'#deleteModal' + user.id">
                                 <span class='material-symbols-fill'>delete</span>
                             </a>
+                            <div class="modal modal-danger fade" tabindex="-1" [attr.id]="'deleteModal' + user.id">
+                                <div class="modal-dialog ">
+                                    <div class="modal-content text-center">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-icon">
+                                            <span class="material-symbols-outlined">warning</span>
+                                        </div>
+                                        <div class="modal-title">Eliminar Usuario</div>
+                                        <div class="modal-body">
+                                            El usuario con login mivargasv será eliminado de forma permanente.
+                                            <br>
+                                            ¿Está seguro de que desea continuar?
+                                        </div>
+                                        <div class="modal-footer mt-4">
+                                            <button type="button" class="btn btn-outline-neutral"
+                                                data-bs-dismiss="modal">
+                                                Cancelar
+                                            </button>
+                                            <button type="button" class="btn btn-danger">
+                                                Eliminar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-
+                    }
                 </div>
             </div>
 
@@ -206,3 +234,7 @@
     </div>
 
 </div>
+
+@if (isLoading) {
+    <app-loading></app-loading>
+}

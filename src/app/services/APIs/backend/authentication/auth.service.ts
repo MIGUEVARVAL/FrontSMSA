@@ -74,8 +74,21 @@ export class AuthService {
    * @public
    */
   public getUserInfo(): User | null {
-    return this.userInfoSubject.getValue();
+  // Intenta obtener el usuario desde el BehaviorSubject
+  let user = this.userInfoSubject.getValue();
+  if (user) {
+    return user;
   }
+  // Si no hay usuario en memoria, intenta cargarlo de localStorage
+  const userInfoString = localStorage.getItem('userInfo');
+  if (userInfoString) {
+    user = JSON.parse(userInfoString);
+    // Actualiza el BehaviorSubject para futuras llamadas
+    this.userInfoSubject.next(user);
+    return user;
+  }
+  return null;
+}
 
   /**
    * Funcón que guarda la información del usuario y cambia el estado de autenticación.

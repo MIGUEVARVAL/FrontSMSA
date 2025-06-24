@@ -12,3 +12,10 @@ export interface User {
   date_joined?: string; 
   last_login?: string; 
 }
+
+export interface UserListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: User[];
+}
