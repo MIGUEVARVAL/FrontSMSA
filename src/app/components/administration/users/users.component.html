@@ -5,61 +5,179 @@
         <h2>Usuarios</h2>
     </div>
 
-    <div class="d-flex flex-column flex-xl-row gap-6 px-4 py-0">
-        <div class="d-flex flex-column gap-4 flex-grow-1 mw-xl-50">
-            <div class="d-flex gap-2 justify-content-center align-items-center">
-                <input type="text" class="form-control" id="placeholder" aria-describedby="placeholderText"
-                    placeholder="Buscar a un usuario">
 
-                <button class="btn btn-neutral btn-icon btn-sm">
-                    <span class="material-symbols-outlined">search</span>
-                </button>
+    <div class="filter-h">
+
+        <form [formGroup]="UserSearchForm" (ngSubmit)="searchUser()">
+            <div class="d-flex gap-4 align-items-center">
+
+                <div class="flex-grow-2">
+                    <label for="username" class="form-label">Login</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" aria-describedby="start-group" id="username"
+                            formControlName="username" />
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <label for="firstName" class="form-label">Nombres</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" aria-describedby="start-group" id="firstName"
+                            formControlName="firstName" />
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <label for="lastName" class="form-label">Apellidos</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" aria-describedby="start-group" id="lastName"
+                            formControlName="lastName" />
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <label for="dependence" class="form-label">Dependencia</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" aria-describedby="start-group" id="dependence"
+                            formControlName="dependence" />
+                    </div>
+                </div>
+                <div class="flex-grow-2">
+                    <label for="rol" class="form-label">Rol</label>
+                    <div class="input-group">
+                        <select class="form-select form-tom-select-primary" id="basic-1"
+                            formControlName="nivel_permisos">
+                            <option value="0" disabled>--Seleccione--</option>
+                            <option value="1" data-label="Ítem 1">Administrador </option>
+                            <option value="2" data-label="Ítem 2">Usuario</option>
+                        </select>
+                    </div>
+                </div>
             </div>
+            <div class="mt-4">
+                <div class="d-flex flex-wrap gap-2">
+                    @if (filtrosActivos.username) {
+                    <p class="tag tag-tertiary-blue">
+                        Login :{{ filtrosActivos.username }}
+                    </p>
+                    }
+                    @if (filtrosActivos.firstName) {
+                    <p class="tag tag-tertiary-blue">
+                        Nombres :{{ filtrosActivos.firstName }}
+                    </p>
+                    }
+                    @if (filtrosActivos.lastName) {
+                    <p class="tag tag-tertiary-blue">
+                        Apellidos :{{ filtrosActivos.lastName }}
+                    </p>
+                    }
+                    @if (filtrosActivos.dependence) {
+                    <p class="tag tag-tertiary-blue">
+                        Cargo: {{ filtrosActivos.dependence }}
+                    </p>
+                    }
+                    @if (filtrosActivos.nivel_permisos) {
+                    <p class="tag tag-tertiary-blue">
+                        Rol: {{ filtrosActivos.nivel_permisos === 1 ? 'Administrador' : 'Usuario' }}
+                    </p>
+                    }
+                </div>
+            </div>
+            <div
+                class="d-flex flex-column-reverse align-items-start flex-md-row justify-content-md-center align-items-md-center gap-4 w-100 mt-4">
+                <div class="flex-grow-1 d-flex gap-4 flex-wrap flex-grow-1">
+                    <div>
+                        <button class="btn btn-link-primary btn-mn" (click)="clearSearch()">
+                            <span>Limpiar todos los campos</span>
+                            <span class="material-symbols-outlined icon">delete</span>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-mn" type="submit">
+                            <span class="material-symbols-outlined">search</span>
+                            <span>Buscar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+
+
+
+
+    @if (isError) {
+    <div class="alert alert-danger">
+        <div class="alert-header">
+            <div class="alert-icon">
+                <span class="material-symbols-outlined">info</span>
+            </div>
+            <div class="alert-title">
+                {{errorMessage}}
+            </div>
+        </div>
+    </div>
+    }
+    @else {
+    <div class="d-flex flex-column flex-xl-row gap-6 px-4 py-4">
+        <div class="d-flex flex-column gap-4 flex-grow-1 mw-xl-50">
+
             <hr class="hr bg-neutral-80" />
             <div>
-                <p class="text-neutral-50 fw-bold mb-2">Usuarios activos</p>
+                <p class="text-neutral-50 fw-bold mb-2">Usuarios activos ({{ usersActivos.count }})</p>
+
+                @if (usersActivos.results.length === 0) {
+                <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
+                    <div class="flex-grow-1">
+                        <p class="fw-bold h5 text-neutral-20">No hay usuarios activos</p>
+                        <p class="text-neutral-50">No se han encontrado usuarios activos en el sistema.</p>
+                    </div>
+                </div>
+                }
+                @else{
 
                 <div class="d-flex flex-column gap-3">
-                    @if (usersActivos.results.length === 0) {
-                    <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
-                        <div class="avatar avatar-neutral avatar-mn"></div>
-                        <div class="flex-grow-1">
-                            <p class="fw-bold h5 text-neutral-20">No hay usuarios activos</p>
-                            <p class="text-neutral-50">No se han encontrado usuarios activos en el sistema.</p>
-                        </div>
-                    </div>
-                    }
 
                     @for (user of usersActivos.results; track $index) {
                     <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
                         <div class="avatar avatar-neutral avatar-mn"></div>
                         <div class="flex-grow-1">
-                            <p class="fw-bold h5 text-neutral-20">{{ user.username }}</p>
-                            <p class="text-neutral-50">Creado el {{ user.date_joined }}</p>
+                            <p class="fw-bold h5 text-neutral-20">{{ user.first_name }} {{ user.last_name }}</p>
+                            <p class="fw-bold text-neutral-50">{{ user.username }}</p>
+                            <p class="text-neutral-50">{{ user.cargo }}</p>
                         </div>
                         <div class="toolbar sm bg-fixed-warning" role="group" aria-label="btn-groups">
                             <a type="button" class="btn btn-icon" data-bs-toggle="modal"
-                                [attr.data-bs-target]="'#editUserModal' + user.id">
+                                [attr.data-bs-target]="'#editUserModal' + user.id" (click)="openEditUserModal(user)">
                                 <span class='material-symbols-fill'>edit</span>
                             </a>
                             <div class="modal fade" tabindex="-1" [attr.id]="'editUserModal' + user.id">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
-                                        <form [formGroup]="UserEditForm" (ngSubmit)="editUser()">
+                                        <form [formGroup]="UserEditForm" (ngSubmit)="editUser(user.id!)">
                                             <div class="modal-header">
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-title">Edición del usuario</div>
                                             <div class="modal-body">
+                                                @if (isSuccessUpdate) {
+                                                <div class="alert alert-success" role="alert">
+                                                    Usuario actualizado correctamente.
+                                                </div>
+                                                }
+                                                @if (isErrorUpdate) {
+                                                <div class="alert alert-danger" role="alert">
+                                                    {{ errorMessageUpdate }}
+                                                </div>
+                                                }
                                                 <div class="vstack gap-4">
                                                     <div>
                                                         <label class="form-label required">Nombres</label>
                                                         <div class="input-group">
                                                             <span
                                                                 class="input-group-text start material-symbols-outlined">person</span>
-                                                            <input type="texto" class="form-control"
-                                                                placeholder="Ej. Juan Felipe"
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Ej. Miguel Ángel"
                                                                 formControlName="firstName">
                                                         </div>
                                                     </div>
@@ -68,8 +186,8 @@
                                                         <div class="input-group">
                                                             <span
                                                                 class="input-group-text start material-symbols-outlined">person</span>
-                                                            <input type="texto" class="form-control"
-                                                                placeholder="Ej. Ortiz Pérez"
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Ej. Vargas Valencia"
                                                                 formControlName="lastName">
                                                         </div>
                                                     </div>
@@ -79,8 +197,8 @@
                                                         <div class="input-group">
                                                             <span
                                                                 class="input-group-text start material-symbols-outlined">mail</span>
-                                                            <input type="texto" class="form-control"
-                                                                placeholder="Ej. juanfl" formControlName="login">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Ej. mivargasv" formControlName="username">
                                                         </div>
                                                     </div>
 
@@ -89,12 +207,24 @@
                                                         <div class="input-group">
                                                             <span
                                                                 class="input-group-text start material-symbols-outlined">mail</span>
-                                                            <input type="texto" class="form-control"
+                                                            <input type="text" class="form-control"
                                                                 placeholder="Coordinador Unidad.."
                                                                 formControlName="dependence">
                                                         </div>
                                                     </div>
+                                                    <div>
+                                                        <label class="form-label required">Rol</label>
+                                                        <div class="input-group">
+                                                            <select class="form-select form-tom-select-primary"
+                                                                id="basic-1" formControlName="nivel_permisos">
+                                                                <option value="">--Seleccione--</option>
+                                                                <option value="1" data-label="Ítem 1">Administrador
+                                                                </option>
+                                                                <option value="2" data-label="Ítem 2">Usuario</option>
+                                                            </select>
 
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer mt-4">
@@ -128,7 +258,8 @@
                                         </div>
                                         <div class="modal-title">Eliminar Usuario</div>
                                         <div class="modal-body">
-                                            El usuario con login mivargasv será eliminado de forma permanente.
+                                            El usuario {{user.first_name}} {{user.last_name}} con login
+                                            {{user.username}} será eliminado de forma permanente.
                                             <br>
                                             ¿Está seguro de que desea continuar?
                                         </div>
@@ -137,7 +268,8 @@
                                                 data-bs-dismiss="modal">
                                                 Cancelar
                                             </button>
-                                            <button type="button" class="btn btn-danger">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                                (click)="deleteUser(user.id!)">
                                                 Eliminar
                                             </button>
                                         </div>
@@ -148,7 +280,41 @@
                     </div>
                     }
                 </div>
+
+                <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
+                    <p class="flex-grow-1">
+                        Página {{ activosPage }} de {{ totalPagesActivos }}
+                    </p>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-neutral">
+                            <li class="page-item" [class.disabled]="activosPage === 1">
+                                <a class="page-link" (click)="onActivosPageChange(1)"
+                                    aria-label="Primera">&laquo;</a>
+                            </li>
+                            <li class="page-item" [class.disabled]="activosPage === 1">
+                                <a class="page-link" (click)="onActivosPageChange(activosPage - 1)"
+                                    aria-label="Anterior">&lsaquo;</a>
+                            </li>
+                            @for (page of [].constructor(totalPagesActivos); track $index) {
+                            <li class="page-item" [class.active]="activosPage === $index + 1">
+                                <a class="page-link" (click)="onActivosPageChange($index + 1)">{{ $index + 1
+                                    }}</a>
+                            </li>
+                            }
+                            <li class="page-item" [class.disabled]="activosPage === totalPagesActivos">
+                                <a class="page-link" (click)="onActivosPageChange(activosPage + 1)"
+                                    aria-label="Siguiente">&rsaquo;</a>
+                            </li>
+                            <li class="page-item" [class.disabled]="activosPage === totalPagesActivos">
+                                <a class="page-link" (click)="onActivosPageChange(totalPagesActivos)"
+                                    aria-label="Última">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                }
             </div>
+
         </div>
 
         <div class="vr h-auto bg-neutral-80 d-none d-xl-block"></div>
@@ -156,37 +322,36 @@
         <div class="flex-grow-1 mw-xl-50 vstack gap-4">
 
 
-            <div class="d-flex gap-2 justify-content-center align-items-center">
-                <input type="text" class="form-control" id="placeholder" aria-describedby="placeholderText"
-                    placeholder="Buscar a un usuario">
-
-                <button class="btn btn-neutral btn-icon btn-sm">
-                    <span class="material-symbols-outlined">search</span>
-                </button>
-            </div>
             <hr class="hr bg-neutral-80" />
             <div>
-                <p class="text-neutral-50 fw-bold mb-2">Solicitud de registros</p>
+                <p class="text-neutral-50 fw-bold mb-2">Solicitud de registros ({{ usersSolicitudes.count }})</p>
+
+                @if (usersSolicitudes.results.length === 0) {
+                <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
+                    <div class="flex-grow-1">
+                        <p class="fw-bold h5 text-neutral-20">No hay solicitudes de usuarios</p>
+                        <p class="text-neutral-50">No se han encontrado solicitudes de usuarios en el sistema.</p>
+                    </div>
+                </div>
+                }
+
+                @else{
 
                 <div class="d-flex flex-column gap-3">
-                    @if (usersSolicitudes.results.length === 0) {
-                    <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
-                        <div class="avatar avatar-neutral avatar-mn"></div>
-                        <div class="flex-grow-1">
-                            <p class="fw-bold h5 text-neutral-20">No hay solicitudes de usuarios</p>
-                            <p class="text-neutral-50">No se han encontrado solicitudes de usuarios en el sistema.</p>
-                        </div>
-                    </div>
-                    }
+
                     @for (user of usersSolicitudes.results; track $index) {
                     <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
                         <div class="avatar avatar-neutral avatar-mn"></div>
                         <div class="flex-grow-1">
-                            <p class="fw-bold h5 text-neutral-20">{{ user.username }}</p>
-                            <p class="text-neutral-50">Creado el {{ user.date_joined }}</p>
+                            <p class="fw-bold h5 text-neutral-20">{{ user.first_name }} {{ user.last_name }}</p>
+                            <p class="fw-bold text-neutral-50">{{ user.username }}</p>
+                            <p class="text-neutral-50">{{ user.cargo }}</p>
+                            <p class="text-neutral-50">Creado el {{ (user.date_joined ? user.date_joined : '') | date }}
+                            </p>
                         </div>
                         <div class="toolbar sm bg-fixed-success" role="group" aria-label="btn-groups">
-                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir" (click)="approveUserRequest(user)">
+                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir"
+                                (click)="approveUserRequest(user)">
                                 <span class='material-symbols-fill'>person_check</span>
                             </a>
                         </div>
@@ -207,7 +372,8 @@
                                         </div>
                                         <div class="modal-title">Eliminar Usuario</div>
                                         <div class="modal-body">
-                                            El usuario con login mivargasv será eliminado de forma permanente.
+                                            El usuario {{user.first_name}} {{user.last_name}} con login
+                                            {{user.username}} será eliminado de forma permanente.
                                             <br>
                                             ¿Está seguro de que desea continuar?
                                         </div>
@@ -216,7 +382,8 @@
                                                 data-bs-dismiss="modal">
                                                 Cancelar
                                             </button>
-                                            <button type="button" class="btn btn-danger">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                                (click)="deleteUser(user.id!)">
                                                 Eliminar
                                             </button>
                                         </div>
@@ -227,14 +394,47 @@
                     </div>
                     }
                 </div>
+                <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
+                    <p class="flex-grow-1">
+                        Página {{ solicitudesPage }} de {{ totalPagesSolicitudes }}
+                    </p>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-neutral">
+                            <li class="page-item" [class.disabled]="solicitudesPage === 1">
+                                <a class="page-link" (click)="onSolicitudesPageChange(1)"
+                                    aria-label="Primera">&laquo;</a>
+                            </li>
+                            <li class="page-item" [class.disabled]="solicitudesPage === 1">
+                                <a class="page-link" (click)="onSolicitudesPageChange(solicitudesPage - 1)"
+                                    aria-label="Anterior">&lsaquo;</a>
+                            </li>
+                            @for (page of [].constructor(totalPagesSolicitudes); track $index) {
+                            <li class="page-item" [class.active]="solicitudesPage === $index + 1">
+                                <a class="page-link" (click)="onSolicitudesPageChange($index + 1)">{{ $index + 1
+                                    }}</a>
+                            </li>
+                            }
+                            <li class="page-item" [class.disabled]="solicitudesPage === totalPagesSolicitudes">
+                                <a class="page-link" (click)="onSolicitudesPageChange(solicitudesPage + 1)"
+                                    aria-label="Siguiente">&rsaquo;</a>
+                            </li>
+                            <li class="page-item" [class.disabled]="solicitudesPage === totalPagesSolicitudes">
+                                <a class="page-link" (click)="onSolicitudesPageChange(totalPagesSolicitudes)"
+                                    aria-label="Última">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                }
             </div>
 
 
         </div>
     </div>
+    }
 
 </div>
 
 @if (isLoading) {
-    <app-loading></app-loading>
+<app-loading></app-loading>
 }

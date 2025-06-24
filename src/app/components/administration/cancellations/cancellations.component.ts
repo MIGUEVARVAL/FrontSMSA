@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { LoadingComponent } from '../../../templates/loading/loading.component';
 
 /**
  * Utilizada para el manejo de archivos y formularios
@@ -11,7 +12,7 @@ declare const kitUnal: any;
 @Component({
   selector: 'app-cancellations',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [RouterModule, ReactiveFormsModule, LoadingComponent],
   templateUrl: './cancellations.component.html',
   styleUrl: './cancellations.component.scss'
 })
