@@ -1,5 +1,5 @@
 <div class="pt-9">
-    <h2>Cargar estudiantes en riesgo</h2>
+    <h2>Parametrización de Asignaturas</h2>
 </div>
 
 @if (isSuccess) {
@@ -33,19 +33,10 @@
 <div class="form-complete container mt-4">
     <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
 
-        <form enctype="multipart/form-data" [formGroup]="loadStudentsForm" (ngSubmit)="createStudents()">
+        <form enctype="multipart/form-data" [formGroup]="loadSubjectParametrizationForm" (ngSubmit)="loadSubjectParametrization()">
 
             <div class="form-complete container">
                 <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
-                    <div>
-                        <label class="form-label required">Facultad</label>
-                        <select class="form-select mb-4" aria-label="Default select example" formControlName="facultad">
-                            <option value="" disabled>--Seleccione--</option>
-                            @for (facultad of facultadeslist; track $index) {
-                            <option value="{{ facultad.id }}">{{facultad.codigo}} - {{ facultad.nombre }}</option>
-                            }
-                        </select>
-                    </div>
 
                     <div class="input-group form-file" type-file="drag-drop" (dragover)="onDragOver($event)"
                         (dragleave)="onDragLeave($event)" (drop)="onDrop($event, fileInput)">
@@ -88,5 +79,5 @@
 </div>
 
 @if (isLoading) {
-<app-loading></app-loading>
+    <app-loading></app-loading>
 }

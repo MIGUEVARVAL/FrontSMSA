@@ -1,5 +1,16 @@
 <div class="col d-flex flex-column gap-3 p-4">
 
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb p-0">
+      <li class="breadcrumb-item">
+        <a routerLink="/">Inicio</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Usuarios
+      </li>
+    </ol>
+  </nav>
+
     <div class="pt-9">
         <h5 class="fw-regular">Seguridad</h5>
         <h2>Usuarios</h2>
@@ -121,9 +132,11 @@
     <div class="d-flex flex-column flex-xl-row gap-6 px-4 py-4">
         <div class="d-flex flex-column gap-4 flex-grow-1 mw-xl-50">
 
+            <h4 class="text-neutral-50 fw-bold mb-2">Usuarios activos ({{ usersActivos.count }})</h4>
+
+
             <hr class="hr bg-neutral-80" />
             <div>
-                <p class="text-neutral-50 fw-bold mb-2">Usuarios activos ({{ usersActivos.count }})</p>
 
                 @if (usersActivos.results.length === 0) {
                 <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">
@@ -321,10 +334,10 @@
         <hr class="hr bg-neutral-80 d-block d-xl-none" />
         <div class="flex-grow-1 mw-xl-50 vstack gap-4">
 
+                <h4 class="text-neutral-50 fw-bold mb-2">Solicitud de registros ({{ usersSolicitudes.count }})</h4>
 
             <hr class="hr bg-neutral-80" />
             <div>
-                <p class="text-neutral-50 fw-bold mb-2">Solicitud de registros ({{ usersSolicitudes.count }})</p>
 
                 @if (usersSolicitudes.results.length === 0) {
                 <div class="d-flex align-items-center gap-3 border-bottom border-neutral-80 py-4">

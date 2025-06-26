@@ -24,17 +24,17 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
             fetch('http://localhost:8000/api/token/refresh/', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ refreshToken }),
+              body: JSON.stringify({ refresh: refreshToken }),
             })
           ).pipe(
             switchMap(async (response) => {
               if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem('token', data.token);
+                localStorage.setItem('token', data.access);
                 // Retry original request with new token
                 const retryReq = req.clone({
                   setHeaders: {
-                    Authorization: `Bearer ${data.token}`,
+                    Authorization: `Bearer ${data.access}`,
                   },
                 });
                 return next(retryReq);

@@ -111,6 +111,7 @@
             <td>{{ facultad.codigo }}</td>
             <td>{{ facultad.nombre }}</td>
             <td>
+              <div class="d-flex align-items-center gap-3">
               <div class="toolbar sm bg-fixed-warning" role="group" aria-label="btn-groups">
                 <a type="button" class="btn btn-icon" data-bs-toggle="modal"
                   [attr.data-bs-target]="'#editUserModal' + facultad.id" (click)="openEditFacultadModal(facultad)">
@@ -203,6 +204,7 @@
                     </div>
                   </div>
                 </div>
+              </div>
               </div>
             </td>
           </tr>

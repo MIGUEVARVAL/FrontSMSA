@@ -21,6 +21,7 @@ export const routes: Routes = [
         loadComponent: () => import('./components/administration/template-administration/template-administration.component').then(m => m.TemplateAdministrationComponent),
         children: [
             { path: 'students', loadComponent: () => import('./components/administration/students/students.component').then(m => m.StudentsComponent) },
+            { path: 'subject', loadComponent: () => import('./components/administration/subject/subject.component').then(m => m.SubjectComponent) },
             { path: 'users', loadComponent: () => import('./components/administration/users/users.component').then(m => m.UsersComponent) },
             { path: 'final-grades', loadComponent: () => import('./components/administration/final-grades/final-grades.component').then(m => m.FinalGradesComponent) },
             { path: 'cancellations', loadComponent: () => import('./components/administration/cancellations/cancellations.component').then(m => m.CancellationsComponent) },

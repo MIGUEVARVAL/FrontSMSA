@@ -17,6 +17,7 @@ export class FacultadService {
     this.apiUrl = this.urlBackendService.getUrlApi() + 'facultad/';
   }
 
+  
   getFacultades(page: number, facultad?: Facultad): Observable<FacultadListResponse> {
     let params = `page=${page}`;
     if (facultad) {
