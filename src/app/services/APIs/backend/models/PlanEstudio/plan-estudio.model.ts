@@ -4,10 +4,13 @@ export interface PlanEstudio {
   id: string;
   nombre: string;
   codigo: string;
-  facultad: Facultad;
+  facultad?: Facultad;
+  facultadId?: number;
   nivel: string;
   tipo_nivel: string;
-  activo: boolean;
+  activo?: boolean;
+  orderBy?: string;
+  orderDirection?: string;
 }
 
 export interface PlanEstudioListResponse {

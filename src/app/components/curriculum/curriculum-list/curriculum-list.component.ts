@@ -69,7 +69,7 @@ export class CurriculumListComponent {
     nombre: new FormControl(''),
     nivel: new FormControl(''),
     tipo_nivel: new FormControl(''),
-    activo: new FormControl(true),
+    activo: new FormControl(null),
     facultad: new FormControl(''),
   });
 
@@ -98,8 +98,8 @@ export class CurriculumListComponent {
    * @returns {void}
    */
   ngOnInit(): void {
-    this.getFacultades();
     this.loadCurriculum();
+    this.getFacultades();
   }
 
   /**
@@ -108,11 +108,9 @@ export class CurriculumListComponent {
    * @protected
    */
   protected getFacultades(): void {
-    this.isLoading = true;
     this.facultadService.getFacultades(1).subscribe({
       next: (response: FacultadListResponse) => {
         this.facultades = response.results;
-        this.isLoading = false;
         this.isSuccess = true;
         this.successMessage = "Facultades cargadas correctamente.";
       },
@@ -140,6 +138,22 @@ export class CurriculumListComponent {
             'Error al cargar los planes de estudio: ' + error.message;
         },
       });
+  }
+
+  protected searchCurriculum(): void {
+    this.isLoading = true;
+    const filterData: PlanEstudio = {
+      id: this.filterForm.value.codigo ? String(this.filterForm.value.codigo) : '',
+      nombre: this.filterForm.value.nombre ? String(this.filterForm.value.nombre) : '',
+      codigo: this.filterForm.value.codigo ? String(this.filterForm.value.codigo) : '',
+      facultadId: this.filterForm.value.facultad ? (Number(this.filterForm.value.facultad) || 0) : 0,
+      tipo_nivel: this.filterForm.value.tipo_nivel ? String(this.filterForm.value.tipo_nivel) : '',
+      nivel: this.filterForm.value.nivel ? String(this.filterForm.value.nivel) : '',
+      activo: this.filterForm.value.activo !== null && this.filterForm.value.activo !== undefined ? this.filterForm.value.activo as boolean : false,
+      orderBy: this.filterForm.value.orderBy ? String(this.filterForm.value.orderBy) : undefined,
+      orderDirection: this.filterForm.value.orderDirection ? String(this.filterForm.value.orderDirection) : undefined,
+    };
+    this.loadCurriculum(filterData);
   }
 
   get totalPages(): number {

@@ -20,6 +20,9 @@ export class PlanEstudioService {
   getPlanEstudioList(page: number = 1, planEstudio: PlanEstudio): Observable<PlanEstudioListResponse> {
     let params = `page=${page}`;
     if (planEstudio) {
+      if (planEstudio.id) {
+        params += `&id=${encodeURIComponent(planEstudio.id)}`;
+      }
       if (planEstudio.nombre) {
         params += `&nombre=${encodeURIComponent(planEstudio.nombre)}`;
       }
@@ -28,6 +31,21 @@ export class PlanEstudioService {
       }
       if (planEstudio.facultad && planEstudio.facultad.id) {
         params += `&facultad=${planEstudio.facultad.id}`;
+      }
+      if (planEstudio.tipo_nivel) {
+        params += `&tipo_nivel=${encodeURIComponent(planEstudio.tipo_nivel)}`;
+      }
+      if (planEstudio.nivel) {
+        params += `&nivel=${encodeURIComponent(planEstudio.nivel)}`;
+      }
+      if (planEstudio.activo !== undefined) {
+        params += `&activo=${planEstudio.activo}`;
+      }
+      if (planEstudio.orderBy) {
+        params += `&orderBy=${encodeURIComponent(planEstudio.orderBy)}`;
+      }
+      if (planEstudio.orderDirection) {
+        params += `&orderDirection=${encodeURIComponent(planEstudio.orderDirection)}`;
       }
     }
     return this.http.get<PlanEstudioListResponse>(`${this.apiUrl}?${params}`);
