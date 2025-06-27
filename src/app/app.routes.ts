@@ -26,6 +26,7 @@ export const routes: Routes = [
             { path: 'final-grades', loadComponent: () => import('./components/administration/final-grades/final-grades.component').then(m => m.FinalGradesComponent) },
             { path: 'cancellations', loadComponent: () => import('./components/administration/cancellations/cancellations.component').then(m => m.CancellationsComponent) },
             { path: 'facultad', loadComponent: () => import('./components/administration/facultad/facultad.component').then(m => m.FacultadComponent) },
+            { path: 'curriculum', loadComponent: () => import('./components/administration/curriculum/curriculum.component').then(m => m.CurriculumComponent) },
         ],
         canActivate: [authGuard],
         data: { roles: ['admin'] }
@@ -49,5 +50,14 @@ export const routes: Routes = [
         data: { roles: ['user', 'admin'] }
     },
 
-    
+    {
+        path: 'curriculum',
+        children: [
+            {path: 'curriculum-list', loadComponent: () => import('./components/curriculum/curriculum-list/curriculum-list.component').then(m => m.CurriculumListComponent)},
+            {path: 'curriculum-detail/:idPlan', loadComponent: () => import('./components/curriculum/curriculum-info/curriculum-info.component').then(m => m.CurriculumInfoComponent)},
+        ],
+        canActivate: [authGuard],
+        data: { roles: ['user', 'admin'] }
+    },
+
 ];

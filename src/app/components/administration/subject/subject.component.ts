@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
+import { LoadFileService } from '../../../services/APIs/backend/loadFile/load-file.service';
 
 /**
  * Utilizada para el manejo de archivos y formularios
@@ -43,28 +44,46 @@ export class SubjectComponent {
   });
 
   /**
+     * Constructor del componente.
+     * @param {LoadFileService} loadFileService - Servicio para manejar la carga de archivos.
+     * @constructor
+     */
+    constructor(
+      private loadFileService: LoadFileService
+    ) {}
+
+  /**
    * Función para cargar las notas finales.
    * Está función se ejecuta al enviar el formulario.
    * @protected
    * @returns {void}
    */
-  protected loadSubjectParametrization() {
+   protected loadSubjectParametrization() {
     this.isLoading = true;
+    const file = this.selectedFile;
 
-    if (this.loadSubjectParametrizationForm.invalid) {
+    if (!file) {
       this.isLoading = false;
       this.isError = true;
-      this.errorMessage = "Por favor, complete todos los campos requeridos.";
+      this.errorMessage = 'Debes seleccionar un archivo.';
       return;
     }
-    setTimeout(() => {
-      this.loadSubjectParametrizationForm.reset();
-      this.isLoading = false;
-      this.isSuccess = true;
-      this.successMessage = "Las notas finales fueron cargadas correctamente.";
-      this.isError = false;
-      this.errorMessage = "No se lograron cargar las notas finales, por favor verifique el archivo y vuelva a intentarlo";
-    }, 2000);
+
+    this.loadFileService.loadFileSubjectParametrization(file).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+          this.isSuccess = true;
+          this.successMessage = 'Los planes de estudio fueron cargados correctamente.';
+          this.loadSubjectParametrizationForm.reset();
+          this.selectedFile = null;
+          this.selectedFileName = null;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = 'Error al cargar el archivo: ' + error.message;
+      }
+    });
   }
 
   /**

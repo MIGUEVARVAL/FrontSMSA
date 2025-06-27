@@ -121,6 +121,7 @@ export class StudentsComponent {
             'Los estudiantes fueron cargados correctamente.';
           this.loadStudentsForm.reset();
           this.selectedFile = null;
+          this.selectedFileName = null;
         },
         error: (error) => {
           this.isLoading = false;

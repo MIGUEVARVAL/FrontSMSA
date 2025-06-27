@@ -40,9 +40,8 @@
 
                     <div class="input-group form-file" type-file="drag-drop" (dragover)="onDragOver($event)"
                         (dragleave)="onDragLeave($event)" (drop)="onDrop($event, fileInput)">
-                        <label class="form-label required">Estudiantes</label>
-                        <div class="form-description">Cargue el listado de los estudiantes que se encuentran en riesgo
-                            por facultad</div>
+                        <label class="form-label required">Asignaturas</label>
+                        <div class="form-description">Cargue el archivo con la información de las asignaturas</div>
 
                         <input #fileInput type="file" class="form-control d-none" accept=".xlsx,.xls,.ods"
                             (change)="onFileSelected($event)" />

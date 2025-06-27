@@ -6,11 +6,11 @@ export interface PlanEstudio {
   codigo: string;
   facultad: Facultad;
   nivel: string;
-  fecha_creacion: Date;
-  fecha_modificacion: Date;
+  tipo_nivel: string;
+  activo: boolean;
 }
 
-export interface PlanEstudioResponse {
+export interface PlanEstudioListResponse {
   count: number;
   next: string | null;
   previous: string | null;

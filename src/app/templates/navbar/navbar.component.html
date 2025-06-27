@@ -39,10 +39,17 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/home">
-                        <span class="material-symbols-fill">home</span>
-                        Inicio
+                        <span class="material-symbols-fill">groups</span>
+                        Estudiantes
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/curriculum/curriculum-list">
+                        <span class="material-symbols-fill">school</span>
+                        Planes de Estudio
+                    </a>
+                </li>
+
                 @if (nivel_permisos === 1) {
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/administration/users">

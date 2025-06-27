@@ -40,7 +40,7 @@ export class FacultadComponent {
   protected errorMessageUpdate: string = '';
 
   /**
-   * Página actual para la paginación de facultades.
+   * Página actual para la paginación.
    * @protected
    * @property {number} page - Número de página actual.
    */
@@ -88,6 +88,10 @@ export class FacultadComponent {
     nombre: new FormControl(''), 
   });
 
+  /**
+   * Objeto que almacena los filtros activos para la búsqueda de facultades.
+   * @protected
+   */
   protected filtrosActivos: { codigo: string; nombre: string } = {
     codigo: '',
     nombre: ''
@@ -98,7 +102,6 @@ export class FacultadComponent {
    * @param facultadService Servicio para manejar las operaciones de facultades.
    */
   constructor(private facultadService: FacultadService) {
-    this.loadFacultades();
   }
 
   ngOnInit() {
