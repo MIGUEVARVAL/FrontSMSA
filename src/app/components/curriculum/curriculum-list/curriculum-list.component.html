@@ -1,0 +1,237 @@
+<main class="body">
+
+    <div class="row m-0">
+        <div class="col-12 col-lg-2">
+
+            <form [formGroup]="filterForm">
+
+                <div class="filter">
+                    <div class="d-flex flex-column gap-8">
+
+                        <div class="d-flex flex-column gap-3">
+                            <h3 class="text-neutral-30 d-flex align-items-center gap-2">
+                                <span class="material-symbols-outlined">filter_alt</span>
+                                Filtrar búsqueda
+                            </h3>
+                            <div class="d-flex flex-column gap-2">
+                                <p class="text-neutral-30">{{planEstudioListResponse.count}} planes de estudio</p>
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <button class="btn btn-link-primary fw-black" type="reset">
+                                <span>Limpiar todos los filtros</span>
+                                <span class="material-symbols-outlined icon">delete</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column gap-1">
+                        <div class="d-flex flex-column gap-3">
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <div>
+                                    <label for="ordenar" class="form-label">Ordenar por</label>
+                                    <select id="ordenar" class="form-select" formControlName="orderBy">
+                                        <option value="" disabled selected>Seleccione</option>
+                                        <option value="codigo">Código plan</option>
+                                        <option value="nombre">Plan</option>
+                                        <option value="nivel">Nivel</option>
+                                        <option value="facultad">Facultad</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="orden" class="form-label">Orden</label>
+                                    <select id="orden" class="form-select" formControlName="orderDirection">
+                                        <option value="ASC" selected>Ascendente</option>
+                                        <option value="DESC">Descendente</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <div>
+                                    <label for="activo" class="form-label">Estado</label>
+                                    <select id="activo" class="form-select" formControlName="activo">
+                                        <option value="" disabled>Seleccione</option>
+                                        <option value="true">Activo</option>
+                                        <option value="false">Inactivo</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="codigo" class="form-label">Código plan</label>
+                                    <input type="text" class="form-control" id="codigo" placeholder="3534"
+                                        formControlName="codigo" />
+                                </div>
+
+
+                            </div>
+                            <div>
+                                <label for="nombre" class="form-label">Plan</label>
+                                <input type="text" class="form-control" id="nombre" placeholder="Ingeniería"
+                                    formControlName="nombre" />
+                            </div>
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <div>
+                                    <label for="tipo_nivel" class="form-label">Tipo nivel</label>
+                                    <select id="tipo_nivel" class="form-select" formControlName="tipo_nivel">
+                                        <option value="">Seleccione</option>
+                                        <option value="PREGRADO">Pregrado</option>
+                                        <option value="POSGRADO">Posgrado</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="nivel" class="form-label">Nivel</label>
+                                    <select id="nivel" class="form-select" formControlName="nivel">
+                                        <option value="">Seleccione</option>
+                                        <option value="PREGRADO">Pregrado</option>
+                                        <option value="ESPECIALIZACION">Especialización</option>
+                                        <option value="MAESTRIA">Maestría</option>
+                                        <option value="DOCTORADO">Doctorado</option>
+                                        <option value="PROGRAMA ESPECIAL">Programa especial</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div>
+                                <label for="facultad" class="form-label">Facultad</label>
+                                <select id="facultad" class="form-select" formControlName="facultad">
+                                    <option selected="" value="" disabled>Seleccione</option>
+                                    @for (facultad of facultades; track $index) {
+                                    <option value="{{facultad.id}}">{{facultad.codigo}} - {{facultad.nombre}}</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex flex-column gap-4">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="material-symbols-outlined">filter_alt</span>
+                            <span>Filtrar</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="col d-flex flex-column gap-3 p-5 mx-2 bg-neutral-95">
+
+            <h2 class="text-neutral-30 text-center my-2">Planes de Estudio</h2>
+
+            <div class="vstack gap-4">
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+
+                    @for (plan of planEstudioListResponse.results; track $index) {
+                    <div>
+                        <div class="d-flex flex-column p-8 gap-6 bg-neutral-100 rounded-5 h-100">
+                            <div class="d-flex flex-column gap-2 text-neutral-10">
+                                <div class="d-flex flex-row-reverse">
+                                    @if (plan.activo) {
+                                    <button class="tag tag-light-success">Activo</button>
+                                    } @else {
+                                    <button class="tag tag-light-neutral">Inactivo</button>
+                                    }
+                                </div>
+                                <p class="h5"><mark>{{plan.codigo}} - {{plan.nombre}}</mark></p>
+                                <p>{{plan.facultad.nombre}}</p>
+                                <div class="d-flex justify-content-between">
+                                    <div class="item-flex"><strong>Tipo nivel: </strong>{{plan.tipo_nivel}}</div>
+                                    <div class="item-flex"><strong>Nivel: </strong>{{plan.nivel}}</div>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <a class="link link-primary d-flex gap-4" routerLink="/curriculum/curriculum-detail/{{plan.id}}">
+                                    <span>Explorar</span>
+                                    <span class="material-symbols-outlined icon">east</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                </div>
+
+                <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
+                    <p class="flex-grow-1">
+                        Página {{ page }} de {{ totalPages }}
+                    </p>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-neutral">
+
+                            <li class="page-item" [class.disabled]="page === 1">
+                                <a class="page-link" (click)="onPageChange(1)" aria-label="Primera">&laquo;</a>
+                            </li>
+                            <li class="page-item" [class.disabled]="page === 1">
+                                <a class="page-link" (click)="onPageChange(page - 1)" aria-label="Anterior">&lsaquo;</a>
+                            </li>
+
+                            <!-- Primera página -->
+                            <li class="page-item" [class.active]="page === 1">
+                                <a class="page-link" (click)="onPageChange(1)">1</a>
+                            </li>
+
+                            <!-- Puntos suspensivos a la izquierda -->
+                            @if (page > 3) {
+                            <li class="page-item"><a class="page-link" aria-label="more"></a></li>
+                            }
+
+                            <!-- Página anterior -->
+                            @if (page > 2) {
+                            <li class="page-item" [class.active]="false">
+                                <a class="page-link" (click)="onPageChange(page - 1)">{{ page - 1 }}</a>
+                            </li>
+                            }
+
+                            <!-- Página actual (si no es la primera ni la última) -->
+                            @if (page !== 1 && page !== totalPages) {
+                            <li class="page-item" [class.active]="true">
+                                <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
+                            </li>
+                            }
+
+                            <!-- Página siguiente -->
+                            @if (page < totalPages - 1) { <li class="page-item" [class.active]="false">
+                                <a class="page-link" (click)="onPageChange(page + 1)">{{ page + 1 }}</a>
+                                </li>
+                                }
+
+                                <!-- Puntos suspensivos a la derecha -->
+                                @if (page < totalPages - 2) { <li class="page-item"><a class="page-link"
+                                        aria-label="more"></a></li>
+                                    }
+
+                                    <!-- Última página (si hay más de una) -->
+                                    @if (totalPages > 1) {
+                                    <li class="page-item" [class.active]="page === totalPages">
+                                        <a class="page-link" (click)="onPageChange(totalPages)">{{ totalPages }}</a>
+                                    </li>
+                                    }
+
+                                    <li class="page-item" [class.disabled]="page === totalPages">
+                                        <a class="page-link" (click)="onPageChange(page + 1)"
+                                            aria-label="Siguiente">&rsaquo;</a>
+                                    </li>
+                                    <li class="page-item" [class.disabled]="page === totalPages">
+                                        <a class="page-link" (click)="onPageChange(totalPages)"
+                                            aria-label="Última">&raquo;</a>
+                                    </li>
+                        </ul>
+                    </nav>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+</main>
