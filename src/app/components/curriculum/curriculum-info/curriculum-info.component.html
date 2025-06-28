@@ -1,1 +1,289 @@
-<p>curriculum-info works!</p>
+<main class="body">
+
+    <div class="col d-flex flex-column gap-3 p-4">
+
+        <div class="d-flex flex-grow-1 row m-0 p-4 p-xl-8 gx-4 gy-4 gy-xl-0 bg-neutral-95">
+
+
+            <div class="col body flex-grow-1">
+
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
+                        <li class="breadcrumb-item"><a routerLink="/students/student-list">Listado de estudiantes</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Información del estudiante</li>
+                    </ol>
+                </nav>
+
+                <div class="vstack gap-4 flex-grow-1">
+                    <div class="bg-neutral-95 h-100 rounded-5 ">
+
+                        <hr class="hr my-4">
+
+                        <div class="bg-neutral-100 rounded-4 bar text-center p-5 my-5">
+                            <h4>{{planEstudio.codigo}} - {{planEstudio.nombre}}</h4>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col mb-4">
+                                @if (planEstudio.activo) {
+                                <div
+                                    class="bg-success-99 border-success-80 border-2 border h-100 w-100 rounded-5 text-center p-3">
+                                    <h4 class="text-success">Plan de estudios activo </h4>
+                                </div>
+                                } @else {
+                                <div
+                                    class="bg-neutral-90 border-neutral-75 border-2 border h-100 w-100 rounded-5 text-center p-3">
+                                    <h4 class="text-neutral">Plan de estudios inactivo </h4>
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+
+                        <div
+                            class="row row-cols-2 row-cols-sm-3 row-cols-lg-3 row-cols-xxl-3 g-4 justify-content-center">
+                            <div class="col">
+
+                                <div class="card border-0 px-1 py-1 mw-100 h-100 text-center" data-bs-toggle="collapse"
+                                    href="#collapseInformacion" role="button" aria-expanded="false"
+                                    aria-controls="collapseInformacion">
+                                    <div class="row d-block h-100">
+                                        <div class="col d-flex justify-content-center align-items-center pt-4">
+                                            <div class="bg-primary-90 rounded-circle p-2 d-flex">
+                                                <span translate='no'
+                                                    class="material-symbols-outlined lh-1 icon-md text-primary-30">person</span>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body">
+                                                <div class="card-stack gap-0 m-0">
+                                                    <h2>Información</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card border-0 px-1 py-1 mw-100 h-100 text-center" data-bs-toggle="collapse"
+                                    href="#collapseAsignaturas" role="button" aria-expanded="false"
+                                    aria-controls="collapseAsignaturas">
+                                    <div class="row d-block h-100">
+                                        <div class="col d-flex justify-content-center align-items-center pt-4">
+                                            <div class="bg-primary-90 rounded-circle p-2 d-flex">
+                                                <span translate='no'
+                                                    class="material-symbols-outlined lh-1 icon-md text-primary-30">person</span>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body">
+                                                <div class="card-stack gap-0 m-0">
+                                                    <h2>Asignaturas</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card border-0 px-1 py-1 mw-100 h-100 text-center" data-bs-toggle="collapse"
+                                    href="#collapseAcuerdos" role="button" aria-expanded="false"
+                                    aria-controls="collapseAcuerdos">
+                                    <div class="row d-block h-100">
+                                        <div class="col d-flex justify-content-center align-items-center pt-4">
+                                            <div class="bg-primary-90 rounded-circle p-2 d-flex">
+                                                <span translate='no'
+                                                    class="material-symbols-outlined lh-1 icon-md text-primary-30">person</span>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body">
+                                                <div class="card-stack gap-0 m-0">
+                                                    <h2>Acuerdos</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="hr my-4">
+
+
+                        <div id="accordionCurriculum">
+                            <div class="collapse show" id="collapseInformacion" data-bs-parent="#accordionCurriculum">
+                                <div class="bg-neutral-100 rounded-5 p-5 my-2">
+                                    <h4 class="text-center p-4">Información del plan de estudio</h4>
+                                    <div class="p-4">
+                                        <div class="row row-cols-1 row-cols-md-2 gx-4 justify-content-center mb-5">
+
+                                            <div class="col">
+                                                <div
+                                                    class="card border border-neutral-variant-70 px-3 py-1 mw-100 bg-neutral-variant-99  h-100">
+                                                    <div class="card-body">
+                                                        <div class="card-stack gap-0 m-0">
+                                                            <p class="fw-regular">Facultad</p>
+                                                            <h5>
+                                                                {{planEstudio.facultad?.nombre}}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-cols-1 row-cols-md-2 gx-4 justify-content-center">
+                                                <div class="col">
+                                                    <div
+                                                        class="card border border-neutral-variant-70 px-3 py-1 mw-100 bg-neutral-variant-99  h-100">
+                                                        <div class="card-body">
+                                                            <div class="card-stack gap-0 m-0">
+                                                                <p class="fw-regular">Tipo nivel</p>
+                                                                <h5>
+                                                                    {{planEstudio.tipo_nivel}}
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col">
+                                                    <div
+                                                        class="card border border-neutral-variant-70 px-3 py-1 mw-100 bg-neutral-variant-99  h-100">
+                                                        <div class="card-body">
+                                                            <div class="card-stack gap-0 m-0">
+                                                                <p class="fw-regular">Nivel</p>
+                                                                <h5>
+                                                                    {{planEstudio.nivel}}
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="m-3 my-5">
+                                            <h5>Descripción</h5>
+                                            <p class="my-4">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                Temporibus modi consectetur facilis culpa, consequuntur minus adipisci,
+                                                eos
+                                                doloremque inventore earum hic natus soluta perferendis ad, praesentium
+                                                explicabo. Debitis, quod veniam! Lorem ipsum dolor sit amet consectetur
+                                                adipisicing elit. Assumenda itaque iste modi, deserunt consequatur in
+                                                provident voluptatum architecto atque quibusdam corrupti ipsam
+                                                dignissimos
+                                                repellat tempora quo praesentium, eos expedita similique.</p>
+                                        </div>
+                                        <div class="m-3 my-5">
+                                            <h5>Objetivos</h5>
+                                            <p class="my-4">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                Temporibus modi consectetur facilis culpa, consequuntur minus adipisci,
+                                                eos
+                                                doloremque inventore earum hic natus soluta perferendis ad, praesentium
+                                                explicabo. Debitis, quod veniam! Lorem ipsum dolor sit amet consectetur
+                                                adipisicing elit. Assumenda itaque iste modi, deserunt consequatur in
+                                                provident voluptatum architecto atque quibusdam corrupti ipsam
+                                                dignissimos
+                                                repellat tempora quo praesentium, eos expedita similique.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="collapse" id="collapseAsignaturas" data-bs-parent="#accordionCurriculum">
+                                <div class="bg-neutral-100 rounded-5 p-4 my-2">
+
+                                    <h4 class="text-center p-4">Asignaturas del plan de estudio</h4>
+                                    <div class="accordion" id="accordionExample9">
+
+                                        @for (tipologia of tipologias; track $index) {
+
+                                        <div class="accordion-item rounded-3">
+                                            <h2 class="accordion-header" [id]="'heading-tipologia-'+tipologia.id">
+                                                <button class="accordion-button " type="button"
+                                                    data-bs-toggle="collapse"
+                                                    [attr.data-bs-target]="'#collapse-tipologia-'+tipologia.id"
+                                                    aria-expanded=" true"
+                                                    [attr.aria-controls]="'collapse-tipologia-'+tipologia.id">
+                                                    {{tipologia.nombre}} ({{tipologia.asignaturas.length}} asignaturas)
+                                                </button>
+                                            </h2>
+
+
+                                            <div [id]="'collapse-tipologia-'+tipologia.id"
+                                                class="accordion-collapse collapse show ">
+                                                <div class="accordion-body">
+
+                                                    <div class="row row-cols-2 row-cols-md-4 g-4 ">
+
+                                                        @for (asignatura of tipologia.asignaturas; track $index) {
+
+                                                        <div class="col">
+                                                            <div
+                                                                class="card px-3 py-1 mw-100 h-100 rounded-diag-secondary border-0"
+                                                                [class]="tipologia.codigo === 'O' || tipologia.codigo === 'B' ? 'bg-tertiary-purple-99':
+                                                                tipologia.codigo === 'T' || tipologia.codigo === 'P' || tipologia.codigo === 'C' ? 'bg-secondary-99':
+                                                                tipologia.codigo === 'L' || tipologia.codigo === 'U' ? 'bg-warning-99'
+                                                                 : 'bg-tertiary-blue-99'"
+                                                                >
+                                                                <div class="card-body">
+                                                                    <div class="card-stack gap-0 m-0">
+
+                                                                        <div
+                                                                            class="d-flex justify-content-between my-2">
+                                                                            <div class="item-flex">
+                                                                                {{asignatura.codigo}}</div>
+                                                                            <div class="item-flex fw-regular"><span
+                                                                                    class="tag tag-neutral">{{asignatura.creditos}}</span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <p class="fw-regular"></p>
+                                                                        <p>{{asignatura.nombre}}</p>
+                                                                        <p class="small text-neutral-60 fw-regular">
+                                                                            Tipología:
+                                                                            {{tipologia.codigo}} - {{tipologia.nombre}}
+                                                                        </p>
+                                                                        <p class="small text-neutral-60 fw-regular">
+                                                                            Veces vista:
+                                                                            {{asignatura.veces_vista}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        }
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="collapse" id="collapseAcuerdos" data-bs-parent="#accordionCurriculum">
+                                <div class="bg-neutral-100 rounded-5 p-4 my-2">Some placeholder content for the
+                                    collapse component. This panel is hidden by default but revealed when the user
+                                    activates
+                                    the relevant trigger.</div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</main>

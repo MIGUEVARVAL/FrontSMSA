@@ -141,15 +141,14 @@ export class CurriculumListComponent {
   }
 
   protected searchCurriculum(): void {
-    this.isLoading = true;
     const filterData: PlanEstudio = {
-      id: this.filterForm.value.codigo ? String(this.filterForm.value.codigo) : '',
+      id: '',
       nombre: this.filterForm.value.nombre ? String(this.filterForm.value.nombre) : '',
       codigo: this.filterForm.value.codigo ? String(this.filterForm.value.codigo) : '',
       facultadId: this.filterForm.value.facultad ? (Number(this.filterForm.value.facultad) || 0) : 0,
       tipo_nivel: this.filterForm.value.tipo_nivel ? String(this.filterForm.value.tipo_nivel) : '',
       nivel: this.filterForm.value.nivel ? String(this.filterForm.value.nivel) : '',
-      activo: this.filterForm.value.activo !== null && this.filterForm.value.activo !== undefined ? this.filterForm.value.activo as boolean : false,
+      activo: this.filterForm.value.activo !== null && this.filterForm.value.activo !== undefined ? this.filterForm.value.activo as boolean : undefined,
       orderBy: this.filterForm.value.orderBy ? String(this.filterForm.value.orderBy) : undefined,
       orderDirection: this.filterForm.value.orderDirection ? String(this.filterForm.value.orderDirection) : undefined,
     };
