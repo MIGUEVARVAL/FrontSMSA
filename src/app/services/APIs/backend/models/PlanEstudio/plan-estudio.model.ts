@@ -9,6 +9,7 @@ export interface PlanEstudio {
   nivel: string;
   tipo_nivel: string;
   activo?: boolean;
+  descripcion?: string;
   orderBy?: string;
   orderDirection?: string;
 }

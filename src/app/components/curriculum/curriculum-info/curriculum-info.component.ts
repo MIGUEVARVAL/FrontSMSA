@@ -6,11 +6,13 @@ import { PlanEstudio } from '../../../services/APIs/backend/models/PlanEstudio/p
 import { AsignaturaPlanService } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.service';
 import { AsignaturaPlan } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.model';
 import { Tipologia } from '../../../services/APIs/backend/models/Tipologia/tipologia.model';
+import { FormsModule } from '@angular/forms';
+import { QuillModule } from 'ngx-quill';
 
 @Component({
     selector: 'app-curriculum-info',
     standalone: true,
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule, FormsModule, RouterModule, QuillModule],
     templateUrl: './curriculum-info.component.html',
     styleUrl: './curriculum-info.component.scss'
 })
