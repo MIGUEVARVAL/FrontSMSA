@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { LoadingComponent } from '../../../templates/loading/loading.component';
+import { Estudiante, EstudianteListResponse } from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
+import { EstudianteService } from '../../../services/APIs/backend/models/Estudiante/estudiante.service';
+import { PlanEstudio } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.model';
 
 @Component({
   selector: 'app-students-list',
@@ -11,571 +15,6 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
   styleUrl: './students-list.component.scss'
 })
 export class StudentsListComponent {
-
-  
-    students = 
-    [
-        {
-            "id": 2647,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "V\u00cdCTIMAS DEL CONFLICTO ARMADO EN COLOMBIA",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1007410224",
-            "nombres": "ADRIAN FELIPE",
-            "apellidos": "GUERRA SERNA",
-            "puntaje_admision": 592.3,
-            "pbm": 27,
-            "apertura": "2020-2S",
-            "genero": "Masculino",
-            "edad": 23,
-            "correo_institucional": "aguerras@unal.edu.co",
-            "correo_alterno": "guerrasernaa@gmail.com",
-            "telefono": null,
-            "papa": 3.1,
-            "avance_carrera": "16.70",
-            "numero_matriculas": 9,
-            "semestres_cancelados": 1,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 69,
-            "fecha_creacion": "2025-04-25T18:25:38.134Z",
-            "cupo_creditos": 174,
-            "creditos_pendientes": 162,
-            "creditos_disponibles": 12
-        },
-        {
-            "id": 2291,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1047486140",
-            "nombres": "AGNER",
-            "apellidos": "MANRIQUE RESTREPO",
-            "puntaje_admision": 642.1,
-            "pbm": 41,
-            "apertura": "2019-2S",
-            "genero": "Masculino",
-            "edad": 29,
-            "correo_institucional": "agmanriquere@unal.edu.co",
-            "correo_alterno": "AGNER.MANRI.96@HOTMAIL.COM",
-            "telefono": "6645385",
-            "papa": 3.0,
-            "avance_carrera": "33.30",
-            "numero_matriculas": 4,
-            "semestres_cancelados": 1,
-            "reserva_cupo": 2,
-            "matricula_periodo_activo": "NO",
-            "plan_estudio_id": 69,
-            "fecha_creacion": "2025-04-25T18:25:34.433Z",
-            "cupo_creditos": 181,
-            "creditos_pendientes": 120,
-            "creditos_disponibles": 61
-        },
-        {
-            "id": 2768,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1027803643",
-            "nombres": "ALBA MARIA",
-            "apellidos": "VEGA MORALES",
-            "puntaje_admision": 541.831,
-            "pbm": 47,
-            "apertura": "2024-1S",
-            "genero": "Femenino",
-            "edad": 18,
-            "correo_institucional": "avegamo@unal.edu.co",
-            "correo_alterno": "albanuryms12@gmail.com",
-            "telefono": null,
-            "papa": 3.0,
-            "avance_carrera": "5.80",
-            "numero_matriculas": 2,
-            "semestres_cancelados": 1,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "NO",
-            "plan_estudio_id": 65,
-            "fecha_creacion": "2025-04-25T18:25:39.423Z",
-            "cupo_creditos": 179,
-            "creditos_pendientes": 170,
-            "creditos_disponibles": 9
-        },
-        {
-            "id": 2732,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1143167903",
-            "nombres": "ALBEIRO ELIAS",
-            "apellidos": "COLLAZO MARTINEZ",
-            "puntaje_admision": 597.51,
-            "pbm": 31,
-            "apertura": "2019-2S",
-            "genero": "Masculino",
-            "edad": 26,
-            "correo_institucional": "acollazo@unal.edu.co",
-            "correo_alterno": "albeirocollazo1799@gmail.com",
-            "telefono": "3207698944",
-            "papa": 3.2,
-            "avance_carrera": "66.70",
-            "numero_matriculas": 11,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 68,
-            "fecha_creacion": "2025-04-25T18:25:39.054Z",
-            "cupo_creditos": 77,
-            "creditos_pendientes": 58,
-            "creditos_disponibles": 19
-        },
-        {
-            "id": 2404,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1020452225",
-            "nombres": "ALEJANDRA",
-            "apellidos": "VELASQUEZ BUITRAGO",
-            "puntaje_admision": 599.33,
-            "pbm": 16,
-            "apertura": "2015-2S",
-            "genero": "Femenino",
-            "edad": 32,
-            "correo_institucional": "alvelasquezbu@unal.edu.co",
-            "correo_alterno": null,
-            "telefono": null,
-            "papa": 3.6,
-            "avance_carrera": "90.30",
-            "numero_matriculas": 19,
-            "semestres_cancelados": 1,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 75,
-            "fecha_creacion": "2025-04-25T18:25:35.604Z",
-            "cupo_creditos": 26,
-            "creditos_pendientes": 17,
-            "creditos_disponibles": 9
-        },
-        {
-            "id": 2631,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1007497750",
-            "nombres": "ALEJANDRO",
-            "apellidos": "GARCIA CACERES",
-            "puntaje_admision": 620.2,
-            "pbm": 8,
-            "apertura": "2018-1S",
-            "genero": "Masculino",
-            "edad": 23,
-            "correo_institucional": "algarciac@unal.edu.co",
-            "correo_alterno": "alejogarcia0723@gmail.com",
-            "telefono": null,
-            "papa": 3.5,
-            "avance_carrera": "80.00",
-            "numero_matriculas": 14,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 55,
-            "fecha_creacion": "2025-04-25T18:25:37.968Z",
-            "cupo_creditos": 41,
-            "creditos_pendientes": 36,
-            "creditos_disponibles": 5
-        },
-        {
-            "id": 2625,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1035438389",
-            "nombres": "ALEJANDRO",
-            "apellidos": "SUAREZ RODRIGUEZ",
-            "puntaje_admision": 702.24,
-            "pbm": 34,
-            "apertura": "2015-1S",
-            "genero": "Masculino",
-            "edad": 27,
-            "correo_institucional": "alsuarezro@unal.edu.co",
-            "correo_alterno": "alejosaurio@hotmail.es",
-            "telefono": "4014549",
-            "papa": 3.2,
-            "avance_carrera": "77.50",
-            "numero_matriculas": 20,
-            "semestres_cancelados": 3,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 56,
-            "fecha_creacion": "2025-04-25T18:25:37.906Z",
-            "cupo_creditos": 29,
-            "creditos_pendientes": 36,
-            "creditos_disponibles": -7
-        },
-        {
-            "id": 2725,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1020493146",
-            "nombres": "ALEJANDRO",
-            "apellidos": "AVENDA\u00d1O SERNA",
-            "puntaje_admision": 624.91,
-            "pbm": 7,
-            "apertura": "2017-2S",
-            "genero": "Masculino",
-            "edad": 26,
-            "correo_institucional": "aavendano@unal.edu.co",
-            "correo_alterno": "alejox112011@gmail.com",
-            "telefono": null,
-            "papa": 3.2,
-            "avance_carrera": "38.80",
-            "numero_matriculas": 13,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 56,
-            "fecha_creacion": "2025-04-25T18:25:38.982Z",
-            "cupo_creditos": 112,
-            "creditos_pendientes": 98,
-            "creditos_disponibles": 14
-        },
-        {
-            "id": 2094,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1193589972",
-            "nombres": "ALEJANDRO",
-            "apellidos": "ORREGO JARAMILLO",
-            "puntaje_admision": 622.53,
-            "pbm": 32,
-            "apertura": "2019-2S",
-            "genero": "Masculino",
-            "edad": 23,
-            "correo_institucional": "aorregoj@unal.edu.co",
-            "correo_alterno": "alorja16@gmail.com",
-            "telefono": null,
-            "papa": 3.2,
-            "avance_carrera": "34.50",
-            "numero_matriculas": 9,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 2,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 57,
-            "fecha_creacion": "2025-04-25T18:25:32.381Z",
-            "cupo_creditos": 146,
-            "creditos_pendientes": 114,
-            "creditos_disponibles": 32
-        },
-        {
-            "id": 2795,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1034918383",
-            "nombres": "ALEJANDRO",
-            "apellidos": "RENDON CESPEDES",
-            "puntaje_admision": 496.376,
-            "pbm": 7,
-            "apertura": "2024-2S",
-            "genero": "Masculino",
-            "edad": 19,
-            "correo_institucional": "alrendon@unal.edu.co",
-            "correo_alterno": "ar2506082@gmail.com",
-            "telefono": null,
-            "papa": 3.6,
-            "avance_carrera": "5.70",
-            "numero_matriculas": 2,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 57,
-            "fecha_creacion": "2025-04-25T18:25:39.702Z",
-            "cupo_creditos": 185,
-            "creditos_pendientes": 176,
-            "creditos_disponibles": 9
-        },
-        {
-            "id": 2812,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1037623013",
-            "nombres": "ALEJANDRO",
-            "apellidos": "LOPEZ CASTRO",
-            "puntaje_admision": 629.92,
-            "pbm": 41,
-            "apertura": "2018-2S",
-            "genero": "Masculino",
-            "edad": 32,
-            "correo_institucional": "allopezca@unal.edu.co",
-            "correo_alterno": "alejo-4215@hotmail.com",
-            "telefono": "5562785",
-            "papa": 3.3,
-            "avance_carrera": "66.70",
-            "numero_matriculas": 14,
-            "semestres_cancelados": 1,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 59,
-            "fecha_creacion": "2025-04-25T18:25:39.879Z",
-            "cupo_creditos": 61,
-            "creditos_pendientes": 60,
-            "creditos_disponibles": 1
-        },
-        {
-            "id": 2758,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1025883564",
-            "nombres": "ALEJANDRO",
-            "apellidos": "HORTUA PEREZ",
-            "puntaje_admision": 691.207,
-            "pbm": 93,
-            "apertura": "2023-1S",
-            "genero": "Masculino",
-            "edad": 20,
-            "correo_institucional": "ahortuap@unal.edu.co",
-            "correo_alterno": "alejohortuap@gmail.com",
-            "telefono": null,
-            "papa": 3.0,
-            "avance_carrera": "3.30",
-            "numero_matriculas": 2,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 2,
-            "matricula_periodo_activo": "NO",
-            "plan_estudio_id": 69,
-            "fecha_creacion": "2025-04-25T18:25:39.321Z",
-            "cupo_creditos": 199,
-            "creditos_pendientes": 174,
-            "creditos_disponibles": 25
-        },
-        {
-            "id": 2121,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "Tarjeta de Identidad",
-            "documento": "1020106131",
-            "nombres": "ALEJANDRO",
-            "apellidos": "MORENO JARAMILLO",
-            "puntaje_admision": 513.453,
-            "pbm": 32,
-            "apertura": "2022-2S",
-            "genero": "Masculino",
-            "edad": 20,
-            "correo_institucional": "amorenoja@unal.edu.co",
-            "correo_alterno": "alemj0214@gmail.com",
-            "telefono": null,
-            "papa": 3.1,
-            "avance_carrera": "27.60",
-            "numero_matriculas": 6,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 74,
-            "fecha_creacion": "2025-04-25T18:25:32.666Z",
-            "cupo_creditos": 183,
-            "creditos_pendientes": 132,
-            "creditos_disponibles": 51
-        },
-        {
-            "id": 2419,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1001419965",
-            "nombres": "ALEJANDRO",
-            "apellidos": "RAMIREZ CASTA\u00d1O",
-            "puntaje_admision": 600.48,
-            "pbm": 18,
-            "apertura": "2020-1S",
-            "genero": "Masculino",
-            "edad": 23,
-            "correo_institucional": "aleramirezca@unal.edu.co",
-            "correo_alterno": "ramirezalejo99@gmail.com",
-            "telefono": null,
-            "papa": 3.0,
-            "avance_carrera": "33.50",
-            "numero_matriculas": 11,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 74,
-            "fecha_creacion": "2025-04-25T18:25:35.758Z",
-            "cupo_creditos": 114,
-            "creditos_pendientes": 113,
-            "creditos_disponibles": 1
-        },
-        {
-            "id": 2459,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1040033752",
-            "nombres": "ALEJANDRO",
-            "apellidos": "OSORIO BEDOYA",
-            "puntaje_admision": 621.407,
-            "pbm": 43,
-            "apertura": "2023-1S",
-            "genero": "Masculino",
-            "edad": 19,
-            "correo_institucional": "alosorio@unal.edu.co",
-            "correo_alterno": "alejandrobedoya862@gmail.com",
-            "telefono": null,
-            "papa": 3.2,
-            "avance_carrera": "21.80",
-            "numero_matriculas": 4,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "NO",
-            "plan_estudio_id": 74,
-            "fecha_creacion": "2025-04-25T18:25:36.174Z",
-            "cupo_creditos": 192,
-            "creditos_pendientes": 136,
-            "creditos_disponibles": 56
-        },
-        {
-            "id": 2676,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "Tarjeta de Identidad",
-            "documento": "1036518829",
-            "nombres": "ALEJANDRO",
-            "apellidos": "HENAO CASTRO",
-            "puntaje_admision": 572.892,
-            "pbm": 35,
-            "apertura": "2024-1S",
-            "genero": "Masculino",
-            "edad": 18,
-            "correo_institucional": "alhenaoc@unal.edu.co",
-            "correo_alterno": "alehenao1212@gmail.com",
-            "telefono": null,
-            "papa": 3.0,
-            "avance_carrera": "4.10",
-            "numero_matriculas": 2,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "NO",
-            "plan_estudio_id": 74,
-            "fecha_creacion": "2025-04-25T18:25:38.429Z",
-            "cupo_creditos": 191,
-            "creditos_pendientes": 175,
-            "creditos_disponibles": 16
-        },
-        {
-            "id": 2845,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1000105064",
-            "nombres": "ALEJANDRO",
-            "apellidos": "PAZ USUGA",
-            "puntaje_admision": 568.46,
-            "pbm": 50,
-            "apertura": "2020-2S",
-            "genero": "Masculino",
-            "edad": 23,
-            "correo_institucional": "apazu@unal.edu.co",
-            "correo_alterno": "pazusugaalejo@gmail.com",
-            "telefono": null,
-            "papa": 3.2,
-            "avance_carrera": "25.90",
-            "numero_matriculas": 7,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 2,
-            "matricula_periodo_activo": "NO",
-            "plan_estudio_id": 74,
-            "fecha_creacion": "2025-04-25T18:25:40.235Z",
-            "cupo_creditos": 161,
-            "creditos_pendientes": 126,
-            "creditos_disponibles": 35
-        },
-        {
-            "id": 2658,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "V\u00cdCTIMAS DEL CONFLICTO ARMADO EN COLOMBIA",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1193113733",
-            "nombres": "ALEJANDRO ",
-            "apellidos": "LOPEZ ROJAS",
-            "puntaje_admision": 566.11,
-            "pbm": 29,
-            "apertura": "2021-2S",
-            "genero": "Masculino",
-            "edad": 23,
-            "correo_institucional": "alelopez@unal.edu.co",
-            "correo_alterno": "alejolr20002@gmail.com",
-            "telefono": null,
-            "papa": 3.1,
-            "avance_carrera": "20.60",
-            "numero_matriculas": 6,
-            "semestres_cancelados": 1,
-            "reserva_cupo": 1,
-            "matricula_periodo_activo": "NO",
-            "plan_estudio_id": 72,
-            "fecha_creacion": "2025-04-25T18:25:38.245Z",
-            "cupo_creditos": 193,
-            "creditos_pendientes": 139,
-            "creditos_disponibles": 54
-        },
-        {
-            "id": 2265,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1116777412",
-            "nombres": "ALEXA",
-            "apellidos": "PALLARES ORTEGA",
-            "puntaje_admision": 457.179,
-            "pbm": 3,
-            "apertura": "2024-2S",
-            "genero": "Femenino",
-            "edad": 19,
-            "correo_institucional": "apallares@unal.edu.co",
-            "correo_alterno": "ortegaalexa769@gmail.com",
-            "telefono": null,
-            "papa": 3.1,
-            "avance_carrera": "4.10",
-            "numero_matriculas": 2,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 64,
-            "fecha_creacion": "2025-04-25T18:25:34.163Z",
-            "cupo_creditos": 173,
-            "creditos_pendientes": 177,
-            "creditos_disponibles": -4
-        },
-        {
-            "id": 2123,
-            "acceso": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD",
-            "subacceso": "REGULAR DE PREGRADO",
-            "tipo_documento": "C\u00e9dula",
-            "documento": "1005701106",
-            "nombres": "ALISON VIVIANA",
-            "apellidos": "SALINAS GARCIA",
-            "puntaje_admision": 504.261,
-            "pbm": 14,
-            "apertura": "2022-2S",
-            "genero": "Femenino",
-            "edad": 23,
-            "correo_institucional": "asalinasg@unal.edu.co",
-            "correo_alterno": "viso_454@hotmail.com",
-            "telefono": null,
-            "papa": 3.2,
-            "avance_carrera": "20.60",
-            "numero_matriculas": 5,
-            "semestres_cancelados": 0,
-            "reserva_cupo": 0,
-            "matricula_periodo_activo": "SI",
-            "plan_estudio_id": 55,
-            "fecha_creacion": "2025-04-25T18:25:32.688Z",
-            "cupo_creditos": 189,
-            "creditos_pendientes": 155,
-            "creditos_disponibles": 34
-        }
-    ]
 
     /**
      * Variables booleanas para mostrar carga, exito y error
@@ -591,6 +30,32 @@ export class StudentsListComponent {
     protected successMessage: string = "";
     protected isError: boolean = false;
     protected errorMessage: string = "";
+
+        /**
+     * Página actual para la paginación.
+     * @protected
+     * @property {number} page - Número de página actual.
+     */
+    protected page: number = 1;
+
+    /**
+     * Lista de estudiantes obtenidos.
+     * @protected
+     * @type {EstudianteListResponse}
+     */
+    protected estudiantesListResponse: EstudianteListResponse = {
+        count: 0,
+        next: null,
+        previous: null,
+        results: []
+    };
+
+    /**
+     * Código de la facultad seleccionada.
+     * @protected
+     * @type {string | null}
+     */
+    protected codigoFacultad: string | null = null;
 
    /**
    * Formulario reactivo para el filtro de estudiantes
@@ -662,5 +127,63 @@ export class StudentsListComponent {
         { "id": "PAES - MUNICIPIO", "nombre": "PAES - MUNICIPIO" }
     ]
 
+    /**
+     * Constructor del componente.
+     * @constructor
+     * @param {EstudianteService} estudianteService - Servicio para manejar los estudiantes.
+     * @param {ActivatedRoute} route - Ruta activa para obtener parámetros de la URL.
+   * @param {Router} router - Router para redirigir al usuario.
+     */
+    constructor(private estudianteService: EstudianteService, private route: ActivatedRoute, private router: Router) { }
+
+    /**
+     * Método del ciclo de vida de Angular que se ejecuta al inicializar el componente.
+     * Aquí se cargan los estudiantes disponibles.
+     * @protected
+     * @returns {void}
+     */
+    ngOnInit(): void {
+        this.codigoFacultad = this.route.snapshot.paramMap.get('codigoFacultad');
+        if (!this.codigoFacultad) {
+            this.router.navigate(['/home']);
+            return;
+        }
+        this.loadStudents(this.codigoFacultad);
+
+    }
+
+    /**
+     * Método para cargar los estudiantes.
+     * @protected
+     * @returns {void}
+     */
+    protected loadStudents(codigoFacultad: string): void {
+        this.isLoading = true;
+        this.estudianteService.getEstudiantesByFacultad(this.page, codigoFacultad).subscribe({
+            next: (response: EstudianteListResponse) => {
+                this.isLoading = false;
+                this.estudiantesListResponse = response;
+                console.log(response);
+                this.isSuccess = true;
+                this.successMessage = "Estudiantes cargados correctamente.";
+            },
+            error: (error) => {
+                this.isLoading = false;
+                this.isError = true;
+                this.errorMessage = "Error al cargar los estudiantes: " + error.message;
+            }
+        });
+    }
+
+    get totalPages(): number {
+        return Math.ceil(this.estudiantesListResponse.count / (this.estudianteService.getCustomPageSize())) || 1;
+    }
+
+    protected  onPageChange(page: number): void {
+        if (page >= 1 && page <= this.totalPages) {
+        this.page = page;
+        this.loadStudents(this.codigoFacultad!);
+        }
+    }
 
 }

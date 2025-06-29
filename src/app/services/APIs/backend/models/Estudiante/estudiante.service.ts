@@ -22,18 +22,13 @@ export class EstudianteService {
     return this.http.get<EstudianteListResponse>(`${this.apiUrl}?page=${page}`);
   } 
 
-  // Crear estudiantes masivamente
-  createMasivamenteEstudiantesRiesgo(file: File, facultad: number): Observable<any> {
-    const formData = new FormData();
-    formData.append('archivo', file);
-    formData.append('facultad', facultad.toString());
-    return this.http.post(`${this.apiUrl}cargar-archivo/`, formData);
+  // Obtener estudiantes por facultad
+  getEstudiantesByFacultad(page: number, codigoFacultad: string): Observable<EstudianteListResponse> {
+    return this.http.get<EstudianteListResponse>(`${this.apiUrl}?page=${page}&codigoFacultad=${codigoFacultad}`);
   }
 
-  // Crear estudiantes masivamente
-  createMasivamenteEstudiantesActivos(file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('archivo', file);
-    return this.http.post(`${this.apiUrl}cargar-archivo/estudiantes-activos`, formData);
+  getCustomPageSize(): number {
+    return this.CustomPageSize;
   }
+  
 }

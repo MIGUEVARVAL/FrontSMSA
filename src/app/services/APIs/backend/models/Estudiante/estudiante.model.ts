@@ -1,3 +1,5 @@
+import { PlanEstudio } from "../PlanEstudio/plan-estudio.model";
+
 export interface Estudiante {
     id: number;
     acceso?: string;
@@ -9,8 +11,9 @@ export interface Estudiante {
     puntaje_admision?: number;
     pbm?: number;
     apertura?: string;
+    convocatoria?: string;
     genero?: string;
-    edad?: number;
+    fecha_nacimiento?: Date;
     correo_institucional?: string;
     correo_alterno?: string;
     telefono?: string;
@@ -19,12 +22,15 @@ export interface Estudiante {
     numero_matriculas?: number;
     semestres_cancelados?: number;
     reserva_cupo?: number;
+    victima_conflicto?: string;
+    discapacidad?: string;
     matricula_periodo_activo?: string;
-    plan_estudio?: any; 
-    fecha_creacion?: string; 
+    plan_estudio?: PlanEstudio; 
+    fecha_creacion?: Date; 
     cupo_creditos?: number;
     creditos_pendientes?: number;
     creditos_disponibles?: number;
+    estudiante_riesgo?: string;
 }
 
 export interface EstudianteListResponse {

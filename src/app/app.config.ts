@@ -4,6 +4,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { tokenInterceptor } from './interceptors/token.interceptor';
 import { routes } from './app.routes';
+import { QuillModule } from 'ngx-quill';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,6 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([tokenInterceptor])
     ),
-    importProvidersFrom(ReactiveFormsModule)
+    importProvidersFrom(ReactiveFormsModule),
+    importProvidersFrom(QuillModule.forRoot())
   ]
 };

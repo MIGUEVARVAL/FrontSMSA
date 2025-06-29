@@ -47,4 +47,26 @@ export class LoadFileService {
     return this.http.post(`${this.apiUrl}estudiantes-activos/`, formData);
   }
 
+  /**
+   * Carga un archivo al backend para crear estudiantes en riesgo.
+   * @param facultad El ID de la facultad a la que pertenecen los estudiantes.
+   * @returns Un Observable que emite la respuesta del backend.
+   */
+  loadFileStudentsRisk(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(`${this.apiUrl}estudiantes-riesgo/`, formData);
+  }
+
+  /**
+   * Carga un archivo al backend para cargar las notas de los estudiantes.
+   * @param file El archivo a cargar.
+   * @returns Un Observable que emite la respuesta del backend.
+   */
+  loadFileStudentGrades(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(`${this.apiUrl}notas-estudiantes/`, formData);
+  }
+
 }

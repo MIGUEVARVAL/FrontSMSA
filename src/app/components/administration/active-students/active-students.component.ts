@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
-import { Estudiante, EstudianteListResponse } from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
 import { LoadFileService } from '../../../services/APIs/backend/loadFile/load-file.service';
 
 /**
@@ -51,7 +50,7 @@ export class ActiveStudentsComponent {
    * @param {LoadFileService} loadFileService - Servicio para manejar la carga de archivos.
    */
   constructor(
-    protected loadFileService: LoadFileService
+    private loadFileService: LoadFileService
   ) {}
 
   /**

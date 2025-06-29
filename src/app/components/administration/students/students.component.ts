@@ -4,9 +4,7 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { LoadingComponent } from '../../../templates/loading/loading.component';
 import { FacultadService } from '../../../services/APIs/backend/models/Facultad/facultad.service';
 import { Facultad, FacultadListResponse } from '../../../services/APIs/backend/models/Facultad/facultad.model';
-import { Estudiante, EstudianteListResponse } from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
-import { EstudianteService } from '../../../services/APIs/backend/models/Estudiante/estudiante.service';
-
+import { LoadFileService } from '../../../services/APIs/backend/loadFile/load-file.service';
 /**
  * Utilizada para el manejo de archivos y formularios
  * @type {any}
@@ -57,11 +55,11 @@ export class StudentsComponent {
    * Constructor del componente.
    * @constructor
    * @param {FacultadService} facultadService - Servicio para obtener las facultades.
-   * @param {EstudianteService} estudianteService - Servicio para manejar los estudiantes.
+   * @param {LoadFileService} loadFileService - Servicio para manejar la carga de archivos.
    */
   constructor(
     private facultadService: FacultadService,
-    private estudianteService: EstudianteService
+    private loadFileService: LoadFileService
   ) {}
 
   /**
@@ -101,18 +99,17 @@ export class StudentsComponent {
   protected createStudents(): void {
     this.isLoading = true;
 
-    const facultad = Number(this.loadStudentsForm.get('facultad')?.value);
     const file = this.selectedFile;
 
-    if (!file || !facultad) {
+    if (!file) {
       this.isLoading = false;
       this.isError = true;
-      this.errorMessage = 'Debes seleccionar una facultad y un archivo.';
+      this.errorMessage = 'Debes seleccionar un archivo.';
       return;
     }
 
-    this.estudianteService
-      .createMasivamenteEstudiantesRiesgo(file, facultad)
+    this.loadFileService
+      .loadFileStudentsRisk(file)
       .subscribe({
         next: (response) => {
           this.isLoading = false;
