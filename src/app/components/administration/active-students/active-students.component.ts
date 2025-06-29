@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
-import { FacultadService } from '../../../services/APIs/backend/models/Facultad/facultad.service';
-import { Facultad, FacultadListResponse } from '../../../services/APIs/backend/models/Facultad/facultad.model';
 import { Estudiante, EstudianteListResponse } from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
-import { EstudianteService } from '../../../services/APIs/backend/models/Estudiante/estudiante.service';
+import { LoadFileService } from '../../../services/APIs/backend/loadFile/load-file.service';
 
 /**
  * Utilizada para el manejo de archivos y formularios
@@ -14,13 +12,14 @@ import { EstudianteService } from '../../../services/APIs/backend/models/Estudia
 declare const kitUnal: any;
 
 @Component({
-  selector: 'app-students',
+  selector: 'app-active-students',
   standalone: true,
   imports: [RouterModule, ReactiveFormsModule, LoadingComponent],
-  templateUrl: './students.component.html',
-  styleUrl: './students.component.scss',
+  templateUrl: './active-students.component.html',
+  styleUrl: './active-students.component.scss'
 })
-export class StudentsComponent {
+export class ActiveStudentsComponent {
+
   /**
    * Variables booleanas para mostrar carga, exito y error
    * @protected
@@ -41,27 +40,18 @@ export class StudentsComponent {
    * @protected
    * @type {FormGroup}
    */
-  protected loadStudentsForm = new FormGroup({
-    facultad: new FormControl('', Validators.required),
+  protected createStudentsForm = new FormGroup({
     file: new FormControl('', Validators.required),
   });
 
-  /**
-   * Lista de facultades disponibles para seleccionar
-   * @protected
-   * @type {Array}
-   */
-  protected facultadeslist: Facultad[] = [];
 
   /**
    * Constructor del componente.
    * @constructor
-   * @param {FacultadService} facultadService - Servicio para obtener las facultades.
-   * @param {EstudianteService} estudianteService - Servicio para manejar los estudiantes.
+   * @param {LoadFileService} loadFileService - Servicio para manejar la carga de archivos.
    */
   constructor(
-    private facultadService: FacultadService,
-    private estudianteService: EstudianteService
+    protected loadFileService: LoadFileService
   ) {}
 
   /**
@@ -71,26 +61,8 @@ export class StudentsComponent {
    * @returns {void}
    */
   ngOnInit(): void {
-    this.loadFaculties();
   }
 
-  /**
-   * Función para cargar las facultades
-   * @protected
-   * @returns {void}
-   */
-  protected loadFaculties() {
-    this.isLoading = true;
-    this.facultadService.getFacultades(1).subscribe({
-      next: (facultades: FacultadListResponse) => {
-        this.facultadeslist = facultades.results;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error al cargar las facultades:', error);
-      },
-    });
-  }
 
   /**
    * Función para cargar los estudiantes.
@@ -100,37 +72,32 @@ export class StudentsComponent {
    */
   protected createStudents(): void {
     this.isLoading = true;
-
-    const facultad = Number(this.loadStudentsForm.get('facultad')?.value);
     const file = this.selectedFile;
 
-    if (!file || !facultad) {
+    if (!file) {
       this.isLoading = false;
       this.isError = true;
-      this.errorMessage = 'Debes seleccionar una facultad y un archivo.';
+      this.errorMessage = 'Debes seleccionar un archivo.';
       return;
     }
 
-    this.estudianteService
-      .createMasivamenteEstudiantesRiesgo(file, facultad)
-      .subscribe({
-        next: (response) => {
-          this.isLoading = false;
-          this.isSuccess = true;
-          this.successMessage =
-            'Los estudiantes fueron cargados correctamente.';
-          this.loadStudentsForm.reset();
-          this.selectedFile = null;
-          this.selectedFileName = null;
-        },
-        error: (error) => {
-          this.isLoading = false;
-          this.isError = true;
-          this.errorMessage =
-            'No se lograron cargar los estudiantes, por favor verifique el archivo y vuelva a intentarlo';
-          console.error('Error al cargar los estudiantes:', error);
-        },
-      });
+    this.loadFileService.loadFileActiveStudents(file).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.isSuccess = true;
+        this.successMessage =
+          'Los estudiantes fueron cargados exitosamente. ' +
+          'Se han cargado ' + response.data.length + ' estudiantes.';
+        this.createStudentsForm.reset();
+        this.selectedFile = null;
+        this.selectedFileName = null;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = 'Error al cargar el archivo: ' + error.message;
+      },
+    });
   }
 
   // Función para abrir el explorador de archivos para subir un archivo

@@ -23,10 +23,17 @@ export class EstudianteService {
   } 
 
   // Crear estudiantes masivamente
-  createEstudiantesMasivamente(file: File, facultad: number): Observable<any> {
+  createMasivamenteEstudiantesRiesgo(file: File, facultad: number): Observable<any> {
     const formData = new FormData();
     formData.append('archivo', file);
     formData.append('facultad', facultad.toString());
     return this.http.post(`${this.apiUrl}cargar-archivo/`, formData);
+  }
+
+  // Crear estudiantes masivamente
+  createMasivamenteEstudiantesActivos(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('archivo', file);
+    return this.http.post(`${this.apiUrl}cargar-archivo/estudiantes-activos`, formData);
   }
 }

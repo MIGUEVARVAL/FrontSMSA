@@ -36,4 +36,15 @@ export class LoadFileService {
     return this.http.post(`${this.apiUrl}parametrizacion-asignaturas/`, formData);
   }
 
+  /**
+   * Carga un archivo al backend para crear estudiantes activos.
+   * @param file El archivo a cargar.
+   * @returns Un Observable que emite la respuesta del backend.
+   */
+  loadFileActiveStudents(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(`${this.apiUrl}estudiantes-activos/`, formData);
+  }
+
 }
