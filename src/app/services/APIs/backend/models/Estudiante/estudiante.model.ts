@@ -40,3 +40,23 @@ export interface EstudianteListResponse {
     previous: string | null;
     results: Estudiante[];
 }
+
+export interface EstudianteFilter {
+    orderBy?: string;
+    orderDirection?: string;
+    documento?: string;
+    nombres?: string;
+    apellidos?: string;
+    login?: string;
+    edad?: number | string;
+    programa?: string;
+    acceso?: string;
+    subacceso?: string;
+    estado?: string;
+    matriculas?: number | string;
+    papaMin?: number;
+    papaMax?: number;
+    avanceMin?: number;
+    avanceMax?: number;
+    riesgo?: boolean;
+}

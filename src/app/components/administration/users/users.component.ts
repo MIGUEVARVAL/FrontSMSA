@@ -53,6 +53,10 @@ export class UsersComponent {
   protected activosPage = 1;
   protected solicitudesPage = 1;
 
+  /**
+   * Filtros activos para la búsqueda.
+   * @protected
+   */
   protected filtrosActivos = {
     username: '',
     firstName: '',

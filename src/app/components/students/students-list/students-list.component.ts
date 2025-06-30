@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
-import { Estudiante, EstudianteListResponse } from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
+import { Estudiante, EstudianteListResponse, EstudianteFilter } from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
 import { EstudianteService } from '../../../services/APIs/backend/models/Estudiante/estudiante.service';
 import { PlanEstudio } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.model';
 
 @Component({
-  selector: 'app-students-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
-  templateUrl: './students-list.component.html',
-  styleUrl: './students-list.component.scss'
+    selector: 'app-students-list',
+    standalone: true,
+    imports: [CommonModule, RouterModule, ReactiveFormsModule],
+    templateUrl: './students-list.component.html',
+    styleUrl: './students-list.component.scss'
 })
 export class StudentsListComponent {
 
@@ -31,12 +31,35 @@ export class StudentsListComponent {
     protected isError: boolean = false;
     protected errorMessage: string = "";
 
-        /**
-     * Página actual para la paginación.
-     * @protected
-     * @property {number} page - Número de página actual.
-     */
+    /**
+ * Página actual para la paginación.
+ * @protected
+ * @property {number} page - Número de página actual.
+ */
     protected page: number = 1;
+
+    /**
+     * Filtros activos para la búsqueda.
+     * @protected
+     */
+    protected filtrosActivos: EstudianteFilter = {
+        documento: '',
+        nombres: '',
+        apellidos: '',
+        login: '',
+        programa: '',
+        acceso: '',
+        subacceso: '',
+        estado: '',
+        matriculas: '',
+        papaMin: 0,
+        papaMax: 5,
+        avanceMin: 0,
+        avanceMax: 100,
+        riesgo: false,
+        orderBy: '',
+        orderDirection: ''
+    };
 
     /**
      * Lista de estudiantes obtenidos.
@@ -57,75 +80,30 @@ export class StudentsListComponent {
      */
     protected codigoFacultad: string | null = null;
 
-   /**
-   * Formulario reactivo para el filtro de estudiantes
-   * @protected
-   * @type {FormGroup}
-   */
+    /**
+    * Formulario reactivo para el filtro de estudiantes
+    * @protected
+    * @type {FormGroup}
+    */
     protected filterForm = new FormGroup({
-    orderBy: new FormControl(''),
-    orderDirection: new FormControl('ASC'),
-    documento: new FormControl(''),
-    nombres: new FormControl(''),
-    apellidos: new FormControl(''),
-    login: new FormControl(''),
-    edad: new FormControl(''),
-    programa: new FormControl(''),
-    acceso: new FormControl(''),
-    subacceso: new FormControl(''),
-    estado: new FormControl(''),
-    matriculas: new FormControl(''),
-    papaMin: new FormControl(0, { nonNullable: true }),
-    papaMax: new FormControl(5, { nonNullable: true }),
-    avanceMin: new FormControl(0, { nonNullable: true }),
-    avanceMax: new FormControl(100, { nonNullable: true }),
+        orderBy: new FormControl(''),
+        orderDirection: new FormControl(''),
+        documento: new FormControl(''),
+        nombres: new FormControl(''),
+        apellidos: new FormControl(''),
+        login: new FormControl(''),
+        edad: new FormControl(''),
+        programa: new FormControl(''),
+        acceso: new FormControl(''),
+        subacceso: new FormControl(''),
+        estado: new FormControl(''),
+        matriculas: new FormControl(''),
+        papaMin: new FormControl(0, { nonNullable: true }),
+        papaMax: new FormControl(5, { nonNullable: true }),
+        avanceMin: new FormControl(0, { nonNullable: true }),
+        avanceMax: new FormControl(100, { nonNullable: true }),
+        riesgo: new FormControl(false)
     });
-
-
-    programas = [
-        { "id": 54, "nombre": "3528 - INGENIERÍA ADMINISTRATIVA" },
-        { "id": 55, "nombre": "3536 - INGENIERÍA GEOLÓGICA" },
-        { "id": 56, "nombre": "3534 - INGENIERÍA DE SISTEMAS E INFORMÁTICA" },
-        { "id": 57, "nombre": "3537 - INGENIERÍA INDUSTRIAL" },
-        { "id": 58, "nombre": "3515 - INGENIERÍA ADMINISTRATIVA" },
-        { "id": 59, "nombre": "3522 - INGENIERÍA GEOLÓGICA" },
-        { "id": 60, "nombre": "3518 - INGENIERÍA DE MINAS Y METALURGIA" },
-        { "id": 61, "nombre": "3517 - INGENIERÍA DE CONTROL" },
-        { "id": 62, "nombre": "3516 - INGENIERÍA CIVIL" },
-        { "id": 63, "nombre": "3523 - INGENIERÍA INDUSTRIAL" },
-        { "id": 64, "nombre": "3533 - INGENIERÍA DE PETRÓLEOS" },
-        { "id": 65, "nombre": "3531 - INGENIERÍA DE CONTROL" },
-        { "id": 66, "nombre": "3527 - INGENIERÍA AMBIENTAL" },
-        { "id": 67, "nombre": "3519 - INGENIERÍA DE PETRÓLEOS" },
-        { "id": 68, "nombre": "3529 - INGENIERÍA AMBIENTAL" },
-        { "id": 69, "nombre": "3538 - INGENIERÍA MECÁNICA" },
-        { "id": 70, "nombre": "3532 - INGENIERÍA DE MINAS Y METALURGIA" },
-        { "id": 71, "nombre": "3521 - INGENIERÍA ELÉCTRICA" },
-        { "id": 72, "nombre": "3539 - INGENIERÍA QUÍMICA" },
-        { "id": 73, "nombre": "3530 - INGENIERÍA CIVIL" },
-        { "id": 74, "nombre": "3535 - INGENIERÍA ELÉCTRICA" },
-        { "id": 75, "nombre": "3525 - INGENIERÍA QUÍMICA" },
-        { "id": 76, "nombre": "3524 - INGENIERÍA MECÁNICA" },
-        { "id": 77, "nombre": "3520 - INGENIERÍA DE SISTEMAS E INFORMÁTICA" }
-    ]
-
-    accesos = [
-        { "id": 1, "nombre": "EXAMEN DE ADMISI\u00d3N A LA UNIVERSIDAD" },
-        { "id": 2, "nombre": "REGULAR DE PREGRADO" },
-        { "id": 3, "nombre": "V\u00cdCTIMAS DEL CONFLICTO ARMADO EN COLOMBIA" }
-    ];
-
-    subaccesos = [
-        { "id": "REGULAR DE PREGRADO", "nombre": "REGULAR DE PREGRADO" },
-        { "id": "VÍCTIMAS DEL CONFLICTO ARMADO EN COLOMBIA", "nombre": "VÍCTIMAS DEL CONFLICTO ARMADO EN COLOMBIA" },
-        { "id": "PEAMA - CARIBE - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA", "nombre": "PEAMA - CARIBE - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA" },
-        { "id": "PEAMA - ORINOQUÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA", "nombre": "PEAMA - ORINOQUÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA" },
-        { "id": "PAES - POBLACION NEGRA, AFROCOLOMBIANA, PALENQUERA Y RAIZAL", "nombre": "PAES - POBLACION NEGRA, AFROCOLOMBIANA, PALENQUERA Y RAIZAL" },
-        { "id": "PAES - INDÍGENA", "nombre": "PAES - INDÍGENA" },
-        { "id": "PEAMA - AMAZONÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA", "nombre": "PEAMA - AMAZONÍA - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA" },
-        { "id": "PEAMA - TUMACO - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA", "nombre": "PEAMA - TUMACO - PROGRAMA ESPECIAL DE ADMISIÓN Y MOVILIDAD ACADÉMICA" },
-        { "id": "PAES - MUNICIPIO", "nombre": "PAES - MUNICIPIO" }
-    ]
 
     /**
      * Constructor del componente.
@@ -157,7 +135,7 @@ export class StudentsListComponent {
      * @protected
      * @returns {void}
      */
-    protected loadStudents(codigoFacultad: string, filterData?: Estudiante): void {
+    protected loadStudents(codigoFacultad: string, filterData?: EstudianteFilter): void {
         this.isLoading = true;
         this.estudianteService.getEstudiantesByFacultad(this.page, codigoFacultad, filterData).subscribe({
             next: (response: EstudianteListResponse) => {
@@ -181,26 +159,63 @@ export class StudentsListComponent {
      * @returns {void}
      */
     protected filterStudents(): void {
-        const filterData: Estudiante = {
-            documento: this.filterForm.value.documento ?? "",
-            nombres: this.filterForm.value.nombres ?? "",
-            apellidos: this.filterForm.value.apellidos ?? "",
-            correo_institucional: this.filterForm.value.login ?? "",
-            acceso: this.filterForm.value.acceso ?? undefined,
-            subacceso: this.filterForm.value.subacceso ?? undefined,
-            matricula_periodo_activo: this.filterForm.value.estado ?? "",
+        const formValue = this.filterForm.value;
+        this.filtrosActivos = {
+            orderBy: formValue.orderBy || undefined,
+            orderDirection: formValue.orderDirection || undefined,
+            documento: formValue.documento || undefined,
+            nombres: formValue.nombres || undefined,
+            apellidos: formValue.apellidos || undefined,
+            login: formValue.login || undefined,
+            programa: formValue.programa || undefined,
+            acceso: formValue.acceso || undefined,
+            subacceso: formValue.subacceso || undefined,
+            estado: formValue.estado || undefined,
+            matriculas: formValue.matriculas !== '' && formValue.matriculas != null ? formValue.matriculas : undefined,
+            papaMin: formValue.papaMin,
+            papaMax: formValue.papaMax,
+            avanceMin: formValue.avanceMin,
+            avanceMax: formValue.avanceMax,
+            riesgo: formValue.riesgo ? undefined : true,
         };
-        this.loadStudents(this.codigoFacultad!, filterData);
+        this.loadStudents(this.codigoFacultad!, this.filtrosActivos);
+    }
+
+    /**
+     * Método para limpiar los filtros activos.
+     * @protected
+     * @returns {void}
+     */
+    protected clearFilters(): void {
+        this.filtrosActivos = {
+            documento: '',
+            nombres: '',
+            apellidos: '',
+            login: '',
+            programa: '',
+            acceso: '',
+            subacceso: '',
+            estado: '',
+            matriculas: '',
+            papaMin: 0,
+            papaMax: 5,
+            avanceMin: 0,
+            avanceMax: 100,
+            orderBy: '',
+            orderDirection: ''
+        };
+        this.filterForm.reset();
+        this.loadStudents(this.codigoFacultad!);
     }
 
     get totalPages(): number {
         return Math.ceil(this.estudiantesListResponse.count / (this.estudianteService.getCustomPageSize())) || 1;
     }
 
-    protected  onPageChange(page: number): void {
+    protected onPageChange(page: number): void {
         if (page >= 1 && page <= this.totalPages) {
-        this.page = page;
-        this.loadStudents(this.codigoFacultad!);
+            this.page = page;
+            this.loadStudents(this.codigoFacultad!);
         }
     }
 

@@ -6,7 +6,7 @@
             <form [formGroup]="filterForm" (ngSubmit)="filterStudents()">
 
                 <div class="filter">
-                    <div class="d-flex flex-column gap-8">
+                    <div class="d-flex flex-column gap-4">
 
                         <div class="d-flex flex-column gap-3">
                             <h3 class="text-neutral-30 d-flex align-items-center gap-2">
@@ -19,21 +19,108 @@
                             </div>
                         </div>
 
+                        <div class="">
+                            <div class="d-flex flex-wrap gap-2">
+                                @if (filtrosActivos.documento) {
+                                <p class="tag tag-tertiary-blue">
+                                    Documento: {{ filtrosActivos.documento }}
+                                </p>
+                                }
+                                @if (filtrosActivos.login) {
+                                <p class="tag tag-tertiary-blue">
+                                    Usuario: {{ filtrosActivos.login }}
+                                </p>
+                                }
+                                @if (filtrosActivos.nombres) {
+                                <p class="tag tag-tertiary-blue">
+                                    Nombres: {{ filtrosActivos.nombres }}
+                                </p>
+                                }
+                                @if (filtrosActivos.apellidos) {
+                                <p class="tag tag-tertiary-blue">
+                                    Apellidos: {{ filtrosActivos.apellidos }}
+                                </p>
+                                }
+                                @if (filtrosActivos.papaMin) {
+                                <p class="tag tag-tertiary-blue">
+                                    P.A.P.A. Mín: {{ filtrosActivos.papaMin }}
+                                </p>
+                                }
+                                @if (filtrosActivos.papaMax && filtrosActivos.papaMax < 5) { <p
+                                    class="tag tag-tertiary-blue">
+                                    P.A.P.A. Máx: {{ filtrosActivos.papaMax }}
+                                    </p>
+                                    }
+                                    @if (filtrosActivos.avanceMin ) {
+                                    <p class="tag tag-tertiary-blue">
+                                        Avance Mín: {{ filtrosActivos.avanceMin }}%
+                                    </p>
+                                    }
+                                    @if (filtrosActivos.avanceMax && filtrosActivos.avanceMax < 100) { <p
+                                        class="tag tag-tertiary-blue">
+                                        Avance Máx: {{ filtrosActivos.avanceMax }}%
+                                        </p>
+                                        }
+                                        @if (filtrosActivos.programa) {
+                                        <p class="tag tag-tertiary-blue">
+                                            Programa: {{ filtrosActivos.programa }}
+                                        </p>
+                                        }
+                                        @if (filtrosActivos.estado) {
+                                        <p class="tag tag-tertiary-blue">
+                                            Estado: {{ filtrosActivos.estado === 'SI' ? 'Activo' : 'Inactivo' }}
+                                        </p>
+                                        }
+                                        @if (filtrosActivos.matriculas) {
+                                        <p class="tag tag-tertiary-blue">
+                                            Matrículas: {{ filtrosActivos.matriculas }}
+                                        </p>
+                                        }
+                                        @if (filtrosActivos.acceso) {
+                                        <p class="tag tag-tertiary-blue">
+                                            Acceso: {{ filtrosActivos.acceso }}
+                                        </p>
+                                        }
+                                        @if (filtrosActivos.subacceso) {
+                                        <p class="tag tag-tertiary-blue">
+                                            Subacceso: {{ filtrosActivos.subacceso }}
+                                        </p>
+                                        }
+                                        @if (filtrosActivos.orderBy) {
+                                        <p class="tag tag-tertiary-blue">
+                                            Orden: {{ filtrosActivos.orderBy }}
+                                        </p>
+                                        }
+                                        @if (filtrosActivos.orderDirection) {
+                                        <p class="tag tag-tertiary-blue">
+                                            Orden: {{ filtrosActivos.orderDirection === 'ASC' ? 'Ascendente' :
+                                            'Descendente' }}
+                                        </p>
+                                        }
+                            </div>
+                        </div>
+
                         <div>
-                            <button class="btn btn-link-primary fw-black" type="reset">
+                            <button class="btn btn-link-primary fw-black" type="reset" (click)="clearFilters()">
                                 <span>Limpiar todos los filtros</span>
                                 <span class="material-symbols-outlined icon">delete</span>
                             </button>
                         </div>
                     </div>
 
+                    <div>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="riesgo" formControlName="riesgo" (click)="filterStudents()"/>
+                            <label class="form-check-label">Solo estudiantes en riesgo</label>
+                        </div>
+                    </div>
                     <div class="d-flex flex-column gap-1">
                         <div class="d-flex flex-column gap-3">
                             <div class="row row-cols-1 row-cols-md-2">
                                 <div>
                                     <label for="ordenar" class="form-label">Ordenar por</label>
-                                    <select id="ordenar" class="form-select" formControlName="orderBy" >
-                                        <option value="" disabled selected>Seleccione</option>
+                                    <select id="ordenar" class="form-select" formControlName="orderBy">
+                                        <option value="" selected>Seleccione</option>
                                         <option value="nombres">Nombre completo</option>
                                         <option value="avance_carrera">Avance</option>
                                         <option value="papa">P.A.P.A.</option>
@@ -43,95 +130,40 @@
                                 <div>
                                     <label for="orden" class="form-label">Orden</label>
                                     <select id="orden" class="form-select" formControlName="orderDirection">
+                                        <option value="" selected>Seleccione</option>
                                         <option value="ASC" selected>Ascendente</option>
                                         <option value="DESC">Descendente</option>
                                     </select>
                                 </div>
                             </div>
-                            <div>
-                                <label for="documento" class="form-label">Documento</label>
-                                <input type="text" class="form-control" id="documento" placeholder="12345"
-                                    formControlName="documento" />
+
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <div>
+                                    <label for="documento" class="form-label">Documento</label>
+                                    <input type="text" class="form-control" id="documento" placeholder="12345"
+                                        formControlName="documento" />
+                                </div>
+                                <div>
+                                    <label for="login" class="form-label">Usuario</label>
+                                    <input type="text" class="form-control" id="login" placeholder="mivargasv"
+                                        formControlName="login" />
+                                </div>
+
                             </div>
                             <div class="row row-cols-1 row-cols-md-2">
                                 <div>
                                     <label for="nombres" class="form-label">Nombres</label>
                                     <input type="text" class="form-control" id="nombres" placeholder="Miguel"
-                                    formControlName="nombres" />
+                                        formControlName="nombres" />
                                 </div>
 
                                 <div>
                                     <label for="apellidos" class="form-label">Apellidos</label>
                                     <input type="text" class="form-control" id="apellidos" placeholder="Vargas"
-                                    formControlName="apellidos" />
+                                        formControlName="apellidos" />
                                 </div>
                             </div>
-                            <div class="row row-cols-1 row-cols-md-2">
-                                <div>
-                                    <label for="login" class="form-label">Login</label>
-                                    <input type="text" class="form-control" id="login" placeholder="mivargasv"
-                                    formControlName="login" />
-                                </div>
 
-                                <div>
-                                    <label for="edad" class="form-label">Edad</label>
-                                    <input type="text" class="form-control" id="edad" placeholder="21" 
-                                    formControlName="edad" />
-                                </div>
-                            </div>
-                            <div>
-                                <label for="programa" class="form-label">Programa</label>
-                                <select id="programa" class="form-select"
-                                formControlName="programa">
-                                    <option selected="" value="" disabled>Seleccione</option>
-                                    @for (programa of programas; track $index) {
-                                        <option value="{{programa.id}}">{{programa.nombre}}</option>
-                                    } 
-                                </select>
-                            </div>
-                            <div class="row row-cols-1 row-cols-md-2">
-                                <div>
-                                    <label for="acceso" class="form-label">Acceso</label>
-                                    <select id="acceso" class="form-select" formControlName="acceso">
-                                        <option selected="" value="" disabled>Seleccione</option>
-                                        @for (acceso of accesos; track $index) {
-                                            <option value="{{acceso.id}}">{{acceso.nombre}}</option>
-                                        }
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label for="subacceso" class="form-label">Subacceso</label>
-                                    <select id="subacceso" class="form-select" formControlName="subacceso">
-                                        <option selected="" value="" disabled>Seleccione</option>
-                                        @for (subacceso of subaccesos; track $index) {
-                                            <option value="{{subacceso.id}}">{{subacceso.nombre}}</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row row-cols-1 row-cols-md-2">
-                                <div>
-                                    <label for="estado" class="form-label">Estado</label>
-                                    <select id="estado" class="form-select" formControlName="estado">
-                                        <option selected value="" disabled>Seleccione</option>
-                                        <option value="SI">Activo</option>
-                                        <option value="NO">Inactivo</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label for="matriculas" class="form-label">Matriculas</label>
-                                    <select id="matriculas" class="form-select" formControlName="matriculas">
-                                        <option selected value="0" disabled>Seleccione</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </div>
-                            </div>
                             <div>
                                 <label class="form-label">P.A.P.A.</label>
 
@@ -139,16 +171,16 @@
                                     <div>
                                         <div class="input-group form-range" bs-range>
                                             <label for="papaMin" class="form-label">Mínimo</label>
-                                            <input class="form-control" type="range" formControlName="papaMin" value="0" min="0"
-                                                max="5" step="0.1" />
+                                            <input class="form-control" type="range" formControlName="papaMin" value="0"
+                                                min="0" max="5" step="0.1" />
 
                                         </div>
                                     </div>
                                     <div>
                                         <div class="input-group form-range" bs-range>
                                             <label for="papaMax" class="form-label">Máximo</label>
-                                            <input class="form-control" type="range" formControlName="papaMax" value="5" min="0"
-                                                max="5" step="0.1" />
+                                            <input class="form-control" type="range" formControlName="papaMax" value="5"
+                                                min="0" max="5" step="0.1" />
                                         </div>
                                     </div>
                                 </div>
@@ -163,27 +195,60 @@
                                     <div>
                                         <div class="input-group form-range" bs-range>
                                             <label for="avanceMin" class="form-label">Mínimo</label>
-                                            <input class="form-control" type="range" formControlName="avanceMin" value="0" min="0"
-                                                max="100" step="1" />
+                                            <input class="form-control" type="range" formControlName="avanceMin"
+                                                value="0" min="0" max="100" step="1" />
                                         </div>
                                     </div>
 
                                     <div>
                                         <div class="input-group form-range" bs-range>
                                             <label for="avanceMax" class="form-label">Máximo</label>
-                                            <input class="form-control" type="range" formControlName="avanceMax" value="100"
-                                                min="0" max="100" step="1" />
+                                            <input class="form-control" type="range" formControlName="avanceMax"
+                                                value="100" min="0" max="100" step="1" />
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
+                            <div>
+                                <label for="programa" class="form-label">Programa</label>
+                                <input type="text" class="form-control" id="programa" placeholder="Ingeni.."
+                                    formControlName="programa" />
+                            </div>
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <div>
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <select id="estado" class="form-select" formControlName="estado">
+                                        <option value="">Seleccione</option>
+                                        <option value="SI">Activo</option>
+                                        <option value="NO">Inactivo</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="matriculas" class="form-label">Matriculas</label>
+                                    <input type="number" class="form-control" id="matriculas" placeholder="2"
+                                        formControlName="matriculas" />
+                                </div>
+                            </div>
+                            <div>
+                                <label for="acceso" class="form-label">Acceso</label>
+                                <input type="text" class="form-control" id="acceso" placeholder="Examen.."
+                                    formControlName="acceso" />
+                            </div>
+                            <div>
+                                <label for="subacceso" class="form-label">Subacceso</label>
+                                <input type="text" class="form-control" id="subacceso" placeholder="Regular.."
+                                    formControlName="subacceso" />
+                            </div>
+
+
                         </div>
 
                     </div>
 
                     <div class="d-flex flex-column gap-4">
-                        <button class="btn btn-primary" type="submit" >
+                        <button class="btn btn-primary" type="submit">
                             <span class="material-symbols-outlined">filter_alt</span>
                             <span>Filtrar</span>
                         </button>
@@ -215,129 +280,129 @@
                         <tbody class="table-group-divider">
 
                             @for (estudiante of estudiantesListResponse.results; track $index) {
-                                <tr>
-                                    <td>
-                                        <button 
-                                            class="accordion-button collapsed" 
-                                            type="button" 
-                                            data-bs-toggle="collapse"
-                                            attr.data-bs-target="#collapse{{ estudiante.id }}" 
-                                            aria-expanded="true"
-                                            attr.aria-controls="collapse{{ estudiante.id }}">
-                                        </button>
-                                    </td>
-                                    <td>{{estudiante.nombres}} {{estudiante.apellidos}}</td>
-                                    <td>{{estudiante.avance_carrera}}</td>
-                                    @if(estudiante.papa){
-                                    <td [ngClass]="{'fw-bold': estudiante.papa <= 3.2}">
-                                        @if (estudiante.papa <= 3.2) {
-                                            <ng-container>
-                                            <div class="toolbar sm bg-fixed-warning" role="group" aria-label="Basic example">
-                                                {{ estudiante.papa }}
-                                            </div>
-                                            </ng-container>
+                            <tr>
+                                <td>
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        attr.data-bs-target="#collapse{{ estudiante.id }}" aria-expanded="true"
+                                        attr.aria-controls="collapse{{ estudiante.id }}">
+                                    </button>
+                                </td>
+                                <td>{{estudiante.nombres}} {{estudiante.apellidos}}</td>
+                                <td>{{estudiante.avance_carrera}}</td>
+                                @if(estudiante.papa){
+                                <td [ngClass]="{'fw-bold': estudiante.papa <= 3.2}">
+                                    @if (estudiante.papa <= 3.2) { <ng-container>
+                                        <div class="toolbar sm bg-fixed-warning" role="group"
+                                            aria-label="Basic example">
+                                            {{ estudiante.papa }}
+                                        </div>
+                                        </ng-container>
                                         }
 
                                         @else {
-                                            {{ estudiante.papa }}
+                                        {{ estudiante.papa }}
                                         }
-                                    </td>
-                                    }@else {
-                                        <td>
-                                            Sin información
-                                        </td>
-                                    }
-                                    @if(estudiante.creditos_disponibles){
-                                    <td [ngClass]="{'fw-bold': estudiante.creditos_disponibles <= 10}">
-                                        @if (estudiante.creditos_disponibles <= 10) { 
-                                            <ng-container>
-                                                <div class="toolbar sm bg-fixed-warning" role="group" aria-label="Basic example">
-                                                {{ estudiante.creditos_disponibles }}
-                                                </div>
-                                            </ng-container>
-                                        } @else {
-                                            <ng-container>
-                                                <div>
-                                                {{ estudiante.creditos_disponibles }}
-                                                </div>
-                                            </ng-container>
-                                        }
-                                    </td>
-                                    }@else {
-                                        <td>
-                                            Sin información
-                                        </td>
-                                    }
-                                    <td>
-                                        @if (estudiante.matricula_periodo_activo === 'SI') {
-                                        <button class="tag tag-success">Activo</button>
-                                        
-                                        } @else {
-                                        <button class="tag tag-danger">Inactivo</button>
-                                        }
-                                    </td>
-
-                                    <td>
-                                        <div class="toolbar sm bg-fixed-success" role="group" aria-label="Basic example">
-                                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="Añadir" routerLink="/students/student-info">
-                                                <span class='material-symbols-fill'>visibility</span>
-                                            </a>
+                                </td>
+                                }@else {
+                                <td>
+                                    Sin información
+                                </td>
+                                }
+                                @if(estudiante.creditos_disponibles){
+                                <td [ngClass]="{'fw-bold': estudiante.creditos_disponibles <= 10}">
+                                    @if (estudiante.creditos_disponibles <= 10) { <ng-container>
+                                        <div class="toolbar sm bg-fixed-warning" role="group"
+                                            aria-label="Basic example">
+                                            {{ estudiante.creditos_disponibles }}
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr class="collapse-row accordion">
-                                    <td colspan="8" class="accordion-item">
-                                        <div id="collapse{{estudiante.id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample0">
-                                            <div class="accordion-body row row-cols-1 g-4">
-                                                <div class="col">
-                                                    <dl>
-                                                        <div class="row m-0 py-4 border-top border-neutral-80">
-                                                            <dt class="col-12 col-lg-4 text-neutral-10 text-truncate">
-                                                                Tipo de identificación</dt>
-                                                            <dd class="col-12 col-lg-8 text-neutral-30">
-                                                                {{ estudiante.tipo_documento }}</dd>
-                                                        </div>
+                                        </ng-container>
+                                        } @else {
+                                        <ng-container>
+                                            <div>
+                                                {{ estudiante.creditos_disponibles }}
+                                            </div>
+                                        </ng-container>
+                                        }
+                                </td>
+                                }@else {
+                                <td>
+                                    Sin información
+                                </td>
+                                }
+                                <td>
+                                    @if (estudiante.matricula_periodo_activo === 'SI') {
+                                    <button class="tag tag-success">Activo</button>
 
-                                                        <div class="row m-0 py-4 border-top border-neutral-80">
-                                                            <dt class="col-12 col-lg-4 text-neutral-10">Número de
-                                                                identificación</dt>
-                                                            <dd class="col-12 col-lg-8 text-neutral-30">{{ estudiante.documento }}
-                                                            </dd>
-                                                        </div>
+                                    } @else {
+                                    <button class="tag tag-danger">Inactivo</button>
+                                    }
+                                </td>
 
-                                                        <div class="row m-0 py-4 border-top border-neutral-80">
-                                                            <dt class="col-12 col-lg-4 text-neutral-10">Correo
-                                                                electrónico</dt>
-                                                            <dd class="col-12 col-lg-8 text-neutral-30">
-                                                                {{ estudiante.correo_institucional }}</dd>
-                                                        </div>
+                                <td>
+                                    <div class="toolbar sm bg-fixed-success" role="group" aria-label="Basic example">
+                                        <a type="button" class="btn btn-icon" data-bs-toggle="tooltip"
+                                            data-bs-title="Añadir" routerLink="/students/student-info">
+                                            <span class='material-symbols-fill'>visibility</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="collapse-row accordion">
+                                <td colspan="8" class="accordion-item">
+                                    <div id="collapse{{estudiante.id}}" class="accordion-collapse collapse"
+                                        data-bs-parent="#accordionExample0">
+                                        <div class="accordion-body row row-cols-1 g-4">
+                                            <div class="col">
+                                                <dl>
+                                                    <div class="row m-0 py-4 border-top border-neutral-80">
+                                                        <dt class="col-12 col-lg-4 text-neutral-10 text-truncate">
+                                                            Tipo de identificación</dt>
+                                                        <dd class="col-12 col-lg-8 text-neutral-30">
+                                                            {{ estudiante.tipo_documento }}</dd>
+                                                    </div>
 
-                                                        <div class="row m-0 py-4 border-top border-neutral-80">
-                                                            <dt class="col-12 col-lg-4 text-neutral-10">Correo
-                                                                electrónico alterno</dt>
-                                                            <dd class="col-12 col-lg-8 text-neutral-30">
-                                                                {{ estudiante.correo_alterno }}</dd>
-                                                        </div>
+                                                    <div class="row m-0 py-4 border-top border-neutral-80">
+                                                        <dt class="col-12 col-lg-4 text-neutral-10">Número de
+                                                            identificación</dt>
+                                                        <dd class="col-12 col-lg-8 text-neutral-30">{{
+                                                            estudiante.documento }}
+                                                        </dd>
+                                                    </div>
 
-                                                        <div class="row m-0 py-4 border-top border-neutral-80">
-                                                            <dt class="col-12 col-lg-4 text-neutral-10">Plan
-                                                            </dt>
-                                                            <dd class="col-12 col-lg-8 text-neutral-30">
-                                                                {{ estudiante.plan_estudio?.codigo }} - {{ estudiante.plan_estudio?.nombre }}</dd>
-                                                        </div>
+                                                    <div class="row m-0 py-4 border-top border-neutral-80">
+                                                        <dt class="col-12 col-lg-4 text-neutral-10">Correo
+                                                            electrónico</dt>
+                                                        <dd class="col-12 col-lg-8 text-neutral-30">
+                                                            {{ estudiante.correo_institucional }}</dd>
+                                                    </div>
 
-                                                        <div class="row m-0 py-4 border-top border-neutral-80">
-                                                            <dt class="col-12 col-lg-4 text-neutral-10">Cupo de créditos
-                                                            </dt>
-                                                            <dd class="col-12 col-lg-8 text-neutral-30">
-                                                                {{ estudiante.cupo_creditos }}</dd>
-                                                        </div>
-                                                    </dl>
-                                                </div>
+                                                    <div class="row m-0 py-4 border-top border-neutral-80">
+                                                        <dt class="col-12 col-lg-4 text-neutral-10">Correo
+                                                            electrónico alterno</dt>
+                                                        <dd class="col-12 col-lg-8 text-neutral-30">
+                                                            {{ estudiante.correo_alterno }}</dd>
+                                                    </div>
+
+                                                    <div class="row m-0 py-4 border-top border-neutral-80">
+                                                        <dt class="col-12 col-lg-4 text-neutral-10">Plan
+                                                        </dt>
+                                                        <dd class="col-12 col-lg-8 text-neutral-30">
+                                                            {{ estudiante.plan_estudio?.codigo }} - {{
+                                                            estudiante.plan_estudio?.nombre }}</dd>
+                                                    </div>
+
+                                                    <div class="row m-0 py-4 border-top border-neutral-80">
+                                                        <dt class="col-12 col-lg-4 text-neutral-10">Cupo de créditos
+                                                        </dt>
+                                                        <dd class="col-12 col-lg-8 text-neutral-30">
+                                                            {{ estudiante.cupo_creditos }}</dd>
+                                                    </div>
+                                                </dl>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>
+                            </tr>
                             }
 
                         </tbody>
@@ -348,72 +413,72 @@
             </div>
 
             <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
-                    <p class="flex-grow-1">
-                        Página {{ page }} de {{ totalPages }}
-                    </p>
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination pagination-neutral">
+                <p class="flex-grow-1">
+                    Página {{ page }} de {{ totalPages }}
+                </p>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-neutral">
 
-                            <li class="page-item" [class.disabled]="page === 1">
-                                <a class="page-link" (click)="onPageChange(1)" aria-label="Primera">&laquo;</a>
-                            </li>
-                            <li class="page-item" [class.disabled]="page === 1">
-                                <a class="page-link" (click)="onPageChange(page - 1)" aria-label="Anterior">&lsaquo;</a>
-                            </li>
+                        <li class="page-item" [class.disabled]="page === 1">
+                            <a class="page-link" (click)="onPageChange(1)" aria-label="Primera">&laquo;</a>
+                        </li>
+                        <li class="page-item" [class.disabled]="page === 1">
+                            <a class="page-link" (click)="onPageChange(page - 1)" aria-label="Anterior">&lsaquo;</a>
+                        </li>
 
-                            <!-- Primera página -->
-                            <li class="page-item" [class.active]="page === 1">
-                                <a class="page-link" (click)="onPageChange(1)">1</a>
-                            </li>
+                        <!-- Primera página -->
+                        <li class="page-item" [class.active]="page === 1">
+                            <a class="page-link" (click)="onPageChange(1)">1</a>
+                        </li>
 
-                            <!-- Puntos suspensivos a la izquierda -->
-                            @if (page > 3) {
-                            <li class="page-item"><a class="page-link" aria-label="more"></a></li>
+                        <!-- Puntos suspensivos a la izquierda -->
+                        @if (page > 3) {
+                        <li class="page-item"><a class="page-link" aria-label="more"></a></li>
+                        }
+
+                        <!-- Página anterior -->
+                        @if (page > 2) {
+                        <li class="page-item" [class.active]="false">
+                            <a class="page-link" (click)="onPageChange(page - 1)">{{ page - 1 }}</a>
+                        </li>
+                        }
+
+                        <!-- Página actual (si no es la primera ni la última) -->
+                        @if (page !== 1 && page !== totalPages) {
+                        <li class="page-item" [class.active]="true">
+                            <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
+                        </li>
+                        }
+
+                        <!-- Página siguiente -->
+                        @if (page < totalPages - 1) { <li class="page-item" [class.active]="false">
+                            <a class="page-link" (click)="onPageChange(page + 1)">{{ page + 1 }}</a>
+                            </li>
                             }
 
-                            <!-- Página anterior -->
-                            @if (page > 2) {
-                            <li class="page-item" [class.active]="false">
-                                <a class="page-link" (click)="onPageChange(page - 1)">{{ page - 1 }}</a>
-                            </li>
-                            }
+                            <!-- Puntos suspensivos a la derecha -->
+                            @if (page < totalPages - 2) { <li class="page-item"><a class="page-link"
+                                    aria-label="more"></a></li>
+                                }
 
-                            <!-- Página actual (si no es la primera ni la última) -->
-                            @if (page !== 1 && page !== totalPages) {
-                            <li class="page-item" [class.active]="true">
-                                <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
-                            </li>
-                            }
-
-                            <!-- Página siguiente -->
-                            @if (page < totalPages - 1) { <li class="page-item" [class.active]="false">
-                                <a class="page-link" (click)="onPageChange(page + 1)">{{ page + 1 }}</a>
+                                <!-- Última página (si hay más de una) -->
+                                @if (totalPages > 1) {
+                                <li class="page-item" [class.active]="page === totalPages">
+                                    <a class="page-link" (click)="onPageChange(totalPages)">{{ totalPages }}</a>
                                 </li>
                                 }
 
-                                <!-- Puntos suspensivos a la derecha -->
-                                @if (page < totalPages - 2) { <li class="page-item"><a class="page-link"
-                                        aria-label="more"></a></li>
-                                    }
-
-                                    <!-- Última página (si hay más de una) -->
-                                    @if (totalPages > 1) {
-                                    <li class="page-item" [class.active]="page === totalPages">
-                                        <a class="page-link" (click)="onPageChange(totalPages)">{{ totalPages }}</a>
-                                    </li>
-                                    }
-
-                                    <li class="page-item" [class.disabled]="page === totalPages">
-                                        <a class="page-link" (click)="onPageChange(page + 1)"
-                                            aria-label="Siguiente">&rsaquo;</a>
-                                    </li>
-                                    <li class="page-item" [class.disabled]="page === totalPages">
-                                        <a class="page-link" (click)="onPageChange(totalPages)"
-                                            aria-label="Última">&raquo;</a>
-                                    </li>
-                        </ul>
-                    </nav>
-                </div>
+                                <li class="page-item" [class.disabled]="page === totalPages">
+                                    <a class="page-link" (click)="onPageChange(page + 1)"
+                                        aria-label="Siguiente">&rsaquo;</a>
+                                </li>
+                                <li class="page-item" [class.disabled]="page === totalPages">
+                                    <a class="page-link" (click)="onPageChange(totalPages)"
+                                        aria-label="Última">&raquo;</a>
+                                </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
 
     </div>

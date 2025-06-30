@@ -151,13 +151,16 @@ export class CurriculumInfoComponent {
                 }
             }
         });
-        this.tipologias = Array.from(tipologiaMap.values());
-        console.log("Tipologías cargadas:", this.tipologias);
+        this.tipologias = Array.from(tipologiaMap.values()).sort((a, b) => {
+            if (a.nombre < b.nombre) return -1;
+            if (a.nombre > b.nombre) return 1;
+            return 0;
+        });
         this.isLoading = false;
     }
 
 
-    
+
 
 
 
