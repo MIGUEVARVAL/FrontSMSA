@@ -51,45 +51,6 @@ export class CurriculumComponent {
   protected page: number = 1;
 
   /**
-   * Lista de planes de estudio obtenidos.
-   * @protected
-   * @property {PlanEstudioListResponse} planEstudioListResponse - Lista de planes de estudio.
-   */
-  protected planEstudioListResponse: PlanEstudioListResponse = {
-    count: 0,
-    next: null,
-    previous: null,
-    results: [],
-  };
-
-  /**
-   * Formulario reactivo para la búsqueda de facultades.
-   * @protected
-   * @property {FormGroup} searchFacultadForm - Formulario reactivo para
-   */
-  protected searchCurriculumForm: FormGroup = new FormGroup({
-    codigo: new FormControl(''),
-    nombre: new FormControl(''),
-    nivel: new FormControl(''),
-    tipo_nivel: new FormControl(''),
-    activo: new FormControl(''),
-    facultad_id: new FormControl(''),
-  });
-
-  /**
-   * Objeto que almacena los filtros activos para la búsqueda de facultades.
-   * @protected
-   */
-  protected filtrosActivos: { codigo: string; nombre: string, nivel: string, tipo_nivel: string, activo: boolean | null, facultad_id: number } = {
-    codigo: '',
-    nombre: '',
-    nivel: '',
-    tipo_nivel: '',
-    activo: null,
-    facultad_id: 0
-  };
-
-  /**
    * Formulario reactivo para cargar las notas finales
    * @protected
    * @type {FormGroup}
@@ -108,28 +69,6 @@ export class CurriculumComponent {
     private loadFileService: LoadFileService,
     private planEstudioService: PlanEstudioService
   ) {}
-
-  ngOnInit() {
-    this.loadCurriculum();
-  }
-
-  protected loadCurriculum(filterData?: any): void {
-    this.isLoading = true;
-    this.planEstudioService
-      .getPlanEstudioList(this.page, filterData)
-      .subscribe({
-        next: (response) => {
-          this.isLoading = false;
-          this.planEstudioListResponse = response;
-        },
-        error: (error) => {
-          this.isLoading = false;
-          this.isError = true;
-          this.errorMessage =
-            'Error al cargar los planes de estudio: ' + error.message;
-        },
-      });
-  }
 
   /**
    * Función para cargar los planes de estudio.
@@ -166,39 +105,6 @@ export class CurriculumComponent {
     });
   }
 
-  /**
-   * Método para buscar los planes de estudio.
-   * @protected
-   */
-  protected searchCurriculum(): void {
-    this.isLoading = true;
-    const searchParams = this.searchCurriculumForm.value;
-    this.filtrosActivos = {
-      codigo: searchParams.codigo || '',
-      nombre: searchParams.nombre || '',
-      nivel: searchParams.nivel || '',
-      tipo_nivel: searchParams.tipo_nivel || '',
-      activo: searchParams.activo !== '' ? searchParams.activo : null,
-      facultad_id: searchParams.facultad_id || 0,
-    };
-  }
-
-  /**
-   * Método para limpiar los filtros de búsqueda.
-   * @protected
-   */
-  protected clearFilters(): void {
-    this.searchCurriculumForm.reset();
-    this.filtrosActivos = {
-      codigo: '',
-      nombre: '',
-      nivel: '',
-      tipo_nivel: '',
-      activo: null,
-      facultad_id: 0,
-    };
-    this.loadCurriculum();
-  }
 
   /**
    * Método del ciclo de vida de Angular que se ejecuta después de que la vista del componente ha sido inicializada.
@@ -254,14 +160,4 @@ export class CurriculumComponent {
     }
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.planEstudioListResponse.count / (this.planEstudioService.getCustomPageSize())) || 1;
-  }
-
-  protected  onPageChange(page: number): void {
-    if (page >= 1 && page <= this.totalPages) {
-      this.page = page;
-      this.loadCurriculum(this.searchCurriculumForm.value);
-    }
-  }
 }

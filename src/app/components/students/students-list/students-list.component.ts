@@ -157,9 +157,9 @@ export class StudentsListComponent {
      * @protected
      * @returns {void}
      */
-    protected loadStudents(codigoFacultad: string): void {
+    protected loadStudents(codigoFacultad: string, filterData?: Estudiante): void {
         this.isLoading = true;
-        this.estudianteService.getEstudiantesByFacultad(this.page, codigoFacultad).subscribe({
+        this.estudianteService.getEstudiantesByFacultad(this.page, codigoFacultad, filterData).subscribe({
             next: (response: EstudianteListResponse) => {
                 this.isLoading = false;
                 this.estudiantesListResponse = response;
@@ -173,6 +173,24 @@ export class StudentsListComponent {
                 this.errorMessage = "Error al cargar los estudiantes: " + error.message;
             }
         });
+    }
+
+    /**
+     * Método para filtrar estudiantes según los criterios del formulario.
+     * @protected
+     * @returns {void}
+     */
+    protected filterStudents(): void {
+        const filterData: Estudiante = {
+            documento: this.filterForm.value.documento ?? "",
+            nombres: this.filterForm.value.nombres ?? "",
+            apellidos: this.filterForm.value.apellidos ?? "",
+            correo_institucional: this.filterForm.value.login ?? "",
+            acceso: this.filterForm.value.acceso ?? undefined,
+            subacceso: this.filterForm.value.subacceso ?? undefined,
+            matricula_periodo_activo: this.filterForm.value.estado ?? "",
+        };
+        this.loadStudents(this.codigoFacultad!, filterData);
     }
 
     get totalPages(): number {

@@ -3,69 +3,109 @@
     <div class="row m-0">
         <div class="col-12 col-lg-2">
             <nav class="navbar navbar-expand-lg m-0 p-0 p-lg-auto d-block h-100" style="--bs-navbar-min-height:0;">
+
+                <button class="navbar-toggler" id="side_navigation" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#sidenavMenu" aria-controls="sidenavMenu" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="material-symbols-outlined" translate="no">side_navigation</span> Opciones
+                </button>
+
+
                 <div class="container-fluid p-0 h-100">
                     <div class="collapse navbar-collapse w-100 h-100 m-0" id="sidenavMenu">
-                        <div class="sidenav-link">
+                        <div class="sidenav-link sidenav-link-primary">
                             <div class="close d-flex d-lg-none">
                                 <button type="button" class="btn-close" data-bs-toggle="collapse"
                                     data-bs-target="#sidenavMenu" aria-controls="sidenavMenu" aria-expanded="false"
                                     aria-label="Close"></button>
                             </div>
                             <div class="section">
-                                <div class="header"></div>
+                                <div class="header">Seguridad</div>
 
                                 <div class="items">
 
-
                                     <a routerLink="/administration/users" class="item-link">
                                         <div class="item">
-                                            <span class="material-symbols-outlined icon">groups</span>
+                                            <span class="material-symbols-outlined icon" translate="no">groups</span>
                                             <div class="text">Usuarios</div>
+                                        </div>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="header">Carga manual</div>
+
+                                <div class="items">
+
+                                    <a routerLink="/administration/facultad" class="item-link">
+                                        <div class="item">
+                                            <span class="material-symbols-outlined icon" translate="no">domain</span>
+                                            <div class="text">Facultades</div>
+                                        </div>
+                                    </a>
+
+                                </div>
+                            </div>
+
+
+                            <div class="section">
+                                <div class="header">Carga masiva</div>
+
+                                <div class="items">
+
+                                    <a routerLink="/administration/curriculum" class="item-link">
+                                        <div class="item">
+                                            <span class="material-symbols-outlined icon" translate="no">school</span>
+                                            <div class="text">Planes de estudio</div>
+                                        </div>
+                                    </a>
+                                    <a routerLink="/administration/subject" class="item-link">
+                                        <div class="item">
+                                            <span class="material-symbols-outlined icon" translate="no">book_5</span>
+                                            <div class="text">Parametrización de asignaturas</div>
                                         </div>
                                     </a>
                                     <a routerLink="/administration/active-students" class="item-link">
                                         <div class="item">
-                                            <span class="material-symbols-outlined icon">account_circle</span>
+                                            <span class="material-symbols-outlined icon" translate="no">sentiment_satisfied</span>
                                             <div class="text">Estudiantes activos</div>
                                         </div>
                                     </a>
                                     <a routerLink="/administration/students" class="item-link">
                                         <div class="item">
-                                            <span class="material-symbols-outlined icon">account_circle</span>
+                                            <span class="material-symbols-outlined icon" translate="no">sentiment_stressed</span>
                                             <div class="text">Estudiantes en riesgo</div>
                                         </div>
                                     </a>
                                     <a routerLink="/administration/final-grades" class="item-link">
                                         <div class="item">
-                                            <span class="material-symbols-outlined icon">history</span>
+                                            <span class="material-symbols-outlined icon" translate="no">history</span>
                                             <div class="text">Historial de notas</div>
                                         </div>
                                     </a>
                                     <a routerLink="/administration/cancellations" class="item-link">
                                         <div class="item">
-                                            <span class="material-symbols-outlined icon">hourglass_pause</span>
+                                            <span class="material-symbols-outlined icon" translate="no">power_settings_circle</span>
                                             <div class="text">Asignaturas canceladas</div>
                                         </div>
                                     </a>
-                                    <a routerLink="/administration/facultad" class="item-link">
+
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="header">Ayuda</div>
+
+                                <div class="items">
+
+                                    <a class="item-link">
                                         <div class="item">
-                                            <span class="material-symbols-outlined icon">domain</span>
-                                            <div class="text">Facultades</div>
+                                            <span class="material-symbols-outlined icon" translate="no">help</span>
+                                            <div class="text">Guía de carga</div>
                                         </div>
                                     </a>
-                                    <a routerLink="/administration/subject" class="item-link">
-                                        <div class="item">
-                                            <span class="material-symbols-outlined icon">book_5</span>
-                                            <div class="text">Parametrización de asignaturas</div>
-                                        </div>
-                                    </a>
-                                    <a routerLink="/administration/curriculum" class="item-link">
-                                        <div class="item">
-                                            <span class="material-symbols-outlined icon">school</span>
-                                            <div class="text">Planes de estudio</div>
-                                        </div>
-                                    </a>
-                                    
+
                                 </div>
                             </div>
                         </div>

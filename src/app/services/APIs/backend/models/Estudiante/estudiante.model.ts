@@ -1,7 +1,7 @@
 import { PlanEstudio } from "../PlanEstudio/plan-estudio.model";
 
 export interface Estudiante {
-    id: number;
+    id?: number;
     acceso?: string;
     subacceso?: string;
     tipo_documento?: string;
@@ -26,6 +26,7 @@ export interface Estudiante {
     discapacidad?: string;
     matricula_periodo_activo?: string;
     plan_estudio?: PlanEstudio; 
+    plan_estudio_id?: number;
     fecha_creacion?: Date; 
     cupo_creditos?: number;
     creditos_pendientes?: number;

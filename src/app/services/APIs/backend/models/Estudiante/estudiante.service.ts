@@ -18,13 +18,74 @@ export class EstudianteService {
   }
 
   // Obtener todos los estudiantes
-  getEstudiantes(page: number): Observable<EstudianteListResponse> {
-    return this.http.get<EstudianteListResponse>(`${this.apiUrl}?page=${page}`);
+  getEstudiantesList(page: number, estudiante?:Estudiante): Observable<EstudianteListResponse> {
+    let params = `page=${page}`;
+    if (estudiante) {
+      if (estudiante.acceso) {
+        params += `&acceso=${estudiante.acceso}`;
+      }
+      if (estudiante.subacceso) {
+        params += `&subacceso=${estudiante.subacceso}`;
+      }
+      if (estudiante.documento) {
+        params += `&documento=${estudiante.documento}`;
+      }
+      if (estudiante.nombres) {
+        params += `&nombres=${estudiante.nombres}`;
+      }
+      if (estudiante.apellidos) {
+        params += `&apellidos=${estudiante.apellidos}`;
+      }
+      if (estudiante.plan_estudio_id) {
+        params += `&programa=${estudiante.plan_estudio_id}`;
+      }
+      if (estudiante.correo_institucional) {
+        params += `&login=${estudiante.correo_institucional}`;
+      }
+      if (estudiante.matricula_periodo_activo) {
+        params += `&estado=${estudiante.matricula_periodo_activo}`;
+      }
+      if (estudiante.numero_matriculas) {
+        params += `&matriculas=${estudiante.numero_matriculas}`;
+      }
+    }
+
+    return this.http.get<EstudianteListResponse>(`${this.apiUrl}?${params}`);
   } 
 
   // Obtener estudiantes por facultad
-  getEstudiantesByFacultad(page: number, codigoFacultad: string): Observable<EstudianteListResponse> {
-    return this.http.get<EstudianteListResponse>(`${this.apiUrl}?page=${page}&codigoFacultad=${codigoFacultad}`);
+  getEstudiantesByFacultad(page: number, codigoFacultad: string, estudiante?:Estudiante): Observable<EstudianteListResponse> {
+    let params = `?page=${page}&codigoFacultad=${codigoFacultad}`;
+    if (estudiante) {
+      if (estudiante.acceso) {
+        params += `&acceso=${estudiante.acceso}`;
+      }
+      if (estudiante.subacceso) {
+        params += `&subacceso=${estudiante.subacceso}`;
+      }
+      if (estudiante.documento) {
+        params += `&documento=${estudiante.documento}`;
+      }
+      if (estudiante.nombres) {
+        params += `&nombres=${estudiante.nombres}`;
+      }
+      if (estudiante.apellidos) {
+        params += `&apellidos=${estudiante.apellidos}`;
+      }
+      if (estudiante.plan_estudio_id) {
+        params += `&programa=${estudiante.plan_estudio_id}`;
+      }
+      if (estudiante.correo_institucional) {
+        params += `&login=${estudiante.correo_institucional}`;
+      }
+      if (estudiante.matricula_periodo_activo) {
+        params += `&estado=${estudiante.matricula_periodo_activo}`;
+      }
+      if (estudiante.numero_matriculas) {
+        params += `&matriculas=${estudiante.numero_matriculas}`;
+      }
+    }
+    return this.http.get<EstudianteListResponse>(`${this.apiUrl}${params}`);
   }
 
   getCustomPageSize(): number {

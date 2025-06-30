@@ -3,7 +3,7 @@
     <div class="row m-0">
         <div class="col-12 col-lg-2">
 
-            <form [formGroup]="filterForm">
+            <form [formGroup]="filterForm" (ngSubmit)="filterStudents()">
 
                 <div class="filter">
                     <div class="d-flex flex-column gap-8">
