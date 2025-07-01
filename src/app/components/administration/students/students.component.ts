@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
-import { FacultadService } from '../../../services/APIs/backend/models/Facultad/facultad.service';
-import { Facultad, FacultadListResponse } from '../../../services/APIs/backend/models/Facultad/facultad.model';
 import { LoadFileService } from '../../../services/APIs/backend/loadFile/load-file.service';
 /**
  * Utilizada para el manejo de archivos y formularios
@@ -45,50 +43,13 @@ export class StudentsComponent {
   });
 
   /**
-   * Lista de facultades disponibles para seleccionar
-   * @protected
-   * @type {Array}
-   */
-  protected facultadeslist: Facultad[] = [];
-
-  /**
    * Constructor del componente.
    * @constructor
-   * @param {FacultadService} facultadService - Servicio para obtener las facultades.
    * @param {LoadFileService} loadFileService - Servicio para manejar la carga de archivos.
    */
   constructor(
-    private facultadService: FacultadService,
     private loadFileService: LoadFileService
   ) {}
-
-  /**
-   * Método del ciclo de vida de Angular que se ejecuta al inicializar el componente.
-   * Aquí se cargan las facultades disponibles.
-   * @protected
-   * @returns {void}
-   */
-  ngOnInit(): void {
-    this.loadFaculties();
-  }
-
-  /**
-   * Función para cargar las facultades
-   * @protected
-   * @returns {void}
-   */
-  protected loadFaculties() {
-    this.isLoading = true;
-    this.facultadService.getFacultades(1).subscribe({
-      next: (facultades: FacultadListResponse) => {
-        this.facultadeslist = facultades.results;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error al cargar las facultades:', error);
-      },
-    });
-  }
 
   /**
    * Función para cargar los estudiantes.

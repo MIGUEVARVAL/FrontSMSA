@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
+import { LoadFileService } from '../../../services/APIs/backend/loadFile/load-file.service';
 
 
 /**
@@ -41,9 +42,18 @@ export class FinalGradesComponent {
    * @protected
    * @type {FormGroup}
    */
-  protected loadFinalGradesForm = new FormGroup({
+  protected createFinalGradesForm = new FormGroup({
     file: new FormControl('', Validators.required),
   });
+
+  /**
+     * Constructor del componente.
+     * @param {LoadFileService} loadFileService - Servicio para manejar la carga de archivos.
+     * @constructor
+     */
+    constructor(
+      private loadFileService: LoadFileService,
+    ) {}
 
   /**
    * Función para cargar las notas finales.
@@ -51,23 +61,33 @@ export class FinalGradesComponent {
    * @protected
    * @returns {void}
    */
-  protected loadFinalGrades() {
+  protected createFinalGrades() {
     this.isLoading = true;
+    const file = this.selectedFile;
 
-    if (this.loadFinalGradesForm.invalid) {
+    if (!file) {
       this.isLoading = false;
       this.isError = true;
-      this.errorMessage = "Por favor, complete todos los campos requeridos.";
+      this.errorMessage = 'Debes seleccionar un archivo.';
       return;
     }
-    setTimeout(() => {
-      this.loadFinalGradesForm.reset();
-      this.isLoading = false;
-      this.isSuccess = true;
-      this.successMessage = "Las notas finales fueron cargadas correctamente.";
-      this.isError = false;
-      this.errorMessage = "No se lograron cargar las notas finales, por favor verifique el archivo y vuelva a intentarlo";
-    }, 2000);
+
+    this.loadFileService.loadFileFinalGrades(file).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.isSuccess = true;
+        this.successMessage =
+          'Las notas finales fueron cargadas correctamente.';
+        this.createFinalGradesForm.reset();
+        this.selectedFile = null;
+        this.selectedFileName = null;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = 'No se lograron cargar las notas finales, por favor verifique el archivo y vuelva a intentarlo ' + error.message;
+      },
+    });
   }
 
   /**
@@ -80,6 +100,48 @@ export class FinalGradesComponent {
       const formFile = new kitUnal.FormFile(formFileTriggerEl);
       formFile.init();
     });
+  }
+
+  protected selectedFile: File | null = null;
+
+  protected selectedFileName: string | null = null;
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFileName = input.files[0].name;
+      this.selectedFile = input.files[0];
+    } else {
+      this.selectedFileName = '';
+      this.selectedFile = null;
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropZone = event.currentTarget as HTMLElement;
+    dropZone.classList.add('backgrounUpLoadFile');
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropZone = event.currentTarget as HTMLElement;
+    dropZone.classList.remove('backgrounUpLoadFile');
+  }
+
+  onDrop(event: DragEvent, fileInput: HTMLInputElement): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      this.selectedFile = file;
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      fileInput.files = dataTransfer.files;
+      this.onFileSelected({ target: fileInput } as any);
+    }
   }
 
   

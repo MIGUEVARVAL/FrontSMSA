@@ -1,6 +1,24 @@
-<div class="pt-9">
-    <h2>Asignaturas canceladas</h2>
-</div>
+<div class="col d-flex flex-column gap-3 p-4">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb p-0">
+            <li class="breadcrumb-item">
+                <a routerLink="/">Inicio</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Cancelaciones
+            </li>
+        </ol>
+    </nav>
+
+    <div class="vstack gap-4">
+
+        <div class="d-flex flex-column flex-md-row gap-2 py-5">
+            <div>
+                <h2>Asignaturas canceladas</h2>
+            </div>
+            <div class="flex-grow-1"></div>
+        </div>
 
 @if (isSuccess) {
 <div class="alert alert-success">
@@ -73,6 +91,8 @@
         </form>
 
     </div>
+</div>
+</div>
 </div>
 
 @if (isLoading) {

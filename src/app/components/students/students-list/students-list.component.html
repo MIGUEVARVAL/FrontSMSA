@@ -334,7 +334,11 @@
                                     <button class="tag tag-success">Activo</button>
 
                                     } @else {
-                                    <button class="tag tag-danger">Inactivo</button>
+                                    <button class="tag tag-neutral">Inactivo</button>
+                                    }
+                                    @if (estudiante.estudiante_riesgo) {
+                                    <button class="tag tag-danger">Riesgo</button>
+
                                     }
                                 </td>
 

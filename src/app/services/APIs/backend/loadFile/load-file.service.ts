@@ -63,10 +63,12 @@ export class LoadFileService {
    * @param file El archivo a cargar.
    * @returns Un Observable que emite la respuesta del backend.
    */
-  loadFileStudentGrades(file: File): Observable<any> {
+  loadFileFinalGrades(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file, file.name);
-    return this.http.post(`${this.apiUrl}notas-estudiantes/`, formData);
+    return this.http.post(`${this.apiUrl}notas-finales/`, formData);
   }
+
+
 
 }

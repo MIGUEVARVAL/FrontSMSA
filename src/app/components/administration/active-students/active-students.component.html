@@ -1,80 +1,101 @@
-<div class="pt-9">
-    <h2>Cargar estudiantes activos</h2>
-</div>
+<div class="col d-flex flex-column gap-3 p-4">
 
-@if (isSuccess) {
-<div class="alert alert-success">
-    <div class="alert-header">
-        <div class="alert-icon">
-            <span class="material-symbols-outlined">info</span>
-        </div>
-        <div class="alert-title">
-            {{successMessage}}
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
-}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb p-0">
+            <li class="breadcrumb-item">
+                <a routerLink="/">Inicio</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Estudiantes activos
+            </li>
+        </ol>
+    </nav>
 
-@if (isError) {
-<div class="alert alert-danger">
-    <div class="alert-header">
-        <div class="alert-icon">
-            <span class="material-symbols-outlined">info</span>
-        </div>
-        <div class="alert-title">
-            {{errorMessage}}
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
-}
+    <div class="vstack gap-4">
 
-<div class="form-complete container mt-4">
-    <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
-
-        <form enctype="multipart/form-data" [formGroup]="createStudentsForm" (ngSubmit)="createStudents()">
-
-            <div class="form-complete container">
-                <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
-
-                    <div class="input-group form-file" type-file="drag-drop" (dragover)="onDragOver($event)"
-                        (dragleave)="onDragLeave($event)" (drop)="onDrop($event, fileInput)">
-                        <label class="form-label required">Estudiantes</label>
-                        <div class="form-description">Cargue el listado de los estudiantes que se encuentran en riesgo
-                            por facultad</div>
-
-                        <input #fileInput type="file" class="form-control d-none" accept=".xlsx,.xls,.ods"
-                            (change)="onFileSelected($event)" />
-
-                        <button class="upload-area" type="button" (click)="fileInput.click()">
-                            <span class="material-symbols-outlined">upload_file</span>
-                            <span class="upload-area-title">Arrastra y suelta tus archivos o</span>
-                            <span class="upload-area-caption">Selecciona desde dispositivo</span>
-                        </button>
-
-                        <div class="invalid-feedback">Debes seleccionar un archivo</div>
-                        <div class="form-info end">Archivos soportados: xlsx, xls, ods</div>
-                        @if (selectedFileName) {
-                        <div class="form-text is-files">
-                            <p class="tag tag-tertiary-blue">
-                            Archivo seleccionado: {{ selectedFileName }}
-                            </p>
-                        </div>
-                        }
-
-                    </div>
-
-                    <div class="form-footer text-center mt-4">
-                        <button class="btn btn-primary me-2" type="submit">
-                            Cargar
-                        </button>
-                    </div>
-
-                </div>
+        <div class="d-flex flex-column flex-md-row gap-2 py-5">
+            <div>
+                <h2>Cargar estudiantes activos</h2>
             </div>
-        </form>
+            <div class="flex-grow-1"></div>
+        </div>
 
+        @if (isSuccess) {
+        <div class="alert alert-success">
+            <div class="alert-header">
+                <div class="alert-icon">
+                    <span class="material-symbols-outlined">info</span>
+                </div>
+                <div class="alert-title">
+                    {{successMessage}}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        }
+
+        @if (isError) {
+        <div class="alert alert-danger">
+            <div class="alert-header">
+                <div class="alert-icon">
+                    <span class="material-symbols-outlined">info</span>
+                </div>
+                <div class="alert-title">
+                    {{errorMessage}}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        }
+
+        <div class="form-complete container mt-4">
+            <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
+
+                <form enctype="multipart/form-data" [formGroup]="createStudentsForm" (ngSubmit)="createStudents()">
+
+                    <div class="form-complete container">
+                        <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
+
+                            <div class="input-group form-file" type-file="drag-drop" (dragover)="onDragOver($event)"
+                                (dragleave)="onDragLeave($event)" (drop)="onDrop($event, fileInput)">
+                                <label class="form-label required">Estudiantes</label>
+                                <div class="form-description">Cargue el listado de los estudiantes que se encuentran en
+                                    riesgo
+                                    por facultad</div>
+
+                                <input #fileInput type="file" class="form-control d-none" accept=".xlsx,.xls,.ods"
+                                    (change)="onFileSelected($event)" />
+
+                                <button class="upload-area" type="button" (click)="fileInput.click()">
+                                    <span class="material-symbols-outlined">upload_file</span>
+                                    <span class="upload-area-title">Arrastra y suelta tus archivos o</span>
+                                    <span class="upload-area-caption">Selecciona desde dispositivo</span>
+                                </button>
+
+                                <div class="invalid-feedback">Debes seleccionar un archivo</div>
+                                <div class="form-info end">Archivos soportados: xlsx, xls, ods</div>
+                                @if (selectedFileName) {
+                                <div class="form-text is-files">
+                                    <p class="tag tag-tertiary-blue">
+                                        Archivo seleccionado: {{ selectedFileName }}
+                                    </p>
+                                </div>
+                                }
+
+                            </div>
+
+                            <div class="form-footer text-center mt-4">
+                                <button class="btn btn-primary me-2" type="submit">
+                                    Cargar
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </div>
 </div>
 
