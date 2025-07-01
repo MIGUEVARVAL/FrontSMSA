@@ -64,7 +64,7 @@ export class CurriculumListComponent {
   */
   protected filterForm = new FormGroup({
     orderBy: new FormControl(''),
-    orderDirection: new FormControl('ASC'),
+    orderDirection: new FormControl(''),
     codigo: new FormControl(''),
     nombre: new FormControl(''),
     nivel: new FormControl(''),
@@ -77,14 +77,7 @@ export class CurriculumListComponent {
    * Objeto que almacena los filtros activos para la búsqueda de facultades.
    * @protected
    */
-  protected filtrosActivos: { codigo: string; nombre: string, nivel: string, tipo_nivel: string, activo: boolean | null, facultad_id: number } = {
-    codigo: '',
-    nombre: '',
-    nivel: '',
-    tipo_nivel: '',
-    activo: null,
-    facultad_id: 0
-  };
+  protected filtrosActivos : any  = {};
 
   /**
    * Constructor de la clase CurriculumListComponent
@@ -122,6 +115,10 @@ export class CurriculumListComponent {
     });
   }
 
+  /**
+   * Carga la lista de planes de estudio según los filtros aplicados.
+   * @param filterData filtros para la búsqueda de planes de estudio
+   */
   protected loadCurriculum(filterData?: any): void {
     this.isLoading = true;
     this.planEstudioService
@@ -140,8 +137,13 @@ export class CurriculumListComponent {
       });
   }
 
+  /**
+   * Método para aplicar los filtros y buscar los planes de estudio
+   * @returns {void}
+   * @protected
+   */
   protected searchCurriculum(): void {
-    const filterData: PlanEstudio = {
+    this.filtrosActivos = {
       id: '',
       nombre: this.filterForm.value.nombre ? String(this.filterForm.value.nombre) : '',
       codigo: this.filterForm.value.codigo ? String(this.filterForm.value.codigo) : '',
@@ -152,14 +154,38 @@ export class CurriculumListComponent {
       orderBy: this.filterForm.value.orderBy ? String(this.filterForm.value.orderBy) : undefined,
       orderDirection: this.filterForm.value.orderDirection ? String(this.filterForm.value.orderDirection) : undefined,
     };
-    this.loadCurriculum(filterData);
+    this.loadCurriculum(this.filtrosActivos);
   }
+
+  /**
+   * Método para limpiar los filtros aplicados
+   * @returns {void}
+   * @protected
+   */
+  protected clearFilters(): void {
+    this.filterForm.reset();
+    this.filtrosActivos = {};
+    this.loadCurriculum();
+  }
+
+  /**
+   * Método para obtener el nombre de la facultad
+   * @protected
+   * @returns {string}
+   */
+  protected getFacultadNombre(facultad_id: string | number): string {
+
+    const facultad = this.facultades.find(f => String(f.id) === String(facultad_id));
+    return facultad ? facultad.nombre : '';
+
+  }
+
 
   get totalPages(): number {
     return Math.ceil(this.planEstudioListResponse.count / (this.planEstudioService.getCustomPageSize())) || 1;
   }
 
-  protected  onPageChange(page: number): void {
+  protected onPageChange(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.page = page;
       this.loadCurriculum(this.filterForm.value);
