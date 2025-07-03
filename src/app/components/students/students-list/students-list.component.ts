@@ -102,7 +102,7 @@ export class StudentsListComponent {
         papaMax: new FormControl(5, { nonNullable: true }),
         avanceMin: new FormControl(0, { nonNullable: true }),
         avanceMax: new FormControl(100, { nonNullable: true }),
-        riesgo: new FormControl(false)
+        riesgo: new FormControl(undefined)
     });
 
     /**
@@ -154,6 +154,29 @@ export class StudentsListComponent {
     }
 
     /**
+     * Método para agregar un estudiante a la lista de estudiantes activo y redirigir
+     * @protected
+     * @param {number} estudiante - Estudiante a agregar.
+     * @returns {void}
+     */
+    protected addStudentToActive(estudiante: number): void {
+        this.isLoading = true;
+        this.estudianteService.getEstudianteById(estudiante).subscribe({
+            next: (response: Estudiante) => {
+                this.isLoading = false;
+                this.estudianteService.setEstudianteActive(response);
+                this.router.navigate(['/students/student-info']);
+            },
+            error: (error) => {
+                this.isLoading = false;
+                this.isError = true;
+                this.errorMessage = "Error al cargar el estudiante: " + error.message;
+            }
+        });
+        
+    }
+
+    /**
      * Método para filtrar estudiantes según los criterios del formulario.
      * @protected
      * @returns {void}
@@ -172,11 +195,11 @@ export class StudentsListComponent {
             subacceso: formValue.subacceso || undefined,
             estado: formValue.estado || undefined,
             matriculas: formValue.matriculas !== '' && formValue.matriculas != null ? formValue.matriculas : undefined,
-            papaMin: formValue.papaMin,
-            papaMax: formValue.papaMax,
-            avanceMin: formValue.avanceMin,
-            avanceMax: formValue.avanceMax,
-            riesgo: formValue.riesgo ? undefined : true,
+            papaMin: formValue.papaMin !== 0 ? formValue.papaMin : undefined,
+            papaMax: formValue.papaMax !== 5 ? formValue.papaMax : undefined,
+            avanceMin: formValue.avanceMin !== 0 ? formValue.avanceMin : undefined,
+            avanceMax: formValue.avanceMax !== 100 ? formValue.avanceMax : undefined,
+            riesgo: formValue.riesgo ? true : undefined,
         };
         this.loadStudents(this.codigoFacultad!, this.filtrosActivos);
     }

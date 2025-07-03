@@ -13,6 +13,8 @@ export class EstudianteService {
 
   private apiUrl: string;
 
+  private studentActive: Estudiante | null = null;
+
   constructor(private http: HttpClient, private urlBackendService: UrlBackendService) {
     this.apiUrl = this.urlBackendService.getUrlApi() + 'estudiante/';
   }
@@ -95,6 +97,31 @@ export class EstudianteService {
       }
     }
     return params;
+  }
+
+  //Establecer estudiante activo
+  setEstudianteActive(estudiante: Estudiante): void {
+    sessionStorage.setItem('studentActive', JSON.stringify(estudiante));
+    this.studentActive = estudiante;
+  }
+
+  // Obtener estudiante por ID
+  getEstudianteById(id: number): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.apiUrl}${id}/`);
+  }
+
+  // Obtener estudiante activo
+  getStudentActive(): Estudiante | null {
+    if (this.studentActive) {
+      return this.studentActive;
+    }
+    const studentActiveJson = sessionStorage.getItem('studentActive');
+    if (studentActiveJson) {
+      this.studentActive = JSON.parse(studentActiveJson);
+    } else {
+      this.studentActive = null;
+    }
+    return this.studentActive;
   }
 
 }

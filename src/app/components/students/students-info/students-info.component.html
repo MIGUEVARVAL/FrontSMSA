@@ -14,38 +14,38 @@
                             <div class="items">
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.tipo_documento}}</div>
+                                        <div class="text">{{studentInfo?.tipo_documento}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.documento}}</div>
+                                        <div class="text">{{studentInfo?.documento}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.edad}} años</div>
+                                        <div class="text">Nació el {{studentInfo?.fecha_nacimiento}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.genero}}</div>
+                                        <div class="text">{{studentInfo?.genero}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.correo_institucional}}</div>
+                                        <div class="text">{{studentInfo?.correo_institucional}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.correo_alterno}}</div>
+                                        <div class="text">{{studentInfo?.correo_alterno}}</div>
                                     </div>
                                 </a>
-                                @if (studentInfo.telefono){
+                                @if (studentInfo?.telefono){
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.telefono}}</div>
+                                        <div class="text">{{studentInfo?.telefono}}</div>
                                     </div>
                                 </a>
                                 }
@@ -56,33 +56,39 @@
                                 <div class="items">
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.facultad}}</div>
+                                            <div class="text">{{studentInfo?.plan_estudio?.codigo}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.plan_estudio}}</div>
+                                            <div class="text">{{studentInfo?.plan_estudio?.nombre}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text"> {{studentInfo.semestres_cancelados}} semestres cancelados
+                                            <div class="text">{{studentInfo?.plan_estudio?.tipo_nivel}}</div>
+                                        </div>
+                                    </a>
+                                    <a class="item-link">
+                                        <div class="item">
+                                            <div class="text"> {{studentInfo?.semestres_cancelados}} semestres
+                                                cancelados
                                             </div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.reserva_cupo}} reservas de cupo</div>
+                                            <div class="text">{{studentInfo?.reserva_cupo}} reservas de cupo</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">Cupo de créditos: {{studentInfo.cupo_creditos}}</div>
+                                            <div class="text">Cupo de créditos: {{studentInfo?.cupo_creditos}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">Créditos pendientes: {{studentInfo.creditos_pendientes}}
+                                            <div class="text">Créditos pendientes: {{studentInfo?.creditos_pendientes}}
                                             </div>
                                         </div>
                                     </a>
@@ -95,27 +101,27 @@
                                 <div class="items">
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.acceso}}</div>
+                                            <div class="text">{{studentInfo?.acceso}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.subacceso}}</div>
+                                            <div class="text">{{studentInfo?.subacceso}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">Puntaje: {{studentInfo.puntaje_admision}}</div>
+                                            <div class="text">Puntaje: {{studentInfo?.puntaje_admision}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">PBM: {{studentInfo.pbm}}</div>
+                                            <div class="text">PBM: {{studentInfo?.pbm}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.apertura}} </div>
+                                            <div class="text">{{studentInfo?.apertura}} </div>
                                         </div>
                                     </a>
                                 </div>
@@ -142,18 +148,18 @@
                 <div class="vstack gap-4 flex-grow-1">
                     <div class="bg-neutral-100 h-100 rounded-5 p-5">
 
-                        <h3 class="text-center">{{studentInfo.nombres}} {{studentInfo.apellidos}}</h3>
+                        <h3 class="text-center">{{studentInfo?.nombres}} {{studentInfo?.apellidos}}</h3>
                         <hr class="hr my-4">
 
                         <div class="row row-cols-1 row-cols-md-3 row-cols-xl-5 g-4 justify-content-center">
                             <div class="col">
                                 <div class="card border-0 px-3 py-1 mw-100 h-100"
-                                    [ngClass]="studentInfo.matricula_periodo_activo === 'SI' ? 'bg-success-90' : 'bg-danger-90'">
+                                    [ngClass]="studentInfo?.matricula_periodo_activo === 'SI' ? 'bg-success-90' : 'bg-danger-90'">
                                     <div class="card-body">
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Estado</p>
                                             <h3>
-                                                @if (studentInfo.matricula_periodo_activo == "SI") {
+                                                @if (studentInfo?.matricula_periodo_activo == "SI") {
                                                 Activo
                                                 }@else {
                                                 Inactivo
@@ -170,7 +176,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Matriculas</p>
                                             <h3>
-                                                {{studentInfo.numero_matriculas}}
+                                                {{studentInfo?.numero_matriculas}}
                                             </h3>
                                         </div>
                                     </div>
@@ -183,7 +189,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Creditos disponibles</p>
                                             <h3>
-                                                {{studentInfo.creditos_disponibles}}
+                                                {{studentInfo?.creditos_disponibles}}
                                             </h3>
                                         </div>
                                     </div>
@@ -196,7 +202,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">PAPA</p>
                                             <h3>
-                                                {{studentInfo.papa}}
+                                                {{studentInfo?.papa}}
                                             </h3>
                                         </div>
                                     </div>
@@ -209,7 +215,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Avance carrera</p>
                                             <h3>
-                                                {{studentInfo.avance_carrera}}
+                                                {{studentInfo?.avance_carrera}}
                                             </h3>
                                         </div>
                                     </div>
@@ -360,7 +366,7 @@
 
 
                                     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 ">
-                                        @for (asignatura of academicInfo; track $index) {
+                                        @for (asignatura of HistorialAcademico; track $index) {
 
                                         <div class="col">
                                             <div class="card px-3 py-1 mw-100 h-100 rounded-diag-secondary border-0"
@@ -373,7 +379,7 @@
 
                                                         <div class="d-flex justify-content-between my-2">
                                                             <div class="item-flex">
-                                                                {{asignatura.codigo}}</div>
+                                                                {{asignatura.asignatura.codigo}}</div>
                                                             <div class="item-flex fw-regular"><span
                                                                     class="tag tag-neutral">{{asignatura.semestre}}</span>
                                                             </div>
@@ -382,12 +388,12 @@
 
 
                                                         <p class="fw-regular"></p>
-                                                        <p>{{asignatura.asignatura}}</p>
+                                                        <p>{{asignatura.asignatura.nombre}}</p>
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <p class="small text-neutral-60 fw-regular">
                                                                     Créditos:
-                                                                    {{asignatura.creditos}}</p>
+                                                                    {{asignatura.asignatura.creditos}}</p>
                                                                 <p class="small text-neutral-60 fw-regular">
                                                                     Veces vista:
                                                                     {{asignatura.veces_vista}}</p>
@@ -413,39 +419,40 @@
                                     tabindex="0">
                                     <div class="accordion" id="accordionExample9">
 
-                                        @for (tipologia of tipologies; track $index) {
+                                        @for (tipologia of HistorialAcademicoBytipologies; track $index) {
 
+                                        @if (tipologia.historialAcademico.length > 0) {
                                         <div class="accordion-item rounded-3">
-                                            <h2 class="accordion-header" [id]="'heading-tipologia-'+tipologia.id">
+                                            <h2 class="accordion-header"
+                                                [id]="'heading-tipologia-'+tipologia.tipologia.id">
                                                 <button class="accordion-button " type="button"
                                                     data-bs-toggle="collapse"
-                                                    [attr.data-bs-target]="'#collapse-tipologia-'+tipologia.id"
+                                                    [attr.data-bs-target]="'#collapse-tipologia-'+tipologia.tipologia.id"
                                                     aria-expanded=" true"
-                                                    [attr.aria-controls]="'collapse-tipologia-'+tipologia.id">
-                                                    {{tipologia.nombre}}
+                                                    [attr.aria-controls]="'collapse-tipologia-'+tipologia.tipologia.id">
+                                                    {{tipologia.tipologia.nombre}}
                                                 </button>
                                             </h2>
-                                            <div [id]="'collapse-tipologia-'+tipologia.id"
+                                            <div [id]="'collapse-tipologia-'+tipologia.tipologia.id"
                                                 class="accordion-collapse collapse show ">
                                                 <div class="accordion-body">
 
                                                     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 ">
 
-                                                        @for (asignatura of tipologia.asignaturas; track $index) {
-
-                                                        <div class="col">
+                                                        @for (asignatura of tipologia.historialAcademico; track $index) {
+<div class="col">
                                                             <div class="card px-3 py-1 mw-100 h-100 rounded-diag-secondary border-0"
                                                                 [ngClass]="asignatura.nota > 3.8 ? 'bg-success-95' :
-                                                                asignatura.nota >= 3.0 ? 'bg-warning-95' :
-                                                                asignatura.estado === 'AP' ? 'bg-success-95' :
-                                                                asignatura.nota === null ? 'bg-neutral-95' : 'bg-danger-95'">
+                                                            asignatura.nota >= 3.0 ? 'bg-warning-95' :
+                                                            asignatura.estado === 'AP' ? 'bg-success-95' :
+                                                            asignatura.nota === null ? 'bg-neutral-95' : 'bg-danger-95'">
                                                                 <div class="card-body">
                                                                     <div class="card-stack gap-0 m-0">
 
                                                                         <div
                                                                             class="d-flex justify-content-between my-2">
                                                                             <div class="item-flex">
-                                                                                {{asignatura.codigo}}</div>
+                                                                                {{asignatura.asignatura.codigo}}</div>
                                                                             <div class="item-flex fw-regular"><span
                                                                                     class="tag tag-neutral">{{asignatura.semestre}}</span>
                                                                             </div>
@@ -454,13 +461,14 @@
 
 
                                                                         <p class="fw-regular"></p>
-                                                                        <p>{{asignatura.asignatura}}</p>
+                                                                        <p>{{asignatura.asignatura.nombre}}</p>
                                                                         <div class="row">
                                                                             <div class="col-6">
                                                                                 <p
                                                                                     class="small text-neutral-60 fw-regular">
                                                                                     Créditos:
-                                                                                    {{asignatura.creditos}}</p>
+                                                                                    {{asignatura.asignatura.creditos}}
+                                                                                </p>
                                                                                 <p
                                                                                     class="small text-neutral-60 fw-regular">
                                                                                     Veces vista:
@@ -482,13 +490,13 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         }
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </div>
+                                        }
                                         }
                                     </div>
                                 </div>
@@ -509,21 +517,21 @@
                                                 class="accordion-collapse collapse show">
                                                 <div class="accordion-body">
                                                     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-                                                        @for (asignatura of academicInfo; track $index) {
+                                                        @for (asignatura of HistorialAcademico; track $index) {
                                                         @if (asignatura.semestre == semestre){
                                                         <div class="col">
                                                             <div class="card px-3 py-1 mw-100 h-100 rounded-diag-secondary border-0"
                                                                 [ngClass]="asignatura.nota > 3.8 ? 'bg-success-95' :
-                                                                asignatura.nota >= 3.0 ? 'bg-warning-95' :
-                                                                asignatura.estado === 'AP' ? 'bg-success-95' :
-                                                                asignatura.nota === null ? 'bg-neutral-95' : 'bg-danger-95'">
+                                                            asignatura.nota >= 3.0 ? 'bg-warning-95' :
+                                                            asignatura.estado === 'AP' ? 'bg-success-95' :
+                                                            asignatura.nota === null ? 'bg-neutral-95' : 'bg-danger-95'">
                                                                 <div class="card-body">
                                                                     <div class="card-stack gap-0 m-0">
 
                                                                         <div
                                                                             class="d-flex justify-content-between my-2">
                                                                             <div class="item-flex">
-                                                                                {{asignatura.codigo}}</div>
+                                                                                {{asignatura.asignatura.codigo}}</div>
                                                                             <div class="item-flex fw-regular"><span
                                                                                     class="tag tag-neutral">{{asignatura.semestre}}</span>
                                                                             </div>
@@ -532,13 +540,14 @@
 
 
                                                                         <p class="fw-regular"></p>
-                                                                        <p>{{asignatura.asignatura}}</p>
+                                                                        <p>{{asignatura.asignatura.nombre}}</p>
                                                                         <div class="row">
                                                                             <div class="col-6">
                                                                                 <p
                                                                                     class="small text-neutral-60 fw-regular">
                                                                                     Créditos:
-                                                                                    {{asignatura.creditos}}</p>
+                                                                                    {{asignatura.asignatura.creditos}}
+                                                                                </p>
                                                                                 <p
                                                                                     class="small text-neutral-60 fw-regular">
                                                                                     Veces vista:
@@ -605,11 +614,12 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button show" type="button" data-bs-toggle="collapse"
-                                    [attr.data-bs-target]="'#collapse'+records.id" aria-expanded="false" [attr.aria-controls]="'collapse'+records.id">
+                                    [attr.data-bs-target]="'#collapse'+records.id" aria-expanded="false"
+                                    [attr.aria-controls]="'collapse'+records.id">
                                     {{records.fecha}}
                                 </button>
                             </h2>
-                            <div [id]="'collapse'+records.id" class="accordion-collapse collapse show" >
+                            <div [id]="'collapse'+records.id" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
                                     {{records.actividad}}
                                 </div>
