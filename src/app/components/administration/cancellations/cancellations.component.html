@@ -20,81 +20,89 @@
             <div class="flex-grow-1"></div>
         </div>
 
-@if (isSuccess) {
-<div class="alert alert-success">
-    <div class="alert-header">
-        <div class="alert-icon">
-            <span class="material-symbols-outlined">info</span>
-        </div>
-        <div class="alert-title">
-            {{successMessage}}
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
-}
-
-@if (isError) {
-<div class="alert alert-danger">
-    <div class="alert-header">
-        <div class="alert-icon">
-            <span class="material-symbols-outlined">info</span>
-        </div>
-        <div class="alert-title">
-            {{errorMessage}}
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
-}
-
-<div class="form-complete container mt-4">
-    <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
-
-
-
-        <form enctype="multipart/form-data" [formGroup]="loadCancellationsForm" (ngSubmit)="loadCancellations()">
-
-            <div class="form-complete container">
-                <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
-
-                    <div class="input-group form-file" type-file="drag-drop">
-                        <label class="form-label required">Cancelaciones</label>
-                        <div class="form-description">Este reporte se extrae de BI Publisher y se carga sin realizar
-                            cambios</div>
-                        <input type="file" class="form-control is-invalid" formControlName="file" 
-                            accept=".xlsx,.xls,.ods" />
-
-                        <button class="upload-area" type="button" data-bs-upload>
-                            <span class="material-symbols-outlined">
-                                upload_file
-                            </span>
-                            <span class="upload-area-title"> Arrastra y suelta tus archivos o </span>
-                            <span class="upload-area-caption"> Selecciona desde dispositivo </span>
-                        </button>
-
-                        <div class="invalid-feedback">Debes seleccionar un archivo</div>
-                        <div class="form-info end">Archivos soportados: xlsx, xls, ods</div>
-                        <div class="form-text is-files">Archivos seleccionados:</div>
-
-                        <ul class="file-list" data-bs-list-files></ul>
-                    </div>
-
-                    <div class="form-footer text-center mt-4">
-                        <button class="btn btn-primary me-2" name="cargarCancelaciones" type="submit">
-                            Cargar
-                        </button>
-                    </div>
-
+        @if (isSuccess) {
+        <div class="alert alert-success">
+            <div class="alert-header">
+                <div class="alert-icon">
+                    <span class="material-symbols-outlined">info</span>
                 </div>
+                <div class="alert-title">
+                    {{successMessage}}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        </form>
+        </div>
+        }
 
+        @if (isError) {
+        <div class="alert alert-danger">
+            <div class="alert-header">
+                <div class="alert-icon">
+                    <span class="material-symbols-outlined">info</span>
+                </div>
+                <div class="alert-title">
+                    {{errorMessage}}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        }
+
+        <div class="form-complete container mt-4">
+            <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
+
+
+
+                <form enctype="multipart/form-data" [formGroup]="loadCancellationsForm"
+                    (ngSubmit)="loadCancellations()">
+
+                    <div class="form-complete container">
+                        <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
+
+                             <div class="input-group form-file" type-file="drag-drop" (dragover)="onDragOver($event)"
+                                (dragleave)="onDragLeave($event)" (drop)="onDrop($event, fileInput)">
+                                <label class="form-label required">Cancelaciones</label>
+                                <div class="form-description">Este reporte se extrae de BI Publisher y se carga sin
+                                    realizar
+                                    cambios</div>
+                                <input #fileInput type="file" class="form-control d-none" accept=".xlsx,.xls"
+                                    (change)="onFileSelected($event)" />
+
+                                <button class="upload-area" type="button" (click)="fileInput.click()">
+                                    <span class="material-symbols-outlined">
+                                        upload_file
+                                    </span>
+                                    <span class="upload-area-title"> Arrastra y suelta tus archivos o </span>
+                                    <span class="upload-area-caption"> Selecciona desde dispositivo </span>
+                                </button>
+
+                                <div class="invalid-feedback">Debes seleccionar un archivo</div>
+                                <div class="form-info end">Archivos soportados: xlsx, xls</div>
+
+                                @if (selectedFileName) {
+                                <div class="form-text is-files">
+                                    <p class="tag tag-tertiary-blue">
+                                        Archivo seleccionado: {{ selectedFileName }}
+                                    </p>
+                                </div>
+                                }
+                            </div>
+
+                            <div class="form-footer text-center mt-4">
+                                <button class="btn btn-primary me-2" name="cargarCancelaciones" type="submit">
+                                    Cargar
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </div>
-</div>
-</div>
 </div>
 
 @if (isLoading) {
-    <app-loading></app-loading>
+<app-loading></app-loading>
 }

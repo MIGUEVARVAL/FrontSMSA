@@ -69,6 +69,17 @@ export class LoadFileService {
     return this.http.post(`${this.apiUrl}notas-finales/`, formData);
   }
 
+  /**
+   * Carga un archivo al backend para cargar las cancelaciones de los estudiantes.
+   * @param file El archivo a cargar.
+   * @returns Un Observable que emite la respuesta del backend.
+   */
+  loadFileCancellation(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(`${this.apiUrl}cancelaciones/`, formData);
+  }
+
 
 
 }

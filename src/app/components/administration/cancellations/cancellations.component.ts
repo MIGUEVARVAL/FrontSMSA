@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
+import { LoadFileService } from '../../../services/APIs/backend/loadFile/load-file.service';
 
 /**
  * Utilizada para el manejo de archivos y formularios
@@ -44,6 +45,15 @@ export class CancellationsComponent {
   });
 
   /**
+     * Constructor del componente.
+     * @param {LoadFileService} loadFileService - Servicio para manejar la carga de archivos.
+     * @constructor
+     */
+    constructor(
+      private loadFileService: LoadFileService,
+    ) {}
+
+  /**
    * Función para cargar las asignaturas canceladas.
    * Está función se ejecuta al enviar el formulario.
    * @protected
@@ -51,21 +61,26 @@ export class CancellationsComponent {
    */
   protected loadCancellations() {
     this.isLoading = true;
+    const file = this.selectedFile;
 
-    if (this.loadCancellationsForm.invalid) {
+    if (!file) {
       this.isLoading = false;
       this.isError = true;
-      this.errorMessage = "Por favor, complete todos los campos requeridos.";
+      this.errorMessage = 'Debes seleccionar un archivo.';
       return;
     }
-    setTimeout(() => {
-      this.loadCancellationsForm.reset();
-      this.isLoading = false;
-      this.isSuccess = true;
-      this.successMessage = "Las asignaturas canceladas fueron cargadas correctamente.";
-      this.isError = false;
-      this.errorMessage = "No se lograron cargar las asignaturas canceladas, por favor verifique el archivo y vuelva a intentarlo";
-    }, 2000);
+    this.loadFileService.loadFileCancellation(file).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.isSuccess = true;
+        this.successMessage = response.message || 'Asignaturas canceladas cargadas exitosamente.';
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = error.error?.message || 'Error al cargar las asignaturas canceladas.';
+      }
+    });
   }
 
   /**
@@ -78,6 +93,48 @@ export class CancellationsComponent {
       const formFile = new kitUnal.FormFile(formFileTriggerEl);
       formFile.init();
     });
+  }
+
+  protected selectedFile: File | null = null;
+
+  protected selectedFileName: string | null = null;
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFileName = input.files[0].name;
+      this.selectedFile = input.files[0];
+    } else {
+      this.selectedFileName = '';
+      this.selectedFile = null;
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropZone = event.currentTarget as HTMLElement;
+    dropZone.classList.add('backgrounUpLoadFile');
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropZone = event.currentTarget as HTMLElement;
+    dropZone.classList.remove('backgrounUpLoadFile');
+  }
+
+  onDrop(event: DragEvent, fileInput: HTMLInputElement): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      this.selectedFile = file;
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      fileInput.files = dataTransfer.files;
+      this.onFileSelected({ target: fileInput } as any);
+    }
   }
 
 }

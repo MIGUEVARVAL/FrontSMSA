@@ -51,52 +51,53 @@
         <div class="form-complete container mt-4">
             <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
 
-                <form enctype="multipart/form-data" [formGroup]="createFinalGradesForm" (ngSubmit)="createFinalGrades()">
+                <form enctype="multipart/form-data" [formGroup]="createFinalGradesForm"
+                    (ngSubmit)="createFinalGrades()">
 
                     <div class="form-complete container">
-            <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
+                        <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
 
-                <div class="input-group form-file" type-file="drag-drop" (dragover)="onDragOver($event)"
-                    (dragleave)="onDragLeave($event)" (drop)="onDrop($event, fileInput)">
-                    <label class="form-label required">Notas finales</label>
-                    <div class="form-description">Este reporte se extrae de BI Publisher y se carga sin
-                        realizar
-                        cambios</div>
+                            <div class="input-group form-file" type-file="drag-drop" (dragover)="onDragOver($event)"
+                                (dragleave)="onDragLeave($event)" (drop)="onDrop($event, fileInput)">
+                                <label class="form-label required">Notas finales</label>
+                                <div class="form-description">Este reporte se extrae de BI Publisher y se carga sin
+                                    realizar
+                                    cambios</div>
 
-                    <input #fileInput type="file" class="form-control d-none" accept=".xlsx,.xls,.ods"
-                        (change)="onFileSelected($event)" />
+                                <input #fileInput type="file" class="form-control d-none" accept=".xlsx,.xls"
+                                    (change)="onFileSelected($event)" />
 
-                    <button class="upload-area" type="button" (click)="fileInput.click()">
-                        <span class="material-symbols-outlined">upload_file</span>
-                        <span class="upload-area-title">Arrastra y suelta tus archivos o</span>
-                        <span class="upload-area-caption">Selecciona desde dispositivo</span>
-                    </button>
+                                <button class="upload-area" type="button" (click)="fileInput.click()">
+                                    <span class="material-symbols-outlined">upload_file</span>
+                                    <span class="upload-area-title">Arrastra y suelta tus archivos o</span>
+                                    <span class="upload-area-caption">Selecciona desde dispositivo</span>
+                                </button>
 
-                    <div class="invalid-feedback">Debes seleccionar un archivo</div>
-                    <div class="form-info end">Archivos soportados: xlsx, xls, ods</div>
-                    @if (selectedFileName) {
-                    <div class="form-text is-files">
-                        <p class="tag tag-tertiary-blue">
-                            Archivo seleccionado: {{ selectedFileName }}
-                        </p>
+                                <div class="invalid-feedback">Debes seleccionar un archivo</div>
+                                <div class="form-info end">Archivos soportados: xlsx, xls</div>
+                                @if (selectedFileName) {
+                                <div class="form-text is-files">
+                                    <p class="tag tag-tertiary-blue">
+                                        Archivo seleccionado: {{ selectedFileName }}
+                                    </p>
+                                </div>
+                                }
+
+                            </div>
+
+                            <div class="form-footer text-center mt-4">
+                                <button class="btn btn-primary me-2" type="submit">
+                                    Cargar
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
-                    }
-
-                </div>
-
-                <div class="form-footer text-center mt-4">
-                    <button class="btn btn-primary me-2" type="submit">
-                        Cargar
-                    </button>
-                </div>
-
-            </div>
-        </div>
                 </form>
 
             </div>
         </div>
-        
+
     </div>
 </div>
 
