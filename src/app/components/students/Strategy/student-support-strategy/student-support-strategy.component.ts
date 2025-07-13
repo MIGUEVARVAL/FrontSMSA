@@ -86,11 +86,11 @@ export class StudentSupportStrategyComponent {
      */
   ngOnInit() {
     this.studentInfo = this.studentInfoService.getStudentActive();
-    this.getStrategies();
     if (!this.studentInfo) {
       this.router.navigate(['/home']);
       return;
     }
+    this.getStrategies();
   }
 
   /**

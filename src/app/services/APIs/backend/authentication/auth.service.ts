@@ -81,6 +81,7 @@ export class AuthService {
   }
   // Si no hay usuario en memoria, intenta cargarlo de localStorage
   const userInfoString = localStorage.getItem('userInfo');
+  console.log('userInfoString', userInfoString);
   if (userInfoString) {
     user = JSON.parse(userInfoString);
     // Actualiza el BehaviorSubject para futuras llamadas

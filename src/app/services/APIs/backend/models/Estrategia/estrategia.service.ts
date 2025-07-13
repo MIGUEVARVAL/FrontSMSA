@@ -9,7 +9,7 @@ import { UrlBackendService } from '../../url-backend.service';
 })
 export class EstrategiaService {
 
-  private readonly CustomPageSize = 40;
+  private readonly CustomPageSize = 20;
 
   private apiUrl: string;
 
@@ -21,6 +21,11 @@ export class EstrategiaService {
   getEstrategiasList(page: number, estudianteId: string): Observable<EstrategiaListResponse> {
     let params = `page=${page}&estudiante=${estudianteId}`;
     return this.http.get<EstrategiaListResponse>(`${this.apiUrl}?${params}`);
+  }
+
+  // Obtener una estrategia por ID
+  getEstrategiaById(id: string): Observable<Estrategia> {
+    return this.http.get<Estrategia>(`${this.apiUrl}${id}/`);
   }
 
   // Crear una nueva estrategia

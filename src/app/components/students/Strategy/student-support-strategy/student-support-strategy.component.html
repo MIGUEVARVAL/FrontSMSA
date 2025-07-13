@@ -253,7 +253,7 @@
                                     <div class="card-body">
                                         <div class="card-stack">
                                             <h5 class="card-title">{{strategy.titulo}}</h5>
-                                            <h6 class="card-subtitle">Creado el {{strategy.fechaCreacion}}</h6>
+                                            <h6 class="card-subtitle">Creado el {{strategy?.fecha || 'Fecha no disponible' | date}}</h6>
                                         </div>
                                         <p class="card-text overflow-auto" style="max-height: 100px;">
                                             {{strategy.observaciones || 'No hay observaciones disponibles.'}}

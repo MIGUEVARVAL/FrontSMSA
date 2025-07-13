@@ -12,7 +12,9 @@ export class DatePipe implements PipeTransform {
 
   transform(value: string | Date): string {
     if (!value) return '';
-    const fecha = new Date(value);
+    // Parse ISO 8601 string with timezone correctly
+    const fecha = typeof value === 'string' ? new Date(value) : value;
+    if (isNaN(fecha.getTime())) return '';
     const dia = fecha.getDate().toString().padStart(2, '0');
     const mes = this.meses[fecha.getMonth()];
     const año = fecha.getFullYear();

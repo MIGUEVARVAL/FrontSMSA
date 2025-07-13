@@ -1,6 +1,6 @@
 export interface Estrategia {
     id?: number;
-    fechaCreacion?: string;
+    fecha?: string;
     titulo: string;
     observaciones: string | null;
     estudiante?: string; 

@@ -6,6 +6,8 @@ import { Estudiante} from '../../../services/APIs/backend/models/Estudiante/estu
 import { HistorialAcademicoService } from '../../../services/APIs/backend/models/HistorialAcademico/historial-academico.service';
 import { HistorialAcademico, HistorialAcademicoByPlanEstudios } from '../../../services/APIs/backend/models/HistorialAcademico/historial-academico.model';
 import { AsignaturaPlanService } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.service';
+import { HistoricoSeguimientoListResponse, HistoricoSeguimiento } from '../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.model';
+import { HistoricoSeguimientoService } from '../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.service';
 
 @Component({
     selector: 'app-students-info',
@@ -58,27 +60,7 @@ export class StudentsInfoComponent {
      * @protected
      * @type {any}
      */
-    protected recentRecordsFollowup: any = {
-        "create": "25 de abril de 2025",
-        "records": [
-            {
-                "id": "1",
-                "fecha": "22 de abril de 2025 a las 22:42",
-                "actividad": "Revisión de calificaciones del semestre 2024-2S"
-            },
-            {
-                "id": "2",
-                "fecha": "22 de abril de 2025 a las 22:42",
-                "actividad": "Asesoría académica sobre asignaturas optativas"
-            },
-            {
-                "id": "3",
-                "fecha": "22 de abril de 2025 a las 22:42",
-                "actividad": "Asignación de tutor académico"
-            }
-        ]
-    };
-
+    protected recentRecordsFollowup: HistoricoSeguimiento[] = [];
 
     /**
      * Historial académico del estudiante.
@@ -87,16 +69,17 @@ export class StudentsInfoComponent {
      */
     protected HistorialAcademico: HistorialAcademico[] = [];
 
-
     /**
        * Constructor del componente.
        * @constructor
        * @param {Router} router - Router para redirigir al usuario.
        * @param {EstudianteService} estudianteService - Servicio para manejar los estudiantes.
        * @param {HistorialAcademicoService} historialAcademicoService - Servicio para manejar el historial académico.
+       * @param {HistoricoSeguimientoService} historicoSeguimientoService - Servicio para manejar el historial de seguimiento.
        **/
     constructor(
         private studentInfoService: EstudianteService,
+        private historicoSeguimientoService: HistoricoSeguimientoService,
         private router: Router,
         private academicHistoryService: HistorialAcademicoService
     ) { }
@@ -113,6 +96,7 @@ export class StudentsInfoComponent {
             return;
         }
         this.getAcademicHistory();
+        this.getFollowUp();
     }
 
     /**
@@ -190,5 +174,31 @@ export class StudentsInfoComponent {
         });
         return semesters.sort((a, b) => a.localeCompare(b));
     }
+
+    /**
+   * Método para obtener el historial de seguimiento del estudiante.
+   * @method getFollowUp
+   * @returns {void}
+   */
+  protected getFollowUp(): void {
+    this.isLoading = true;
+    if (!this.studentInfo?.id) {
+      this.isLoading = false;
+      this.isError = true;
+      this.errorMessage = "No se pudo obtener el ID del estudiante.";
+      return;
+    }
+    this.historicoSeguimientoService.getHistoricoSeguimientoList(1, this.studentInfo.id.toString()).subscribe({
+      next: (response: HistoricoSeguimientoListResponse) => {
+        this.recentRecordsFollowup = response.results;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = "Error al cargar el historial de seguimiento: " + error.message;
+      } 
+    });
+  }
 
 }

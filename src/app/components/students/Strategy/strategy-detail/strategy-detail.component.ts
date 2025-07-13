@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { StudentInfoService } from '../../../../services/student/student-info.service';
+import { EstudianteService } from '../../../../services/APIs/backend/models/Estudiante/estudiante.service';
+import { Estudiante } from '../../../../services/APIs/backend/models/Estudiante/estudiante.model';
+import { EstrategiaService } from '../../../../services/APIs/backend/models/Estrategia/estrategia.service';
+import { Estrategia } from '../../../../services/APIs/backend/models/Estrategia/estrategia.model';
+import { HistoricoSeguimiento, HistoricoSeguimientoListResponse } from '../../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.model';
+import { HistoricoSeguimientoService } from '../../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.service';
+import { LoadingComponent } from '../../../../templates/loading/loading.component';
+import { DatePipe } from '../../../../templates/pipes/date.pipe';
 
 @Component({
   selector: 'app-strategy-detail',
   standalone: true,
-  imports: [RouterModule, CommonModule, ReactiveFormsModule],
+  imports: [RouterModule, CommonModule, ReactiveFormsModule, LoadingComponent, DatePipe],
   templateUrl: './strategy-detail.component.html',
   styleUrl: './strategy-detail.component.scss'
 })
@@ -30,39 +37,43 @@ export class StrategyDetailComponent {
   protected errorMessage: string = "";
 
   /**
-   * Información del estudiante obtenida del servicio StudentInfoService
-   * @protected
-   * @type {any}
-   */
-  protected studentInfo: any = null;
+     * Página actual para la paginación.
+     * @protected
+     * @property {number} page - Número de página actual.
+     */
+  protected page: number = 1;
 
-  protected strategy: any = {
-    id: 1,
-    titulo: 'Acompañamiento por tutor',
-    fecha: '22 de abril de 2025',
-    observaciones: 'Se asigna el tutor José Restrepo, profesor de planta con conocimientos en matemáticas. Esto con el fin de acompañar al estudiante en asignaturas como cálculo en varias variables la cual se le ha dificultado mucho al estudiantes Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, amet deserunt est perferendis sequi consectetur. Eligendi maxime similique eaque, fugit, aliquam natus quas fugiat quos doloremque provident quasi modi? Doloribus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eaque, maiores ea dolore id a corporis voluptatibus cupiditate beatae rem distinctio quibusdam tempora rerum, eligendi assumenda! Explicabo laborum harum tenetur',
-    registros: [
-      {
-        id: 2,
-        fecha: '23 de abril de 2025',
-        user: {
-          nombre: 'Raul Restrepo',
-          cargo: 'Director Ingeniría Geológica'
-        },
-        titulo: 'Primera sesión de tutoría',
-        observaciones: 'El tutor José Restrepo ha comenzado a trabajar con el estudiante en las asignaturas de matemáticas y física.'
-      },
-      {
-        id: 1,
-        fecha: '22 de abril de 2025',
-        user: {
-          nombre: 'Melissa Velasco',
-          cargo: 'Unidad de Permanencia Facultad Minas'
-        },
-        titulo : 'Asignación de tutor',
-        observaciones: 'El tutor José Restrepo contacta al estudiante para coordinar las primeras sesiones de apoyo.'
-      }
-    ]
+  /**
+   * ID de la estrategia obtenida de la ruta activa.
+   * @protected
+   * @type {string | null}
+   */
+  protected idStrategy: string | null = null;
+
+  /**
+     * Información del estudiante obtenida del servicio StudentInfoService
+     * @protected
+     * @type {Estudiante | null}
+     */
+  protected studentInfo: Estudiante | null = null;
+
+  /**
+   * Estrategia de apoyo al estudiante.
+   * @protected
+   * @type {Estrategia | null}
+   */
+  protected strategy: Estrategia | null = null;
+
+  /**
+   * Lista de seguimientos a la estrategia.
+   * @protected
+   * @type {HistoricoSeguimiento[]}
+   */
+  protected strategyFollowUpList: HistoricoSeguimientoListResponse = {
+    count: 0,
+    next: null,
+    previous: null,
+    results: []
   };
 
   /**
@@ -76,15 +87,140 @@ export class StrategyDetailComponent {
   });
 
   /**
-     * @param {StudentInfoService} studentInfoService servicio para obtener la información del estudiante
-     */
+       * @param {EstudianteService} estudianteService - Servicio para manejar los estudiantes.
+       * @param {Router} router - Router para redirigir al usuario.
+       * @param {EstrategiaService} estrategiaService - Servicio para manejar las estrategias de apoyo al estudiante.
+       * @param {HistoricoSeguimientoService} historicoSeguimientoService - Servicio para manejar el historial de seguimiento.
+       * @param {ActivatedRoute} route - Ruta activa para obtener parámetros de la URL.
+   */
   constructor(
-    private studentInfoService: StudentInfoService
+    private estrategiaService: EstrategiaService,
+    private studentInfoService: EstudianteService,
+    private historicoSeguimientoService: HistoricoSeguimientoService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
+  /**
+     * Método que se ejecuta al inicializar el componente.
+     * Obtiene la información del estudiante activo y redirige si no hay un estudiante activo.
+     * @method ngOnInit
+     */
   ngOnInit() {
-    // Se obtiene la información del estudiante al inicializar el componente
-    this.studentInfo = this.studentInfoService.getStudentInfo();
+    this.studentInfo = this.studentInfoService.getStudentActive();
+    if (!this.studentInfo) {
+      this.router.navigate(['/home']);
+      return;
+    }
+    this.idStrategy = this.route.snapshot.paramMap.get('idStrategy');
+    if (!this.idStrategy) {
+      this.router.navigate(['/students/student-support-strategy']);
+      return;
+    }
+    this.getStrategyDetails();
+    this.getFollowUp();
   }
+
+  /**
+   * Método para obtener los detalles de la estrategia de apoyo al estudiante.
+   * @method getStrategyDetails
+   * @returns {void}
+   */
+  protected getStrategyDetails(): void {
+    this.isLoading = true;
+    if (!this.idStrategy) {
+      this.isLoading = false;
+      this.isError = true;
+      this.errorMessage = "No se pudo obtener la estrategia, por favor intente más tarde.";
+      return;
+    }
+
+    this.estrategiaService.getEstrategiaById(this.idStrategy).subscribe({
+      next: (response: Estrategia) => {
+        this.strategy = response;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = "Error al cargar la estrategia: " + error.message;
+      }
+    });
+  }
+
+  /**
+   * Método para obtener el historial de seguimiento de la estrategia.
+   * @method getFollowUp
+   * @returns {void}
+   */
+  protected getFollowUp(): void {
+    this.isLoading = true;
+    if (!this.idStrategy) {
+      this.isLoading = false;
+      this.isError = true;
+      this.errorMessage = "No se pudo obtener el ID de la estrategia.";
+      return;
+    }
+    this.historicoSeguimientoService.getHistoricoSeguimientoByEstrategia(this.page, this.idStrategy).subscribe({
+      next: (response: HistoricoSeguimientoListResponse) => {
+        this.strategyFollowUpList = response;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = "Error al cargar el historial de seguimiento: " + error.message;
+      }
+    });
+  }
+
+  /**
+   * Método para crear un seguimiento a la estrategia de apoyo al estudiante.
+   * @method createFollowUp
+   * @returns {void}
+   */
+  protected createFollowUp(): void {
+    this.isLoading = true;
+    if (!this.strategyDetailForm.valid || !this.idStrategy) {
+      this.isLoading = false;
+      this.isError = true;
+      this.errorMessage = "Por favor complete todos los campos del formulario.";
+      return;
+    }
+    const historicoSeguimiento: HistoricoSeguimiento = {
+      titulo: this.strategyDetailForm.value.title,
+      observaciones: this.strategyDetailForm.value.description,
+      seguimiento: this.idStrategy
+    };
+    this.historicoSeguimientoService.createHistoricoSeguimiento(historicoSeguimiento).subscribe({
+      next: (response: HistoricoSeguimiento) => {
+        this.isLoading = false;
+        this.isSuccess = true;
+        this.successMessage = "Seguimiento creado correctamente.";
+        this.strategyFollowUpList.results.push(response);
+        this.strategyDetailForm.reset();
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = "Error al crear el seguimiento: " + error.message;
+      }
+    });
+  }
+
+
+
+  get totalPages(): number {
+    return Math.ceil(this.strategyFollowUpList.count / (this.historicoSeguimientoService.getCustomPageSize())) || 1;
+  }
+
+  protected onPageChange(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.page = page;
+      this.getFollowUp();
+
+    }
+  }
+  
 
 }

@@ -591,7 +591,6 @@
                 <div class="bg-neutral-100 h-100 rounded-5 p-5">
                     <div class="text-center">
                         <h3>Estrategias</h3>
-                        <p class="fw-light">Creado el {{recentRecordsFollowup.create}}</p>
 
 
                         <button class="btn btn-neutral-variant mt-4" routerLink="/students/student-support-strategy">
@@ -606,19 +605,19 @@
                     </div>
                     <hr class="hr my-4">
                     <h4>Últimos registros de seguimientos</h4>
-                    <div class="accordion" id="accordionRecentRecordsFollowup">
-                        @for (records of recentRecordsFollowup.records; track $index) {
+                    <div class="accordion overflow-auto" id="accordionRecentRecordsFollowup">
+                        @for (records of recentRecordsFollowup; track $index) {
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button show" type="button" data-bs-toggle="collapse"
                                     [attr.data-bs-target]="'#collapse'+records.id" aria-expanded="false"
                                     [attr.aria-controls]="'collapse'+records.id">
-                                    {{records.fecha}}
+                                    {{records.fecha || 'Fecha no disponible' | date}}
                                 </button>
                             </h2>
                             <div [id]="'collapse'+records.id" class="accordion-collapse collapse show">
-                                <div class="accordion-body">
-                                    {{records.actividad}}
+                                <div class="accordion-body" style="max-height: 100px;">
+                                    {{records.observaciones}}
                                 </div>
                             </div>
                         </div>
