@@ -16,38 +16,38 @@
                             <div class="items">
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.tipo_documento}}</div>
+                                        <div class="text">{{studentInfo?.tipo_documento}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.documento}}</div>
+                                        <div class="text">{{studentInfo?.documento}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.edad}} años</div>
+                                        <div class="text">Nació el {{studentInfo?.fecha_nacimiento}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.genero}}</div>
+                                        <div class="text">{{studentInfo?.genero}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.correo_institucional}}</div>
+                                        <div class="text">{{studentInfo?.correo_institucional}}</div>
                                     </div>
                                 </a>
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.correo_alterno}}</div>
+                                        <div class="text">{{studentInfo?.correo_alterno}}</div>
                                     </div>
                                 </a>
-                                @if (studentInfo.telefono){
+                                @if (studentInfo?.telefono){
                                 <a class="item-link">
                                     <div class="item">
-                                        <div class="text">{{studentInfo.telefono}}</div>
+                                        <div class="text">{{studentInfo?.telefono}}</div>
                                     </div>
                                 </a>
                                 }
@@ -58,33 +58,39 @@
                                 <div class="items">
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.facultad}}</div>
+                                            <div class="text">{{studentInfo?.plan_estudio?.codigo}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.plan_estudio}}</div>
+                                            <div class="text">{{studentInfo?.plan_estudio?.nombre}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text"> {{studentInfo.semestres_cancelados}} semestres cancelados
+                                            <div class="text">{{studentInfo?.plan_estudio?.tipo_nivel}}</div>
+                                        </div>
+                                    </a>
+                                    <a class="item-link">
+                                        <div class="item">
+                                            <div class="text"> {{studentInfo?.semestres_cancelados}} semestres
+                                                cancelados
                                             </div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.reserva_cupo}} reservas de cupo</div>
+                                            <div class="text">{{studentInfo?.reserva_cupo}} reservas de cupo</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">Cupo de créditos: {{studentInfo.cupo_creditos}}</div>
+                                            <div class="text">Cupo de créditos: {{studentInfo?.cupo_creditos}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">Créditos pendientes: {{studentInfo.creditos_pendientes}}
+                                            <div class="text">Créditos pendientes: {{studentInfo?.creditos_pendientes}}
                                             </div>
                                         </div>
                                     </a>
@@ -97,27 +103,27 @@
                                 <div class="items">
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.acceso}}</div>
+                                            <div class="text">{{studentInfo?.acceso}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.subacceso}}</div>
+                                            <div class="text">{{studentInfo?.subacceso}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">Puntaje: {{studentInfo.puntaje_admision}}</div>
+                                            <div class="text">Puntaje: {{studentInfo?.puntaje_admision}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">PBM: {{studentInfo.pbm}}</div>
+                                            <div class="text">PBM: {{studentInfo?.pbm}}</div>
                                         </div>
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text">{{studentInfo.apertura}} </div>
+                                            <div class="text">{{studentInfo?.apertura}} </div>
                                         </div>
                                     </a>
                                 </div>
@@ -137,9 +143,9 @@
                         <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
                         <li class="breadcrumb-item"><a routerLink="/students/student-list">Listado de estudiantes</a>
                         </li>
-                        <li class="breadcrumb-item active"><a routerLink="/students/student-info">Información
-                                del estudiante</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Seguimiento</li>
+                        <li class="breadcrumb-item active"><a routerLink="/students/student-info">Información del
+                                estudiante</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Estrategias</li>
                     </ol>
                 </nav>
 
@@ -147,18 +153,18 @@
                 <div class="vstack gap-4 flex-grow-1">
                     <div class="bg-neutral-100 h-100 rounded-5 p-5">
 
-                        <h3 class="text-center">{{studentInfo.nombres}} {{studentInfo.apellidos}}</h3>
+                        <h3 class="text-center">{{studentInfo?.nombres}} {{studentInfo?.apellidos}}</h3>
                         <hr class="hr my-4">
 
                         <div class="row row-cols-1 row-cols-md-3 row-cols-xl-5 g-4 justify-content-center">
                             <div class="col">
                                 <div class="card border-0 px-3 py-1 mw-100 h-100"
-                                    [ngClass]="studentInfo.matricula_periodo_activo === 'SI' ? 'bg-success-90' : 'bg-danger-90'">
+                                    [ngClass]="studentInfo?.matricula_periodo_activo === 'SI' ? 'bg-success-90' : 'bg-danger-90'">
                                     <div class="card-body">
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Estado</p>
                                             <h3>
-                                                @if (studentInfo.matricula_periodo_activo == "SI") {
+                                                @if (studentInfo?.matricula_periodo_activo == "SI") {
                                                 Activo
                                                 }@else {
                                                 Inactivo
@@ -175,7 +181,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Matriculas</p>
                                             <h3>
-                                                {{studentInfo.numero_matriculas}}
+                                                {{studentInfo?.numero_matriculas}}
                                             </h3>
                                         </div>
                                     </div>
@@ -188,7 +194,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Creditos disponibles</p>
                                             <h3>
-                                                {{studentInfo.creditos_disponibles}}
+                                                {{studentInfo?.creditos_disponibles}}
                                             </h3>
                                         </div>
                                     </div>
@@ -201,7 +207,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">PAPA</p>
                                             <h3>
-                                                {{studentInfo.papa}}
+                                                {{studentInfo?.papa}}
                                             </h3>
                                         </div>
                                     </div>
@@ -214,7 +220,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Avance carrera</p>
                                             <h3>
-                                                {{studentInfo.avance_carrera}}
+                                                {{studentInfo?.avance_carrera}}
                                             </h3>
                                         </div>
                                     </div>
@@ -225,7 +231,7 @@
 
                         <div class="d-flex flex-column flex-md-row gap-2">
                             <div class="d-flex gap-2 justify-content-center align-items-center">
-                                <h3>Seguimiento</h3>
+                                <h3>Estrategias</h3>
 
                             </div>
                             <div class="flex-grow-1"></div>
@@ -241,19 +247,19 @@
 
                         <div class="row row-cols-1 row-cols-md-2 g-4 my-5">
 
-                            @for (strategy of strategies; track $index) {
+                            @for (strategy of strategiesListResponse.results; track $index) {
                             <div class="col">
                                 <div class="card px-3 py-1 mw-100 h-100 rounded-diag-secondary border-3">
                                     <div class="card-body">
                                         <div class="card-stack">
-                                            <h5 class="card-title">{{strategy.title}}</h5>
-                                            <h6 class="card-subtitle">Creado el {{strategy.date}}</h6>
+                                            <h5 class="card-title">{{strategy.titulo}}</h5>
+                                            <h6 class="card-subtitle">Creado el {{strategy.fechaCreacion}}</h6>
                                         </div>
                                         <p class="card-text overflow-auto" style="max-height: 100px;">
-                                            {{strategy.description}}
+                                            {{strategy.observaciones || 'No hay observaciones disponibles.'}}
                                         </p>
                                         <div class="d-flex gap-3">
-                                            <a routerLink="/students/strategy-detail" class="link">Ver
+                                            <a [routerLink]="'/students/strategy-detail/'+strategy.id" class="link">Ver
                                                 más</a>
                                         </div>
                                     </div>
@@ -261,6 +267,78 @@
                             </div>
                             }
 
+
+                        </div>
+
+                        <div
+                            class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
+                            <p class="flex-grow-1">
+                                Página {{ page }} de {{ totalPages }}
+                            </p>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination pagination-neutral">
+
+                                    <li class="page-item" [class.disabled]="page === 1">
+                                        <a class="page-link" (click)="onPageChange(1)" aria-label="Primera">&laquo;</a>
+                                    </li>
+                                    <li class="page-item" [class.disabled]="page === 1">
+                                        <a class="page-link" (click)="onPageChange(page - 1)"
+                                            aria-label="Anterior">&lsaquo;</a>
+                                    </li>
+
+                                    <!-- Primera página -->
+                                    <li class="page-item" [class.active]="page === 1">
+                                        <a class="page-link" (click)="onPageChange(1)">1</a>
+                                    </li>
+
+                                    <!-- Puntos suspensivos a la izquierda -->
+                                    @if (page > 3) {
+                                    <li class="page-item"><a class="page-link" aria-label="more"></a></li>
+                                    }
+
+                                    <!-- Página anterior -->
+                                    @if (page > 2) {
+                                    <li class="page-item" [class.active]="false">
+                                        <a class="page-link" (click)="onPageChange(page - 1)">{{ page - 1 }}</a>
+                                    </li>
+                                    }
+
+                                    <!-- Página actual (si no es la primera ni la última) -->
+                                    @if (page !== 1 && page !== totalPages) {
+                                    <li class="page-item" [class.active]="true">
+                                        <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
+                                    </li>
+                                    }
+
+                                    <!-- Página siguiente -->
+                                    @if (page < totalPages - 1) { <li class="page-item" [class.active]="false">
+                                        <a class="page-link" (click)="onPageChange(page + 1)">{{ page + 1 }}</a>
+                                        </li>
+                                        }
+
+                                        <!-- Puntos suspensivos a la derecha -->
+                                        @if (page < totalPages - 2) { <li class="page-item"><a class="page-link"
+                                                aria-label="more"></a></li>
+                                            }
+
+                                            <!-- Última página (si hay más de una) -->
+                                            @if (totalPages > 1) {
+                                            <li class="page-item" [class.active]="page === totalPages">
+                                                <a class="page-link" (click)="onPageChange(totalPages)">{{ totalPages
+                                                    }}</a>
+                                            </li>
+                                            }
+
+                                            <li class="page-item" [class.disabled]="page === totalPages">
+                                                <a class="page-link" (click)="onPageChange(page + 1)"
+                                                    aria-label="Siguiente">&rsaquo;</a>
+                                            </li>
+                                            <li class="page-item" [class.disabled]="page === totalPages">
+                                                <a class="page-link" (click)="onPageChange(totalPages)"
+                                                    aria-label="Última">&raquo;</a>
+                                            </li>
+                                </ul>
+                            </nav>
                         </div>
 
 
@@ -283,13 +361,41 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-title">Estrategia</div>
+                @if (isSuccess) {
+                <div class="alert alert-success">
+                    <div class="alert-header">
+                        <div class="alert-icon">
+                            <span class="material-symbols-outlined">info</span>
+                        </div>
+                        <div class="alert-title">
+                            {{successMessage}}
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                }
+
+                @if (isError) {
+                <div class="alert alert-danger">
+                    <div class="alert-header">
+                        <div class="alert-icon">
+                            <span class="material-symbols-outlined">info</span>
+                        </div>
+                        <div class="alert-title">
+                            {{errorMessage}}
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                }
                 <div class="modal-body">
-                    <form [formGroup]="studentSupportStrategyForm">
+                    <form [formGroup]="studentSupportStrategyForm" (ngSubmit)="createStrategy()">
                         <div class="form-complete container">
                             <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
 
                                 <div>
-                                    <label for="exampleInput" class="form-label required">Titulo de la estrategia a implementar</label>
+                                    <label for="exampleInput" class="form-label required">Titulo de la estrategia a
+                                        implementar</label>
                                     <div class="input-group">
                                         <span class="input-group-text start material-symbols-outlined">tactic</span>
                                         <input type="text́" class="form-control" aria-describedby="start-group"
@@ -297,15 +403,18 @@
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <label for="exampleInput" class="form-label required">Descripción de la estrategia</label>
-                                    <textarea type="text́" class="form-control" aria-describedby="valText" rows="8" formControlName="description"></textarea>
+                                    <label for="exampleInput" class="form-label required">Descripción de la
+                                        estrategia</label>
+                                    <textarea type="text́" class="form-control" aria-describedby="valText" rows="8"
+                                        formControlName="description"></textarea>
                                 </div>
                             </div>
                         </div>
-                    
+
 
                         <div class="form-footer text-center mt-4">
-                            <button class="btn btn-primary btn-mn" type="submit" [disabled]="!studentSupportStrategyForm.valid">
+                            <button class="btn btn-primary btn-mn" type="submit"
+                                [disabled]="!studentSupportStrategyForm.valid">
                                 <span>Crear</span>
                             </button>
                         </div>
@@ -317,3 +426,7 @@
     </div>
 
 </main>
+
+@if (isLoading) {
+<app-loading></app-loading>
+}

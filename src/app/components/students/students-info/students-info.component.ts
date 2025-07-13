@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EstudianteService } from '../../../services/APIs/backend/models/Estudiante/estudiante.service';
-import { Estudiante, EstudianteListResponse, EstudianteFilter } from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
+import { Estudiante} from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
 import { HistorialAcademicoService } from '../../../services/APIs/backend/models/HistorialAcademico/historial-academico.service';
 import { HistorialAcademico, HistorialAcademicoByPlanEstudios } from '../../../services/APIs/backend/models/HistorialAcademico/historial-academico.model';
-import { AsignaturaPlan } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.model';
 import { AsignaturaPlanService } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.service';
-import { Tipologia } from '../../../services/APIs/backend/models/Tipologia/tipologia.model';
 
 @Component({
     selector: 'app-students-info',
@@ -96,13 +94,11 @@ export class StudentsInfoComponent {
        * @param {Router} router - Router para redirigir al usuario.
        * @param {EstudianteService} estudianteService - Servicio para manejar los estudiantes.
        * @param {HistorialAcademicoService} historialAcademicoService - Servicio para manejar el historial académico.
-       * @param {AsignaturaPlanService} asignaturaPlanService - Servicio para manejar las asignaturas del plan de estudios.
        **/
     constructor(
         private studentInfoService: EstudianteService,
         private router: Router,
-        private academicHistoryService: HistorialAcademicoService,
-        private asignaturaPlanService: AsignaturaPlanService
+        private academicHistoryService: HistorialAcademicoService
     ) { }
 
     /**

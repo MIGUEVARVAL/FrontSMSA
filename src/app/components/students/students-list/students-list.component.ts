@@ -32,10 +32,10 @@ export class StudentsListComponent {
     protected errorMessage: string = "";
 
     /**
- * Página actual para la paginación.
- * @protected
- * @property {number} page - Número de página actual.
- */
+     * Página actual para la paginación.
+     * @protected
+     * @property {number} page - Número de página actual.
+     */
     protected page: number = 1;
 
     /**
@@ -173,7 +173,7 @@ export class StudentsListComponent {
                 this.errorMessage = "Error al cargar el estudiante: " + error.message;
             }
         });
-        
+
     }
 
     /**
