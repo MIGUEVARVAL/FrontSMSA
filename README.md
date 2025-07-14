@@ -13,6 +13,7 @@ El proyecto plantea el desarrollo de una solución tecnológica que consolide de
 3. Instala las dependencias:
 
 ```bash
+npm install xlsx
 npm install
 ```
 
