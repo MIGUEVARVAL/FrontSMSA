@@ -18,7 +18,19 @@
                 <h2>Asignaturas con notas finales</h2>
             </div>
             <div class="flex-grow-1"></div>
+            <a class="btn btn-neutral-variant" type="button"
+                        href="/assets/fileTemplate/RE_EST_LDA.xlsx" 
+                      download="Ejemplo RE_EST_LDA.xlsx"
+                      >
+                <span class="material-symbols-outlined" translate="no">
+                    document_search
+                </span>
+                <span>Ejemplo archivo</span>
+            </a>
         </div>
+
+        <p>La carga masiva se realiza a partir del informe <mark>RE_EST_LDA</mark>, titulado "LINEAS DE ACTA DE UN ESTUDIANTE A UN PERIODO DETERMINADO", el cual se descarga desde BI Publisher. Es importante no modificar el archivo después de su descarga, ya que el procesamiento de datos depende de la estructura y el formato definidos por BI Publisher. Si se detecta alguna alteración, la información no será cargada.</p>
+
 
         @if (isSuccess) {
         <div class="alert alert-success">
@@ -60,9 +72,7 @@
                             <div class="input-group form-file" type-file="drag-drop" (dragover)="onDragOver($event)"
                                 (dragleave)="onDragLeave($event)" (drop)="onDrop($event, fileInput)">
                                 <label class="form-label required">Notas finales</label>
-                                <div class="form-description">Este reporte se extrae de BI Publisher y se carga sin
-                                    realizar
-                                    cambios</div>
+                                <div class="form-description">Cargue el archivo de notas finales</div>
 
                                 <input #fileInput type="file" class="form-control d-none" accept=".xlsx,.xls"
                                     (change)="onFileSelected($event)" />

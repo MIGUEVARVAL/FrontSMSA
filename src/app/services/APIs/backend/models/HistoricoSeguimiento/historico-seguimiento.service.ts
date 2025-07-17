@@ -19,7 +19,7 @@ export class HistoricoSeguimientoService {
 
   // Obtener el historial de seguimiento de un estudiante
   getHistoricoSeguimientoList(page: number, estudianteId: string): Observable<HistoricoSeguimientoListResponse> {
-    let params = `page=${page}&estudiante=${estudianteId}`;
+    let params = `page=${page}&estudiante_id=${estudianteId}`;
     return this.http.get<HistoricoSeguimientoListResponse>(`${this.apiUrl}?${params}`);
   }
 
@@ -30,7 +30,7 @@ export class HistoricoSeguimientoService {
 
   // Obtener el historial de seguimiento por estrategia
   getHistoricoSeguimientoByEstrategia(page: number, estrategiaId: string): Observable<HistoricoSeguimientoListResponse> {
-    return this.http.get<HistoricoSeguimientoListResponse>(`${this.apiUrl}?estrategia=${estrategiaId}`);
+    return this.http.get<HistoricoSeguimientoListResponse>(`${this.apiUrl}?estrategia_id=${estrategiaId}`);
   }
 
   // Crear un nuevo seguimiento

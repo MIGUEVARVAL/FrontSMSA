@@ -251,6 +251,13 @@
                         </p>
 
                         <h4 class="my-5">Seguimiento</h4>
+                        @if (strategyFollowUpList.results.length === 0) {
+                            <div
+                            class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4 my-5">
+                            <h4 class="text-neutral-variant">No se ha creado seguimiento al estudiante para esta estrategia</h4>
+                            <p class="text-neutral-variant-50">Si requiere crear un nuevo seguimiento, por favor haga clic en el botón "Crear seguimiento".</p>
+                        </div>
+                        } @else {
                         <div class="flex-grow-1 d-flex flex-column gap-4">
                             <div class="d-flex flex-column">
                                 @for (registro of strategyFollowUpList.results; track $index) {
@@ -374,7 +381,7 @@
                             </nav>
                         </div>
                         </div>
-
+                        }
 
                     </div>
                 </div>

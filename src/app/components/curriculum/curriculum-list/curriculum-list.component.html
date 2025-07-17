@@ -168,6 +168,14 @@
             <h2 class="text-neutral-30 text-center my-2">Planes de Estudio</h2>
 
             <div class="vstack gap-4">
+                @if (planEstudioListResponse.results.length === 0) {
+                <div
+                    class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4">
+                    <h4 class="text-neutral-variant">No se encontraron planes de estudio</h4>
+                    <p class="text-neutral-variant-50">Revise que si se hayan cargado correctamente o comuníquese con el administrador.</p>
+
+                </div>
+                }@else {
                 <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
                     @for (plan of planEstudioListResponse.results; track $index) {
                     <div>
@@ -279,6 +287,7 @@
                         </ul>
                     </nav>
                 </div>
+                }
             </div>
         </div>
     </div>

@@ -230,6 +230,13 @@
 
                             </div>
                             <div class="flex-grow-1"></div>
+                            <button class="btn btn-neutral-variant btn-mn" data-bs-toggle="modal"
+                                data-bs-target="#ModalGuiaColores">
+                                <span class="material-symbols-outlined">
+palette
+</span>
+                                <span>Guía de colores</span>
+                            </button>
                             <button class="btn btn-primary btn-mn" data-bs-toggle="modal"
                                 data-bs-target="#ModalFiltrar">
                                 <span class="material-symbols-outlined">filter_alt</span>
@@ -324,14 +331,77 @@
                                 </div>
                             </div>
 
+                            <div class="modal fade" tabindex="-1" id="ModalGuiaColores">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-title">Guía de colores</div>
+                                        <div class="modal-body">
+
+                                            <div class="row my-5 row-cols-1 g-4">
+                                                <div class="col">
+                                                    <div
+                                                        class="card mw-100 h-100 rounded-diag-secondary border-0 bg-success-95">
+                                                        <div class="card-body text-center">
+                                                            Asignaturas con nota mayor a 3.8 o aprobadas para los casos en la que no se encuentre la nota
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div
+                                                        class="card mw-100 h-100 rounded-diag-secondary border-0 bg-warning-95">
+                                                        <div class="card-body text-center">
+                                                            Asignaturas con nota menor a 3.8
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div
+                                                        class="card mw-100 h-100 rounded-diag-secondary border-0 bg-danger-95">
+                                                        <div class="card-body text-center">
+                                                            Asignaturas con nota menor a 3.0 o reprobadas para los casos en la que no se encuentre la nota
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div
+                                                        class="card mw-100 h-100 rounded-diag-secondary border-0 bg-neutral-95">
+                                                        <div class="card-body text-center">
+                                                            Asignaturas que fueron canceladas
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="d-flex  flex-column tab-neutral">
+
+                        @if (HistorialAcademico.length === 0) {
+                        <div
+                            class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4 my-5">
+                            <h4 class="text-neutral-variant">El estudiante aun no tiene historial académico</h4>
+                            <p class="text-neutral-variant-50">En caso de que el estudiante tenga historial académico,
+                                por favor actualice la información o comuníquese con el administrador.</p>
+                        </div>
+                        }
+                        @else {
+
+
+
+                        <div class="d-flex  flex-column tab-neutral mt-5">
                             <ul class="tab " role="tablist" id="pills-tab">
                                 <li class="tab-item" role="presentation">
-                                    <a class="tab-link active" aria-current="page" id="semestre-tab" data-bs-toggle="tab"
-                                        data-bs-target="#semestre" type="button" role="tab" aria-controls="semestre"
-                                        aria-selected="true" tabindex="-1">
+                                    <a class="tab-link active" aria-current="page" id="semestre-tab"
+                                        data-bs-toggle="tab" data-bs-target="#semestre" type="button" role="tab"
+                                        aria-controls="semestre" aria-selected="true" tabindex="-1">
                                         <div class="material-symbols-outlined">
                                             published_with_changes
                                         </div>
@@ -358,8 +428,8 @@
                             </ul>
                             <div class="tab-content" id="myTabContent">
 
-                                <div class="tab-pane fade show active" id="semestre" role="tabpanel" aria-labelledby="home-tab"
-                                    tabindex="0">
+                                <div class="tab-pane fade show active" id="semestre" role="tabpanel"
+                                    aria-labelledby="home-tab" tabindex="0">
                                     <div class="accordion" id="accordionExample9">
                                         @for (semestre of semesters; track $index) {
                                         <div class="accordion-item rounded-3">
@@ -436,7 +506,7 @@
                                         }
                                     </div>
                                 </div>
-                                
+
                                 <div class="tab-pane fade" id="tipologia" role="tabpanel" aria-labelledby="home-tab"
                                     tabindex="0">
                                     <div class="accordion" id="accordionExample9">
@@ -523,9 +593,9 @@
                                         }
                                     </div>
                                 </div>
-                                
-                                <div class="tab-pane fade" id="todos" role="tabpanel"
-                                    aria-labelledby="home-tab" tabindex="0">
+
+                                <div class="tab-pane fade" id="todos" role="tabpanel" aria-labelledby="home-tab"
+                                    tabindex="0">
 
 
                                     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 ">
@@ -581,6 +651,7 @@
 
                             </div>
                         </div>
+                        }
 
                     </div>
                 </div>
@@ -593,7 +664,7 @@
                         <h3>Estrategias</h3>
 
 
-                        <button class="btn btn-neutral-variant mt-4" routerLink="/students/student-support-strategy">
+                        <button class="btn btn-info mt-4" routerLink="/students/student-support-strategy">
                             <span>Ver estrategias</span>
                             <span class="material-symbols-outlined">
                                 follow_the_signs
@@ -605,6 +676,12 @@
                     </div>
                     <hr class="hr my-4">
                     <h4>Últimos registros de seguimientos</h4>
+                    @if (recentRecordsFollowup.length === 0) {
+                    <div
+                        class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4 my-5">
+                        <h5 class="text-neutral-variant">No se han creado registros de seguimiento</h5>
+                    </div>
+                    }@else {
                     <div class="accordion overflow-auto" id="accordionRecentRecordsFollowup">
                         @for (records of recentRecordsFollowup; track $index) {
                         <div class="accordion-item">
@@ -623,6 +700,7 @@
                         </div>
                         }
                     </div>
+                    }
                 </div>
             </div>
         </div>

@@ -18,7 +18,22 @@
                 <h2>Asignaturas canceladas</h2>
             </div>
             <div class="flex-grow-1"></div>
+            <a class="btn btn-neutral-variant" type="button"
+                        href="/assets/fileTemplate/RE_CNC.xlsx" 
+                      download="Ejemplo RE_CNC.xlsx"
+                      >
+                <span class="material-symbols-outlined" translate="no">
+                    document_search
+                </span>
+                <span>Ejemplo archivo</span>
+            </a>
         </div>
+        <p>La carga masiva se realiza a partir del informe <mark>RE_CNC</mark>, titulado "CANCELACIONES DE ASIGNATURAS
+            CON Y SIN PÉRDIDA DE CRÉDITOS", el cual se descarga desde BI Publisher. Es importante no modificar el
+            archivo después de su descarga, ya que el procesamiento de datos depende de la estructura y el formato
+            definidos por BI Publisher. Si se detecta alguna alteración, la información no será cargada.</p>
+
+
 
         @if (isSuccess) {
         <div class="alert alert-success">
@@ -59,12 +74,10 @@
                     <div class="form-complete container">
                         <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3">
 
-                             <div class="input-group form-file" type-file="drag-drop" (dragover)="onDragOver($event)"
+                            <div class="input-group form-file" type-file="drag-drop" (dragover)="onDragOver($event)"
                                 (dragleave)="onDragLeave($event)" (drop)="onDrop($event, fileInput)">
                                 <label class="form-label required">Cancelaciones</label>
-                                <div class="form-description">Este reporte se extrae de BI Publisher y se carga sin
-                                    realizar
-                                    cambios</div>
+                                <div class="form-description">Cargue el archivo de cancelaciones</div>
                                 <input #fileInput type="file" class="form-control d-none" accept=".xlsx,.xls"
                                     (change)="onFileSelected($event)" />
 

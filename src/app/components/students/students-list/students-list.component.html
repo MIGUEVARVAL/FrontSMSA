@@ -110,7 +110,8 @@
 
                     <div>
                         <div class="form-check form-switch">
-                            <input type="checkbox" class="form-check-input" id="riesgo" formControlName="riesgo" (click)="filterStudents()"/>
+                            <input type="checkbox" class="form-check-input" id="riesgo" formControlName="riesgo"
+                                (click)="filterStudents()" />
                             <label class="form-check-label">Solo estudiantes en riesgo</label>
                         </div>
                     </div>
@@ -260,7 +261,16 @@
 
         <div class="col d-flex flex-column gap-3 p-4">
 
-            <h2 class="text-neutral-30 text-center my-2">Estudiantes en Riesgo Facultad de Minas</h2>
+            <h2 class="text-neutral-30 text-center my-2">Listado de Estudiantes</h2>
+
+            @if (estudiantesListResponse.results.length === 0) {
+            <div
+                class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4">
+                <h4 class="text-neutral-variant">No se encontraron estudiantes</h4>
+                <p class="text-neutral-variant-50">Revise que si se hayan cargado correctamente o comuníquese con el
+                    administrador.</p>
+            </div>
+            } @else {
 
             <div class="vstack gap-4">
 
@@ -483,6 +493,7 @@
                     </ul>
                 </nav>
             </div>
+            }
         </div>
 
     </div>
