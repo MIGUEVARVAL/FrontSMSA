@@ -3,8 +3,12 @@ export interface Asignatura {
   nombre: string;
   codigo: string;
   creditos: number;
+  uab: any;
   fecha_creacion: Date;
   fecha_modificacion: Date;
+  descripcion: string;
+  objetivos: string;
+  contenido: string;
 }
 
 export interface AsignaturaResponse {

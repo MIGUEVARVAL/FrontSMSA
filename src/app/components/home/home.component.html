@@ -1,0 +1,189 @@
+@if (loading) {
+<main class="body">
+    <div class="p-4 container">
+        <div class="row d-flex flex-grow-1 g-4">
+            <div class="col flex-grow-1 d-flex flex-column gap-4">
+                <nav aria-label="breadcrumb" class="bg-neutral-100 rounded-5 py-2 px-3">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a routerLink="/index">Inicio</a></li>
+                    </ol>
+                </nav>
+
+                <div class="min-vh-40 d-flex flex-column my-5">
+                    <div class="row row-cols-1 row-cols-xl-2 flex-grow-1">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="d-flex flex-column gap-4 p-9">
+                                <div class="d-flex flex-column gap-6">
+                                    <div class="h3 text-primary-20">Sistema de Monitoreo y Seguimiento Académico UNAL
+                                    </div>
+                                    <div class="text-neutral-4 text-justify">
+                                        Esta aplicación tiene como propósito central consolidar y visualizar la
+                                        trayectoria académica de los estudiantes, facilitando el análisis de su
+                                        rendimiento histórico en todas las asignaturas cursadas, y permitiendo el
+                                        registro de estrategias de acompañamiento implementadas por las dependencias
+                                        académicas. A través de esta herramienta, se busca optimizar los procesos de
+                                        seguimiento, reducir tiempos de respuesta y fortalecer la toma de decisiones
+                                        oportunas en pro de la permanencia estudiantil.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="min-vh-30 rounded-start-bottom-unal d-flex justify-content-center align-items-center">
+                            <img class="img-fluid bg-primary-80 rounded-start-bottom-unal border border-secondary border-3"
+                                src="assets/home/homeInduccion.JPG" alt="" style="opacity: 0.8;">
+
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="hr my-5" />
+
+
+                <div class="d-flex flex-column gap-4 flex-grow-1 my-5">
+                    <div class="h3 text-primary-20">Secciones</div>
+
+                    <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+
+                        <div class="col">
+                            <div class="card card-lg h-100 w-100 text-center mouseClick card-secciones" routerLink="/students/student-list">
+                                <img class="card-img-top" src="assets/home/estudiantes.jpeg" style="opacity: 0.8;" />
+                                <div class="card-body">
+                                    <span class="material-symbols icon-lg text-primary" translate="no">groups</span>
+                                    <div class="card-stack">
+                                        <h5 class="card-title text-primary">Estudiantes</h5>
+                                    </div>
+                                    <p class="card-text text-neutral-60">
+                                        Acceda a la información de cada estudiante, incluyendo sus datos personales,
+                                        estado académico e información de acceso. Consulte la trayectoria académica
+                                        completa, con historial de asignaturas cursadas y resultados obtenidos. Además, podrá crear, registrar o consultar estrategias de acompañamiento aplicadas a cada estudiante.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="card card-lg h-100 w-100 text-center mouseClick card-secciones" routerLink="/curriculum/curriculum-list">
+                                <img class="card-img-top" src="assets/home/planesEstudio.jpeg" style="opacity: 0.8;" />
+                                <div class="card-body">
+                                    <span class="material-symbols icon-lg text-primary" translate="no">school</span>
+                                    <div class="card-stack">
+                                        <h5 class="card-title text-primary">Planes de Estudio</h5>
+                                    </div>
+                                    <p class="card-text text-neutral-60">
+                                        Visualice la estructura de los planes de estudio registrados, incluyendo las
+                                        asignaturas disponibles por cada tipología (fundamentación, disciplinar, libre
+                                        elección, nivelación, entre otras). Consulte también los acuerdos académicos
+                                        vigentes que rigen el plan, facilitando el análisis curricular y la trazabilidad
+                                        de los cambios a lo largo del tiempo.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="card card-lg  h-100 w-100 text-center mouseClick card-secciones" routerLink="/subject/subject-list">
+                                <img class="card-img-top" src="assets/home/asignaturas.jpeg" style="opacity: 0.8;" />
+                                <div class="card-body">
+                                    <span class="material-symbols icon-lg text-primary" translate="no">menu_book</span>
+                                    <div class="card-stack">
+                                        <h5 class="card-title text-primary">Asignaturas</h5>
+                                    </div>
+                                    <p class="card-text text-neutral-60">
+                                        Consulte la información general de cada asignatura, incluyendo su descripción,
+                                        objetivos de formación y contenidos. Acceda a estadísticas de rendimiento
+                                        académico por cohorte o período, y verifique los planes de estudio en los que se
+                                        encuentra incluida, según su tipología correspondiente.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+<!-- 
+                <div class="d-flex flex-column gap-4 flex-grow-1">
+                    <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+                        <div class="col card-sede" routerLink="/students/student-list/3068">
+                            <div class="bg-neutral-100 h-100 w-100 rounded-5 mouseClick">
+                                <div class="text-center">
+                                    <img class="img-fluid rounded-top-5" src="assets/facultades/minas.jpg">
+                                    <div class="p-2">
+                                        <h5 class="text-neutral-30">Facultad de Minas</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col card-sede " routerLink="/students/student-list/3064">
+                            <div class="bg-neutral-100 h-100 w-100 rounded-5 mouseClick">
+                                <div class="text-center">
+                                    <img class="img-fluid rounded-top-5" src="assets/facultades/arquitectura.jpg">
+                                    <div class="p-2">
+                                        <h5 class="text-neutral-30">Facultad de Arquitectura</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col card-sede" routerLink="/students/student-list/3067">
+                            <div class="bg-neutral-100 h-100 w-100 rounded-5 mouseClick">
+                                <div class="text-center">
+                                    <img class="img-fluid rounded-top-5" src="assets/facultades/humanas.jpg">
+                                    <div class="p-2">
+                                        <h5 class="text-neutral-30">Facultad de Ciencias Humanas y Económicas</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col card-sede" routerLink="/students/student-list/3442">
+                            <div class="bg-neutral-100 h-100 w-100 rounded-5 mouseClick">
+                                <div class="text-center">
+                                    <img class="img-fluid rounded-top-5" src="assets/facultades/agrarias.jpg">
+                                    <div class="p-2">
+                                        <h5 class="text-neutral-30">Facultad de Ciencias Agrarias</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col card-sede" routerLink="/students/student-list/3065">
+                            <div class="bg-neutral-100 h-100 w-100 rounded-5 mouseClick">
+                                <div class="text-center">
+                                    <img class="img-fluid rounded-top-5" src="assets/facultades/ciencias.jpg">
+                                    <div class="p-2">
+                                        <h5 class="text-neutral-30">Facultad de Ciencias</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col card-sede" routerLink="/students/student-list/3">
+                            <div class="bg-neutral-100 h-100 w-100 rounded-5 mouseClick">
+                                <div class="text-center">
+                                    <img class="img-fluid rounded-top-5" src="assets/facultades/cienciasVida.jpg">
+                                    <div class="p-2">
+                                        <h5 class="text-neutral-30">Facultad de Ciencias de la Vida</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+ -->
+            </div>
+        </div>
+    </div>
+</main>
+}
+@else {
+
+<app-loading></app-loading>
+
+}

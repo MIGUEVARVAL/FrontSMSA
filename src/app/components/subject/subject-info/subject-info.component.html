@@ -1,0 +1,141 @@
+<main class="body">
+
+    <div class="row m-0">
+
+        <nav aria-label="breadcrumb" class="p-3">
+            <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
+                <li class="breadcrumb-item"><a routerLink="/subject/subject-list">Listado de asignaturas</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Información de la asignatura</li>
+            </ol>
+        </nav>
+
+        <div class="col d-flex flex-column gap-4 flex-grow-1 gap-3 mx-3">
+
+            <div class="d-flex flex-column gap-4 flex-grow-1 bg-neutral-95 rounded-5 p-5">
+
+                <div class="bg-neutral-100 rounded-4 text-center p-3 ">
+                    <h2>{{asignatura?.nombre}}</h2>
+                </div>
+
+                <div class="vstack gap-4">
+
+                    <div class=" rounded-5 my-2">
+
+                        <div class="row row-cols-1 row-cols-md-2 justify-content-center">
+
+                            <div class="row row-cols-1 row-cols-md-2 justify-content-center">
+                                <div class="col">
+                                    <div
+                                        class="card border border-neutral-variant-70 px-3  mw-100 bg-neutral-variant-99  h-100">
+                                        <div class="card-body">
+                                            <div class="card-stack gap-0 m-0">
+                                                <p class="fw-regular">Código</p>
+                                                <h5>
+                                                    {{asignatura?.codigo}}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div
+                                        class="card border border-neutral-variant-70 px-3  mw-100 bg-neutral-variant-99  h-100">
+                                        <div class="card-body">
+                                            <div class="card-stack gap-0 m-0">
+                                                <p class="fw-regular">Créditos</p>
+                                                <h5>
+                                                    {{asignatura?.creditos}}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div
+                                    class="card border border-neutral-variant-70 px-3  mw-100 bg-neutral-variant-99  h-100">
+                                    <div class="card-body">
+                                        <div class="card-stack gap-0 m-0">
+                                            <p class="fw-regular">Unidad Académica Básica</p>
+                                            <h5>
+                                                {{asignatura?.uab.nombre}}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="bg-neutral-100 rounded-4 p-3 my-3">
+                            <div class="m-3 my-5 py-2">
+                                <h5>Descripción</h5>
+                                <p class="my-2">
+                                    {{asignatura?.descripcion || 'No hay descripción disponible.'}}
+                                </p>
+                            </div>
+                            <div class="m-3 my-5 py-2">
+                                <h5>Objetivos</h5>
+                                <p class="my-4">{{asignatura?.objetivos || 'No hay objetivos disponibles.'}}</p>
+                            </div>
+                            <div class="m-3 my-5 py-2">
+                                <h5>Contenido</h5>
+                                <p class="my-4">{{asignatura?.contenido || 'No hay contenido disponible.'}}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow-1 d-flex flex-column gap-4 p-5 bg-neutral-100 rounded-4">
+                            <h5>Planes de estudio</h5>
+
+                            <div class="accordion accordion-neutral-variant" id="accordionPlanesAsignatura">
+                                @for (planesAsignatura of asignaturaPlans; track $index) {
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + $index"
+                                            aria-expanded="true" [attr.aria-controls]="'collapse' + $index">
+
+                                            <div class="d-flex justify-content-between w-100">
+                                                <span>{{planesAsignatura?.tipologia?.nombre}}</span>
+                                                <span class="text-neutral-variant">({{planesAsignatura?.planes?.length}}
+                                                    planes de estudio)</span>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ $index }}" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="row row-cols-1 row-cols-xs-2 row-cols-md-3 row-cols-xl-4 g-4">
+                                                @for (plan of planesAsignatura?.planes; track $index) {
+                                                <div class="col">
+                                                    <p>{{plan?.plan_estudio?.codigo}} - {{plan?.plan_estudio?.nombre}}
+                                                    </p>
+                                                </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+@if (isLoading) {
+<app-loading></app-loading>
+}

@@ -8,11 +8,12 @@ import { AsignaturaPlan } from '../../../services/APIs/backend/models/Asignatura
 import { Tipologia } from '../../../services/APIs/backend/models/Tipologia/tipologia.model';
 import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
+import { LoadingComponent } from '../../../templates/loading/loading.component';
 
 @Component({
     selector: 'app-curriculum-info',
     standalone: true,
-    imports: [CommonModule, FormsModule, RouterModule, QuillModule],
+    imports: [CommonModule, FormsModule, RouterModule, QuillModule, LoadingComponent],
     templateUrl: './curriculum-info.component.html',
     styleUrl: './curriculum-info.component.scss'
 })

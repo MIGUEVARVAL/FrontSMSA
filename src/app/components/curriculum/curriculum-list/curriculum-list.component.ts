@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FacultadService } from '../../../services/APIs/backend/models/Facultad/facultad.service';
 import { Facultad, FacultadListResponse } from '../../../services/APIs/backend/models/Facultad/facultad.model';
 import { PlanEstudioService } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.service';
-import { PlanEstudio, PlanEstudioListResponse } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.model';
+import { PlanEstudioListResponse } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.model';
+import { LoadingComponent } from '../../../templates/loading/loading.component';
 
 @Component({
   selector: 'app-curriculum-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, LoadingComponent],
   templateUrl: './curriculum-list.component.html',
   styleUrl: './curriculum-list.component.scss'
 })

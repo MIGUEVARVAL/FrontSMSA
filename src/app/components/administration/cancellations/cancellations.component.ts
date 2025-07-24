@@ -79,6 +79,7 @@ export class CancellationsComponent {
         this.isLoading = false;
         this.isError = true;
         this.errorMessage = error.error?.message || 'Error al cargar las asignaturas canceladas.';
+        console.error('Error al cargar las asignaturas canceladas:', error);
       }
     });
   }

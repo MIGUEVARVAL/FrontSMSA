@@ -10,7 +10,7 @@ import { PlanEstudio } from '../../../services/APIs/backend/models/PlanEstudio/p
 @Component({
     selector: 'app-students-list',
     standalone: true,
-    imports: [CommonModule, RouterModule, ReactiveFormsModule],
+    imports: [CommonModule, RouterModule, ReactiveFormsModule, LoadingComponent],
     templateUrl: './students-list.component.html',
     styleUrl: './students-list.component.scss'
 })
@@ -121,12 +121,7 @@ export class StudentsListComponent {
      * @returns {void}
      */
     ngOnInit(): void {
-        this.codigoFacultad = this.route.snapshot.paramMap.get('codigoFacultad');
-        if (!this.codigoFacultad) {
-            this.router.navigate(['/home']);
-            return;
-        }
-        this.loadStudents(this.codigoFacultad);
+        this.loadStudents();
 
     }
 
@@ -135,9 +130,9 @@ export class StudentsListComponent {
      * @protected
      * @returns {void}
      */
-    protected loadStudents(codigoFacultad: string, filterData?: EstudianteFilter): void {
+    protected loadStudents(filterData?: EstudianteFilter): void {
         this.isLoading = true;
-        this.estudianteService.getEstudiantesByFacultad(this.page, codigoFacultad, filterData).subscribe({
+        this.estudianteService.getEstudiantesList(this.page, filterData).subscribe({
             next: (response: EstudianteListResponse) => {
                 this.isLoading = false;
                 this.estudiantesListResponse = response;
@@ -201,7 +196,7 @@ export class StudentsListComponent {
             avanceMax: formValue.avanceMax !== 100 ? formValue.avanceMax : undefined,
             riesgo: formValue.riesgo ? true : undefined,
         };
-        this.loadStudents(this.codigoFacultad!, this.filtrosActivos);
+        this.loadStudents(this.filtrosActivos);
     }
 
     /**
@@ -228,7 +223,7 @@ export class StudentsListComponent {
             orderDirection: ''
         };
         this.filterForm.reset();
-        this.loadStudents(this.codigoFacultad!);
+        this.loadStudents();
     }
 
     get totalPages(): number {
@@ -238,7 +233,7 @@ export class StudentsListComponent {
     protected onPageChange(page: number): void {
         if (page >= 1 && page <= this.totalPages) {
             this.page = page;
-            this.loadStudents(this.codigoFacultad!);
+            this.loadStudents();
         }
     }
 

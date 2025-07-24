@@ -259,242 +259,259 @@
 
         </div>
 
-        <div class="col d-flex flex-column gap-3 p-4">
+        <div class="col d-flex flex-column gap-3">
 
-            <h2 class="text-neutral-30 text-center my-2">Listado de Estudiantes</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Listado de estudiantes</li>
+                </ol>
+            </nav>
 
-            @if (estudiantesListResponse.results.length === 0) {
-            <div
-                class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4">
-                <h4 class="text-neutral-variant">No se encontraron estudiantes</h4>
-                <p class="text-neutral-variant-50">Revise que si se hayan cargado correctamente o comuníquese con el
-                    administrador.</p>
-            </div>
-            } @else {
+            <div class="p-5 mx-2 bg-neutral-95">
 
-            <div class="vstack gap-4">
+                <h2 class="text-neutral-30 text-center my-2">Listado de Estudiantes</h2>
 
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Nombre completo</th>
-                                <th>Avance</th>
-                                <th>P.A.P.A.</th>
-                                <th>Créditos Disponibles</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
+                <hr class="hr my-4">
+                
+                @if (estudiantesListResponse.results.length === 0) {
+                <div
+                    class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4">
+                    <h4 class="text-neutral-variant">No se encontraron estudiantes</h4>
+                    <p class="text-neutral-variant-50">Revise que si se hayan cargado correctamente o comuníquese con el
+                        administrador.</p>
+                </div>
+                } @else {
 
-                            @for (estudiante of estudiantesListResponse.results; track $index) {
-                            <tr>
-                                <td>
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        attr.data-bs-target="#collapse{{ estudiante.id }}" aria-expanded="true"
-                                        attr.aria-controls="collapse{{ estudiante.id }}">
-                                    </button>
-                                </td>
-                                <td>{{estudiante.nombres}} {{estudiante.apellidos}}</td>
-                                <td>{{estudiante.avance_carrera}}</td>
-                                @if(estudiante.papa){
-                                <td [ngClass]="{'fw-bold': estudiante.papa <= 3.2}">
-                                    @if (estudiante.papa <= 3.2) { <ng-container>
-                                        <div class="toolbar sm bg-fixed-warning" role="group"
-                                            aria-label="Basic example">
+                <div class="vstack gap-4">
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Nombre completo</th>
+                                    <th>Avance</th>
+                                    <th>P.A.P.A.</th>
+                                    <th>Créditos Disponibles</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+
+                                @for (estudiante of estudiantesListResponse.results; track $index) {
+                                <tr>
+                                    <td>
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" attr.data-bs-target="#collapse{{ estudiante.id }}"
+                                            aria-expanded="true" attr.aria-controls="collapse{{ estudiante.id }}">
+                                        </button>
+                                    </td>
+                                    <td>{{estudiante.nombres}} {{estudiante.apellidos}}</td>
+                                    <td>{{estudiante.avance_carrera}}</td>
+                                    @if(estudiante.papa){
+                                    <td [ngClass]="{'fw-bold': estudiante.papa <= 3.2}">
+                                        @if (estudiante.papa <= 3.2) { <ng-container>
+                                            <div class="toolbar sm bg-fixed-warning" role="group"
+                                                aria-label="Basic example">
+                                                {{ estudiante.papa }}
+                                            </div>
+                                            </ng-container>
+                                            }
+
+                                            @else {
                                             {{ estudiante.papa }}
-                                        </div>
-                                        </ng-container>
-                                        }
-
-                                        @else {
-                                        {{ estudiante.papa }}
-                                        }
-                                </td>
-                                }@else {
-                                <td>
-                                    Sin información
-                                </td>
-                                }
-                                @if(estudiante.creditos_disponibles){
-                                <td [ngClass]="{'fw-bold': estudiante.creditos_disponibles <= 10}">
-                                    @if (estudiante.creditos_disponibles <= 10) { <ng-container>
-                                        <div class="toolbar sm bg-fixed-warning" role="group"
-                                            aria-label="Basic example">
-                                            {{ estudiante.creditos_disponibles }}
-                                        </div>
-                                        </ng-container>
-                                        } @else {
-                                        <ng-container>
-                                            <div>
+                                            }
+                                    </td>
+                                    }@else {
+                                    <td>
+                                        Sin información
+                                    </td>
+                                    }
+                                    @if(estudiante.creditos_disponibles){
+                                    <td [ngClass]="{'fw-bold': estudiante.creditos_disponibles <= 10}">
+                                        @if (estudiante.creditos_disponibles <= 10) { <ng-container>
+                                            <div class="toolbar sm bg-fixed-warning" role="group"
+                                                aria-label="Basic example">
                                                 {{ estudiante.creditos_disponibles }}
                                             </div>
-                                        </ng-container>
+                                            </ng-container>
+                                            } @else {
+                                            <ng-container>
+                                                <div>
+                                                    {{ estudiante.creditos_disponibles }}
+                                                </div>
+                                            </ng-container>
+                                            }
+                                    </td>
+                                    }@else {
+                                    <td>
+                                        Sin información
+                                    </td>
+                                    }
+                                    <td>
+                                        @if (estudiante.matricula_periodo_activo === 'SI') {
+                                        <button class="tag tag-success">Activo</button>
+
+                                        } @else {
+                                        <button class="tag tag-neutral">Inactivo</button>
                                         }
-                                </td>
-                                }@else {
-                                <td>
-                                    Sin información
-                                </td>
-                                }
-                                <td>
-                                    @if (estudiante.matricula_periodo_activo === 'SI') {
-                                    <button class="tag tag-success">Activo</button>
+                                        @if (estudiante.estudiante_riesgo) {
+                                        <button class="tag tag-danger">Riesgo</button>
 
-                                    } @else {
-                                    <button class="tag tag-neutral">Inactivo</button>
-                                    }
-                                    @if (estudiante.estudiante_riesgo) {
-                                    <button class="tag tag-danger">Riesgo</button>
+                                        }
+                                    </td>
 
-                                    }
-                                </td>
+                                    <td>
+                                        <div class="toolbar sm bg-fixed-success" role="group"
+                                            aria-label="Basic example">
+                                            <a type="button" class="btn btn-icon" data-bs-toggle="tooltip"
+                                                data-bs-title="Añadir" (click)="addStudentToActive(estudiante.id!)">
+                                                <span class='material-symbols-fill'>visibility</span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="collapse-row">
+                                    <td colspan="7" class="accordion-item">
+                                        <div id="collapse{{estudiante.id}}" class="accordion-collapse collapse"
+                                            data-bs-parent="#accordionExample0">
+                                            <div class="accordion-body row row-cols-1 g-4">
+                                                <div class="col">
+                                                    <dl>
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10 text-truncate">
+                                                                Tipo de identificación</dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">
+                                                                {{ estudiante.tipo_documento }}</dd>
+                                                        </div>
 
-                                <td>
-                                    <div class="toolbar sm bg-fixed-success" role="group" aria-label="Basic example">
-                                        <a type="button" class="btn btn-icon" data-bs-toggle="tooltip"
-                                            data-bs-title="Añadir" (click)="addStudentToActive(estudiante.id!)">
-                                            <span class='material-symbols-fill'>visibility</span>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="collapse-row accordion">
-                                <td colspan="8" class="accordion-item">
-                                    <div id="collapse{{estudiante.id}}" class="accordion-collapse collapse"
-                                        data-bs-parent="#accordionExample0">
-                                        <div class="accordion-body row row-cols-1 g-4">
-                                            <div class="col">
-                                                <dl>
-                                                    <div class="row m-0 py-4 border-top border-neutral-80">
-                                                        <dt class="col-12 col-lg-4 text-neutral-10 text-truncate">
-                                                            Tipo de identificación</dt>
-                                                        <dd class="col-12 col-lg-8 text-neutral-30">
-                                                            {{ estudiante.tipo_documento }}</dd>
-                                                    </div>
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10">Número de
+                                                                identificación</dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">{{
+                                                                estudiante.documento }}
+                                                            </dd>
+                                                        </div>
 
-                                                    <div class="row m-0 py-4 border-top border-neutral-80">
-                                                        <dt class="col-12 col-lg-4 text-neutral-10">Número de
-                                                            identificación</dt>
-                                                        <dd class="col-12 col-lg-8 text-neutral-30">{{
-                                                            estudiante.documento }}
-                                                        </dd>
-                                                    </div>
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10">Correo
+                                                                electrónico</dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">
+                                                                {{ estudiante.correo_institucional }}</dd>
+                                                        </div>
 
-                                                    <div class="row m-0 py-4 border-top border-neutral-80">
-                                                        <dt class="col-12 col-lg-4 text-neutral-10">Correo
-                                                            electrónico</dt>
-                                                        <dd class="col-12 col-lg-8 text-neutral-30">
-                                                            {{ estudiante.correo_institucional }}</dd>
-                                                    </div>
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10">Correo
+                                                                electrónico alterno</dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">
+                                                                {{ estudiante.correo_alterno }}</dd>
+                                                        </div>
 
-                                                    <div class="row m-0 py-4 border-top border-neutral-80">
-                                                        <dt class="col-12 col-lg-4 text-neutral-10">Correo
-                                                            electrónico alterno</dt>
-                                                        <dd class="col-12 col-lg-8 text-neutral-30">
-                                                            {{ estudiante.correo_alterno }}</dd>
-                                                    </div>
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10">Plan
+                                                            </dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">
+                                                                {{ estudiante.plan_estudio?.codigo }} - {{
+                                                                estudiante.plan_estudio?.nombre }}</dd>
+                                                        </div>
 
-                                                    <div class="row m-0 py-4 border-top border-neutral-80">
-                                                        <dt class="col-12 col-lg-4 text-neutral-10">Plan
-                                                        </dt>
-                                                        <dd class="col-12 col-lg-8 text-neutral-30">
-                                                            {{ estudiante.plan_estudio?.codigo }} - {{
-                                                            estudiante.plan_estudio?.nombre }}</dd>
-                                                    </div>
-
-                                                    <div class="row m-0 py-4 border-top border-neutral-80">
-                                                        <dt class="col-12 col-lg-4 text-neutral-10">Cupo de créditos
-                                                        </dt>
-                                                        <dd class="col-12 col-lg-8 text-neutral-30">
-                                                            {{ estudiante.cupo_creditos }}</dd>
-                                                    </div>
-                                                </dl>
+                                                        <div class="row m-0 py-4 border-top border-neutral-80">
+                                                            <dt class="col-12 col-lg-4 text-neutral-10">Cupo de créditos
+                                                            </dt>
+                                                            <dd class="col-12 col-lg-8 text-neutral-30">
+                                                                {{ estudiante.cupo_creditos }}</dd>
+                                                        </div>
+                                                    </dl>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                                }
+
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
+                    <p class="flex-grow-1">
+                        Página {{ page }} de {{ totalPages }}
+                    </p>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-neutral">
+
+                            <li class="page-item" [class.disabled]="page === 1">
+                                <a class="page-link" (click)="onPageChange(1)" aria-label="Primera">&laquo;</a>
+                            </li>
+                            <li class="page-item" [class.disabled]="page === 1">
+                                <a class="page-link" (click)="onPageChange(page - 1)" aria-label="Anterior">&lsaquo;</a>
+                            </li>
+
+                            <!-- Primera página -->
+                            <li class="page-item" [class.active]="page === 1">
+                                <a class="page-link" (click)="onPageChange(1)">1</a>
+                            </li>
+
+                            <!-- Puntos suspensivos a la izquierda -->
+                            @if (page > 3) {
+                            <li class="page-item"><a class="page-link" aria-label="more"></a></li>
                             }
 
-                        </tbody>
-
-
-                    </table>
-                </div>
-            </div>
-
-            <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
-                <p class="flex-grow-1">
-                    Página {{ page }} de {{ totalPages }}
-                </p>
-                <nav aria-label="Page navigation">
-                    <ul class="pagination pagination-neutral">
-
-                        <li class="page-item" [class.disabled]="page === 1">
-                            <a class="page-link" (click)="onPageChange(1)" aria-label="Primera">&laquo;</a>
-                        </li>
-                        <li class="page-item" [class.disabled]="page === 1">
-                            <a class="page-link" (click)="onPageChange(page - 1)" aria-label="Anterior">&lsaquo;</a>
-                        </li>
-
-                        <!-- Primera página -->
-                        <li class="page-item" [class.active]="page === 1">
-                            <a class="page-link" (click)="onPageChange(1)">1</a>
-                        </li>
-
-                        <!-- Puntos suspensivos a la izquierda -->
-                        @if (page > 3) {
-                        <li class="page-item"><a class="page-link" aria-label="more"></a></li>
-                        }
-
-                        <!-- Página anterior -->
-                        @if (page > 2) {
-                        <li class="page-item" [class.active]="false">
-                            <a class="page-link" (click)="onPageChange(page - 1)">{{ page - 1 }}</a>
-                        </li>
-                        }
-
-                        <!-- Página actual (si no es la primera ni la última) -->
-                        @if (page !== 1 && page !== totalPages) {
-                        <li class="page-item" [class.active]="true">
-                            <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
-                        </li>
-                        }
-
-                        <!-- Página siguiente -->
-                        @if (page < totalPages - 1) { <li class="page-item" [class.active]="false">
-                            <a class="page-link" (click)="onPageChange(page + 1)">{{ page + 1 }}</a>
+                            <!-- Página anterior -->
+                            @if (page > 2) {
+                            <li class="page-item" [class.active]="false">
+                                <a class="page-link" (click)="onPageChange(page - 1)">{{ page - 1 }}</a>
                             </li>
                             }
 
-                            <!-- Puntos suspensivos a la derecha -->
-                            @if (page < totalPages - 2) { <li class="page-item"><a class="page-link"
-                                    aria-label="more"></a></li>
+                            <!-- Página actual (si no es la primera ni la última) -->
+                            @if (page !== 1 && page !== totalPages) {
+                            <li class="page-item" [class.active]="true">
+                                <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
+                            </li>
+                            }
+
+                            <!-- Página siguiente -->
+                            @if (page < totalPages - 1) { <li class="page-item" [class.active]="false">
+                                <a class="page-link" (click)="onPageChange(page + 1)">{{ page + 1 }}</a>
+                                </li>
                                 }
 
-                                <!-- Última página (si hay más de una) -->
-                                @if (totalPages > 1) {
-                                <li class="page-item" [class.active]="page === totalPages">
-                                    <a class="page-link" (click)="onPageChange(totalPages)">{{ totalPages }}</a>
-                                </li>
-                                }
+                                <!-- Puntos suspensivos a la derecha -->
+                                @if (page < totalPages - 2) { <li class="page-item"><a class="page-link"
+                                        aria-label="more"></a></li>
+                                    }
 
-                                <li class="page-item" [class.disabled]="page === totalPages">
-                                    <a class="page-link" (click)="onPageChange(page + 1)"
-                                        aria-label="Siguiente">&rsaquo;</a>
-                                </li>
-                                <li class="page-item" [class.disabled]="page === totalPages">
-                                    <a class="page-link" (click)="onPageChange(totalPages)"
-                                        aria-label="Última">&raquo;</a>
-                                </li>
-                    </ul>
-                </nav>
+                                    <!-- Última página (si hay más de una) -->
+                                    @if (totalPages > 1) {
+                                    <li class="page-item" [class.active]="page === totalPages">
+                                        <a class="page-link" (click)="onPageChange(totalPages)">{{ totalPages }}</a>
+                                    </li>
+                                    }
+
+                                    <li class="page-item" [class.disabled]="page === totalPages">
+                                        <a class="page-link" (click)="onPageChange(page + 1)"
+                                            aria-label="Siguiente">&rsaquo;</a>
+                                    </li>
+                                    <li class="page-item" [class.disabled]="page === totalPages">
+                                        <a class="page-link" (click)="onPageChange(totalPages)"
+                                            aria-label="Última">&raquo;</a>
+                                    </li>
+                        </ul>
+                    </nav>
+                </div>
+                }
             </div>
-            }
         </div>
 
     </div>
 </main>
+
+@if (isLoading) {
+<app-loading></app-loading>
+}

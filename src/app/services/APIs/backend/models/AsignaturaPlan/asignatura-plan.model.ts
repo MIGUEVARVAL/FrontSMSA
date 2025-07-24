@@ -12,3 +12,8 @@ export interface AsignaturaPlan {
   tipologiaId?: string;
   fecha_modificacion?: Date;
 }
+
+export interface PlanesAsignatura {
+  tipologia: Tipologia;
+  planes: AsignaturaPlan[];
+}

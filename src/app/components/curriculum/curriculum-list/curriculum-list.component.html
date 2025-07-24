@@ -164,131 +164,147 @@
             </form>
         </div>
 
-        <div class="col d-flex flex-column gap-3 p-5 mx-2 bg-neutral-95">
-            <h2 class="text-neutral-30 text-center my-2">Planes de Estudio</h2>
 
-            <div class="vstack gap-4">
-                @if (planEstudioListResponse.results.length === 0) {
-                <div
-                    class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4">
-                    <h4 class="text-neutral-variant">No se encontraron planes de estudio</h4>
-                    <p class="text-neutral-variant-50">Revise que si se hayan cargado correctamente o comuníquese con el administrador.</p>
+        <div class="col d-flex flex-column gap-3 ">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Listado de planes de estudio</li>
+                </ol>
+            </nav>
+            <div class="p-5 mx-2 bg-neutral-95">
+                <h2 class="text-neutral-30 text-center my-2">Planes de Estudio</h2>
+                    <hr class="hr my-4">
 
-                </div>
-                }@else {
-                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-                    @for (plan of planEstudioListResponse.results; track $index) {
-                    <div>
-                        <div class="d-flex flex-column p-8 gap-6 bg-neutral-100 rounded-5 h-100">
-                            <div class="d-flex flex-column gap-2 text-neutral-10">
-                                <div class="d-flex flex-row-reverse">
-                                    @if (plan.activo) {
-                                    <button class="tag tag-light-success">Activo</button>
-                                    } @else {
-                                    <button class="tag tag-light-neutral">Inactivo</button>
-                                    }
-                                </div>
-                                <p class="h5">
-                                    <mark>{{ plan.codigo }} - {{ plan.nombre }}</mark>
-                                </p>
-                                <p>{{ plan.facultad?.nombre }}</p>
-                                <div class="d-flex justify-content-between">
-                                    <div class="item-flex">
-                                        <strong>Tipo nivel: </strong>{{ plan.tipo_nivel }}
+                <div class="vstack gap-4">
+                    @if (planEstudioListResponse.results.length === 0) {
+                    <div
+                        class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4">
+                        <h4 class="text-neutral-variant">No se encontraron planes de estudio</h4>
+                        <p class="text-neutral-variant-50">Revise que si se hayan cargado correctamente o comuníquese
+                            con el administrador.</p>
+
+                    </div>
+                    }@else {
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                        @for (plan of planEstudioListResponse.results; track $index) {
+                        <div>
+                            <div class="d-flex flex-column p-8 gap-6 bg-neutral-100 rounded-5 h-100">
+                                <div class="d-flex flex-column gap-2 text-neutral-10">
+                                    <div class="d-flex flex-row-reverse">
+                                        @if (plan.activo) {
+                                        <button class="tag tag-light-success">Activo</button>
+                                        } @else {
+                                        <button class="tag tag-light-neutral">Inactivo</button>
+                                        }
                                     </div>
-                                    <div class="item-flex">
-                                        <strong>Nivel: </strong>{{ plan.nivel }}
+                                    <p class="h5">
+                                        <mark>{{ plan.codigo }} - {{ plan.nombre }}</mark>
+                                    </p>
+                                    <p>{{ plan.facultad?.nombre }}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="item-flex">
+                                            <strong>Tipo nivel: </strong>{{ plan.tipo_nivel }}
+                                        </div>
+                                        <div class="item-flex">
+                                            <strong>Nivel: </strong>{{ plan.nivel }}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div>
-                                <a class="link link-primary d-flex gap-4"
-                                    routerLink="/curriculum/curriculum-detail/{{ plan.id }}">
-                                    <span>Explorar</span>
-                                    <span class="material-symbols-outlined icon">east</span>
-                                </a>
+                                <div>
+                                    <a class="link link-primary d-flex gap-4"
+                                        routerLink="/curriculum/curriculum-detail/{{ plan.id }}">
+                                        <span>Explorar</span>
+                                        <span class="material-symbols-outlined icon">east</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
+                        }
                     </div>
-                    }
-                </div>
 
-                <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
-                    <p class="flex-grow-1">Página {{ page }} de {{ totalPages }}</p>
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination pagination-neutral">
-                            <li class="page-item" [class.disabled]="page === 1">
-                                <a class="page-link" (click)="onPageChange(1)" aria-label="Primera">&laquo;</a>
-                            </li>
-                            <li class="page-item" [class.disabled]="page === 1">
-                                <a class="page-link" (click)="onPageChange(page - 1)" aria-label="Anterior">&lsaquo;</a>
-                            </li>
+                    <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
+                        <p class="flex-grow-1">Página {{ page }} de {{ totalPages }}</p>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-neutral">
+                                <li class="page-item" [class.disabled]="page === 1">
+                                    <a class="page-link" (click)="onPageChange(1)" aria-label="Primera">&laquo;</a>
+                                </li>
+                                <li class="page-item" [class.disabled]="page === 1">
+                                    <a class="page-link" (click)="onPageChange(page - 1)"
+                                        aria-label="Anterior">&lsaquo;</a>
+                                </li>
 
-                            <!-- Primera página -->
-                            <li class="page-item" [class.active]="page === 1">
-                                <a class="page-link" (click)="onPageChange(1)">1</a>
-                            </li>
+                                <!-- Primera página -->
+                                <li class="page-item" [class.active]="page === 1">
+                                    <a class="page-link" (click)="onPageChange(1)">1</a>
+                                </li>
 
-                            <!-- Puntos suspensivos a la izquierda -->
-                            @if (page > 3) {
-                            <li class="page-item">
-                                <a class="page-link" aria-label="more"></a>
-                            </li>
-                            }
-
-                            <!-- Página anterior -->
-                            @if (page > 2) {
-                            <li class="page-item" [class.active]="false">
-                                <a class="page-link" (click)="onPageChange(page - 1)">{{
-                                    page - 1
-                                    }}</a>
-                            </li>
-                            }
-
-                            <!-- Página actual (si no es la primera ni la última) -->
-                            @if (page !== 1 && page !== totalPages) {
-                            <li class="page-item" [class.active]="true">
-                                <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
-                            </li>
-                            }
-
-                            <!-- Página siguiente -->
-                            @if (page < totalPages - 1) { <li class="page-item" [class.active]="false">
-                                <a class="page-link" (click)="onPageChange(page + 1)">{{
-                                    page + 1
-                                    }}</a>
+                                <!-- Puntos suspensivos a la izquierda -->
+                                @if (page > 3) {
+                                <li class="page-item">
+                                    <a class="page-link" aria-label="more"></a>
                                 </li>
                                 }
 
-                                <!-- Puntos suspensivos a la derecha -->
-                                @if (page < totalPages - 2) { <li class="page-item">
-                                    <a class="page-link" aria-label="more"></a>
+                                <!-- Página anterior -->
+                                @if (page > 2) {
+                                <li class="page-item" [class.active]="false">
+                                    <a class="page-link" (click)="onPageChange(page - 1)">{{
+                                        page - 1
+                                        }}</a>
+                                </li>
+                                }
+
+                                <!-- Página actual (si no es la primera ni la última) -->
+                                @if (page !== 1 && page !== totalPages) {
+                                <li class="page-item" [class.active]="true">
+                                    <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
+                                </li>
+                                }
+
+                                <!-- Página siguiente -->
+                                @if (page < totalPages - 1) { <li class="page-item" [class.active]="false">
+                                    <a class="page-link" (click)="onPageChange(page + 1)">{{
+                                        page + 1
+                                        }}</a>
                                     </li>
                                     }
 
-                                    <!-- Última página (si hay más de una) -->
-                                    @if (totalPages > 1) {
-                                    <li class="page-item" [class.active]="page === totalPages">
-                                        <a class="page-link" (click)="onPageChange(totalPages)">{{
-                                            totalPages
-                                            }}</a>
-                                    </li>
-                                    }
+                                    <!-- Puntos suspensivos a la derecha -->
+                                    @if (page < totalPages - 2) { <li class="page-item">
+                                        <a class="page-link" aria-label="more"></a>
+                                        </li>
+                                        }
 
-                                    <li class="page-item" [class.disabled]="page === totalPages">
-                                        <a class="page-link" (click)="onPageChange(page + 1)"
-                                            aria-label="Siguiente">&rsaquo;</a>
-                                    </li>
-                                    <li class="page-item" [class.disabled]="page === totalPages">
-                                        <a class="page-link" (click)="onPageChange(totalPages)"
-                                            aria-label="Última">&raquo;</a>
-                                    </li>
-                        </ul>
-                    </nav>
+                                        <!-- Última página (si hay más de una) -->
+                                        @if (totalPages > 1) {
+                                        <li class="page-item" [class.active]="page === totalPages">
+                                            <a class="page-link" (click)="onPageChange(totalPages)">{{
+                                                totalPages
+                                                }}</a>
+                                        </li>
+                                        }
+
+                                        <li class="page-item" [class.disabled]="page === totalPages">
+                                            <a class="page-link" (click)="onPageChange(page + 1)"
+                                                aria-label="Siguiente">&rsaquo;</a>
+                                        </li>
+                                        <li class="page-item" [class.disabled]="page === totalPages">
+                                            <a class="page-link" (click)="onPageChange(totalPages)"
+                                                aria-label="Última">&raquo;</a>
+                                        </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    }
                 </div>
-                }
             </div>
         </div>
     </div>
 </main>
+
+@if (isLoading) {
+<app-loading></app-loading>
+}

@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 
 
@@ -34,7 +33,7 @@ export const routes: Routes = [
     },
 
     {
-        path: 'home', loadComponent: () => import('./components/students/home/home.component').then(m => m.HomeComponent),
+        path: 'home', loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent),
         canActivate: [authGuard],
         data: { roles: ['user', 'admin'] }
     },
@@ -42,7 +41,7 @@ export const routes: Routes = [
     {
         path: 'students',
         children: [
-            {path: 'student-list/:codigoFacultad', loadComponent: () => import('./components/students/students-list/students-list.component').then(m => m.StudentsListComponent)},
+            {path: 'student-list', loadComponent: () => import('./components/students/students-list/students-list.component').then(m => m.StudentsListComponent)},
             {path: 'student-info', loadComponent: () => import('./components/students/students-info/students-info.component').then(m => m.StudentsInfoComponent)},
             {path: 'student-support-strategy', loadComponent: () => import('./components/students/Strategy/student-support-strategy/student-support-strategy.component').then(m => m.StudentSupportStrategyComponent)},
             {path: 'strategy-detail/:idStrategy', loadComponent: () => import('./components/students/Strategy/strategy-detail/strategy-detail.component').then(m => m.StrategyDetailComponent)},
@@ -60,5 +59,15 @@ export const routes: Routes = [
         canActivate: [authGuard],
         data: { roles: ['user', 'admin'] }
     },
+
+    {
+        path: 'subject',
+        children: [
+            {path: 'subject-list', loadComponent: () => import('./components/subject/subject-list/subject-list.component').then(m => m.SubjectListComponent)},
+            {path: 'subject-detail/:idSubject', loadComponent: () => import('./components/subject/subject-info/subject-info.component').then(m => m.SubjectInfoComponent)},
+        ],
+        canActivate: [authGuard],
+        data: { roles: ['user', 'admin'] }
+    }
 
 ];

@@ -1,0 +1,157 @@
+<main class="body">
+    <div class="row m-0">
+
+        <nav aria-label="breadcrumb" class="p-3">
+            <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Asignaturas</li>
+            </ol>
+        </nav>
+
+
+        <div class="col d-flex flex-column gap-4 flex-grow-1 gap-3 mx-3">
+
+            <div class="d-flex flex-column gap-4 flex-grow-1 bg-neutral-95 rounded-5 p-5">
+
+                <div class="rounded-4 bar text-center p-2 my-2">
+                    <h2>Asignaturas</h2>
+                    <hr class="hr my-4">
+                </div>
+
+                <div class="vstack gap-4">
+
+                    <div class="d-flex flex-column flex-md-row gap-2">
+                        <form [formGroup]="filterForm" (ngSubmit)="searchAsignaturas()"
+                            class="d-flex gap-2 justify-content-center align-items-center">
+                            <input type="text" class="form-control" id="placeholder" aria-describedby="placeholderText"
+                                placeholder="Código asignatura" formControlName="codigo">
+                            <input type="text" class="form-control" id="placeholder" aria-describedby="placeholderText"
+                                placeholder="Nombre asignatura" formControlName="nombre">
+
+                            <button class="btn btn-primary btn-icon btn-sm btn-rounded" type="submit">
+                                <span translate="no" class="material-symbols-outlined">search</span>
+                            </button>
+                        </form>
+                        <div class="flex-grow-1"></div>
+                    </div>
+
+
+                    @if (asignaturasResponse.results.length === 0) {
+                    <div
+                        class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4">
+                        <h4 class="text-neutral-variant">No se encontraron asignaturas</h4>
+                        <p class="text-neutral-variant-50">Revise que si se hayan cargado correctamente o comuníquese
+                            con el administrador.</p>
+
+                    </div>
+                    }@else {
+                    <div class="row row-cols-1 row-cols-xs-2 row-cols-md-3 row-cols-xl-4 g-4">
+                        @for (asignatura of asignaturasResponse.results; track $index) {
+                        <div>
+                            <div class="d-flex flex-column p-8 gap-4 bg-neutral-100 rounded-5 h-100">
+                                <div class="d-flex flex-column gap-2 text-neutral-10">
+                                    <p class="h5">
+                                        <mark>{{asignatura.codigo}} - {{asignatura.nombre}}</mark>
+                                    </p>
+                                    <p><strong>Créditos: </strong>{{ asignatura.creditos }}</p>
+                                    <p><strong>UAB: </strong>{{ asignatura.uab.nombre }}</p>
+                                </div>
+
+                                <div>
+                                    <a class="link link-primary d-flex gap-4"
+                                        routerLink="/subject/subject-detail//{{ asignatura.id }}">
+                                        <span>Explorar</span>
+                                        <span class="material-symbols-outlined icon">east</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <div class="d-flex flex-column flex-md-row gap-2 justify-content-center align-items-center mt-5">
+                        <p class="flex-grow-1">Página {{ page }} de {{ totalPages }}</p>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-neutral">
+                                <li class="page-item" [class.disabled]="page === 1">
+                                    <a class="page-link" (click)="onPageChange(1)" aria-label="Primera">&laquo;</a>
+                                </li>
+                                <li class="page-item" [class.disabled]="page === 1">
+                                    <a class="page-link" (click)="onPageChange(page - 1)"
+                                        aria-label="Anterior">&lsaquo;</a>
+                                </li>
+
+                                <!-- Primera página -->
+                                <li class="page-item" [class.active]="page === 1">
+                                    <a class="page-link" (click)="onPageChange(1)">1</a>
+                                </li>
+
+                                <!-- Puntos suspensivos a la izquierda -->
+                                @if (page > 3) {
+                                <li class="page-item">
+                                    <a class="page-link" aria-label="more"></a>
+                                </li>
+                                }
+
+                                <!-- Página anterior -->
+                                @if (page > 2) {
+                                <li class="page-item" [class.active]="false">
+                                    <a class="page-link" (click)="onPageChange(page - 1)">{{
+                                        page - 1
+                                        }}</a>
+                                </li>
+                                }
+
+                                <!-- Página actual (si no es la primera ni la última) -->
+                                @if (page !== 1 && page !== totalPages) {
+                                <li class="page-item" [class.active]="true">
+                                    <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
+                                </li>
+                                }
+
+                                <!-- Página siguiente -->
+                                @if (page < totalPages - 1) { <li class="page-item" [class.active]="false">
+                                    <a class="page-link" (click)="onPageChange(page + 1)">{{
+                                        page + 1
+                                        }}</a>
+                                    </li>
+                                    }
+
+                                    <!-- Puntos suspensivos a la derecha -->
+                                    @if (page < totalPages - 2) { <li class="page-item">
+                                        <a class="page-link" aria-label="more"></a>
+                                        </li>
+                                        }
+
+                                        <!-- Última página (si hay más de una) -->
+                                        @if (totalPages > 1) {
+                                        <li class="page-item" [class.active]="page === totalPages">
+                                            <a class="page-link" (click)="onPageChange(totalPages)">{{
+                                                totalPages
+                                                }}</a>
+                                        </li>
+                                        }
+
+                                        <li class="page-item" [class.disabled]="page === totalPages">
+                                            <a class="page-link" (click)="onPageChange(page + 1)"
+                                                aria-label="Siguiente">&rsaquo;</a>
+                                        </li>
+                                        <li class="page-item" [class.disabled]="page === totalPages">
+                                            <a class="page-link" (click)="onPageChange(totalPages)"
+                                                aria-label="Última">&raquo;</a>
+                                        </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+
+@if (isLoading) {
+<app-loading></app-loading>
+}

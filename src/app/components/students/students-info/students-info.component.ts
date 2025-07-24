@@ -8,11 +8,12 @@ import { HistorialAcademico, HistorialAcademicoByPlanEstudios } from '../../../s
 import { AsignaturaPlanService } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.service';
 import { HistoricoSeguimientoListResponse, HistoricoSeguimiento } from '../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.model';
 import { HistoricoSeguimientoService } from '../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.service';
+import { LoadingComponent } from '../../../templates/loading/loading.component';
 
 @Component({
     selector: 'app-students-info',
     standalone: true,
-    imports: [RouterModule, CommonModule],
+    imports: [RouterModule, CommonModule, LoadingComponent],
     templateUrl: './students-info.component.html',
     styleUrl: './students-info.component.scss'
 })

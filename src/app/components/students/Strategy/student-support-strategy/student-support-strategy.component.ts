@@ -7,11 +7,12 @@ import { Estudiante } from '../../../../services/APIs/backend/models/Estudiante/
 import { EstrategiaService } from '../../../../services/APIs/backend/models/Estrategia/estrategia.service';
 import { Estrategia, EstrategiaListResponse } from '../../../../services/APIs/backend/models/Estrategia/estrategia.model';
 import { LoadingComponent } from '../../../../templates/loading/loading.component';
+import { QuillModule } from 'ngx-quill';
 
 @Component({
   selector: 'app-student-support-strategy',
   standalone: true,
-  imports: [RouterModule, CommonModule, ReactiveFormsModule, LoadingComponent],
+  imports: [RouterModule, CommonModule, ReactiveFormsModule, LoadingComponent, QuillModule],
   templateUrl: './student-support-strategy.component.html',
   styleUrl: './student-support-strategy.component.scss'
 })

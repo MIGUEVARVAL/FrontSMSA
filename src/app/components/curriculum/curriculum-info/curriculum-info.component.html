@@ -1,25 +1,25 @@
 <main class="body">
 
+    
+        
     <div class="col d-flex flex-column gap-3 p-4">
+
+        <nav aria-label="breadcrumb" class="p-3">
+            <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
+                <li class="breadcrumb-item"><a routerLink="/curriculum/curriculum-list">Listado de planes de estudio</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Información del plan de estudio</li>
+            </ol>
+        </nav>
 
         <div class="d-flex flex-grow-1 row m-0 p-4 p-xl-8 gx-4 gy-4 gy-xl-0 bg-neutral-95">
 
 
             <div class="col body flex-grow-1">
 
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a routerLink="/home">Inicio</a></li>
-                        <li class="breadcrumb-item"><a routerLink="/students/student-list">Listado de estudiantes</a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Información del estudiante</li>
-                    </ol>
-                </nav>
-
                 <div class="vstack gap-4 flex-grow-1">
                     <div class="bg-neutral-95 h-100 rounded-5 ">
-
-                        <hr class="hr my-4">
 
                         <div class="bg-neutral-100 rounded-4 bar text-center p-5 my-5">
                             <h4>{{planEstudio.codigo}} - {{planEstudio.nombre}}</h4>
@@ -293,3 +293,8 @@
 
 
 </main>
+
+
+@if (isLoading) {
+<app-loading></app-loading>
+}
