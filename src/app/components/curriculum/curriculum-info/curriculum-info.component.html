@@ -1,7 +1,7 @@
 <main class="body">
 
-    
-        
+
+
     <div class="col d-flex flex-column gap-3 p-4">
 
         <nav aria-label="breadcrumb" class="p-3">
@@ -189,9 +189,6 @@
                                                 dignissimos
                                                 repellat tempora quo praesentium, eos expedita similique.</p>
                                         </div>
-                                        <!-- 
-                                        <quill-editor [(ngModel)]="planEstudio.descripcion" [style]="{height: '200px'}"></quill-editor>
-                                         -->
                                     </div>
                                 </div>
                             </div>
@@ -271,12 +268,64 @@
 
                             <div class="collapse" id="collapseAcuerdos" data-bs-parent="#accordionCurriculum">
                                 <div class="bg-neutral-100 rounded-5 p-4 my-2">
-                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis architecto
-                                    suscipit praesentium magni odio amet tenetur culpa? Deserunt, non nostrum qui
-                                    voluptas reprehenderit, facilis impedit consequatur eum, deleniti officiis eveniet!
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit ducimus ut rem, cum
-                                    temporibus porro excepturi eum maxime, possimus assumenda explicabo labore
-                                    voluptatum, sunt distinctio atque sit quaerat necessitatibus laborum.
+
+                                    <div class="p-2 float-end">
+                                        <div class="toolbar sm bg-fixed-success" role="group" aria-label="btn-groups">
+                                            <a type="button" class="btn btn-icon" data-bs-toggle="modal"
+                                                [attr.data-bs-target]="'#addAcuerdoModal'">
+                                                <span class='material-symbols-fill'>add</span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal fade" tabindex="-1" [attr.id]="'addAcuerdoModal'">
+                                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                                <form >
+                                                    <div class="modal-header">
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-title">Edición de la asignatura</div>
+                                                    <div class="modal-body overflow-scroll" style="max-height: 70vh;">
+                                                        <div class="my-2 ">
+                                                            <div class="p-4">
+                                                                <p>Titulo</p>
+                                                                <input type="text" formControlName="titulo"
+                                                                    class="form-control">
+                                                            </div>
+                                                            <div class="p-4">
+                                                                <p>URL</p>
+                                                                <input type="url" formControlName="url"
+                                                                    class="form-control">
+                                                            </div>
+                                                            <div class="p-4">
+                                                                <p>Vigencia</p>
+                                                                <select name="vigencia" id="vigencia" formControlName="vigencia" class="form-select">
+                                                                    <option value="vigente">Acuerdo Vigente</option>
+                                                                    <option value="no_vigente">Acuerdo no Vigente</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer mt-4">
+                                                        <button type="button" class="btn btn-outline-primary"
+                                                            data-bs-dismiss="modal">
+                                                            Cancelar
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">
+                                                            Actualizar
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h4 class="text-center p-4">Acuerdos del plan de estudio</h4>
+                                    <div class="p-4">
+                                        Aun no se han registrado acuerdos para este plan de estudio.
+                                    </div>
                                 </div>
                             </div>
                         </div>

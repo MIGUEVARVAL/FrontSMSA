@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EstudianteService } from '../../../services/APIs/backend/models/Estudiante/estudiante.service';
-import { Estudiante} from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
+import { Estudiante } from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
 import { HistorialAcademicoService } from '../../../services/APIs/backend/models/HistorialAcademico/historial-academico.service';
 import { HistorialAcademico, HistorialAcademicoByPlanEstudios } from '../../../services/APIs/backend/models/HistorialAcademico/historial-academico.model';
 import { AsignaturaPlanService } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.service';
 import { HistoricoSeguimientoListResponse, HistoricoSeguimiento } from '../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.model';
 import { HistoricoSeguimientoService } from '../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.service';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
+
 
 @Component({
     selector: 'app-students-info',
@@ -130,7 +131,7 @@ export class StudentsInfoComponent {
      * @method getTipologies
      * @returns {any[]} - Lista de tipologías con asignaturas del plan de estudios.
      */
-    protected getTipologies():void {
+    protected getTipologies(): void {
         console.log("Obteniendo tipologías del plan de estudios...");
         this.isLoading = true;
         console.log("Plan de estudios ID:", this.studentInfo);
@@ -149,12 +150,12 @@ export class StudentsInfoComponent {
                 this.isSuccess = true;
                 this.successMessage = "Historial académico por tipologías cargado exitosamente.";
             }
-            , (error) => {
-                this.isLoading = false;
-                this.isError = true;
-                this.errorMessage = "Error al cargar el historial académico por tipologías: " + error.message;
-                console.error("Error al cargar el historial académico por tipologías:", error);
-            });
+                , (error) => {
+                    this.isLoading = false;
+                    this.isError = true;
+                    this.errorMessage = "Error al cargar el historial académico por tipologías: " + error.message;
+                    console.error("Error al cargar el historial académico por tipologías:", error);
+                });
     }
 
 
@@ -181,25 +182,25 @@ export class StudentsInfoComponent {
    * @method getFollowUp
    * @returns {void}
    */
-  protected getFollowUp(): void {
-    this.isLoading = true;
-    if (!this.studentInfo?.id) {
-      this.isLoading = false;
-      this.isError = true;
-      this.errorMessage = "No se pudo obtener el ID del estudiante.";
-      return;
+    protected getFollowUp(): void {
+        this.isLoading = true;
+        if (!this.studentInfo?.id) {
+            this.isLoading = false;
+            this.isError = true;
+            this.errorMessage = "No se pudo obtener el ID del estudiante.";
+            return;
+        }
+        this.historicoSeguimientoService.getHistoricoSeguimientoList(1, this.studentInfo.id.toString()).subscribe({
+            next: (response: HistoricoSeguimientoListResponse) => {
+                this.recentRecordsFollowup = response.results;
+                this.isLoading = false;
+            },
+            error: (error) => {
+                this.isLoading = false;
+                this.isError = true;
+                this.errorMessage = "Error al cargar el historial de seguimiento: " + error.message;
+            }
+        });
     }
-    this.historicoSeguimientoService.getHistoricoSeguimientoList(1, this.studentInfo.id.toString()).subscribe({
-      next: (response: HistoricoSeguimientoListResponse) => {
-        this.recentRecordsFollowup = response.results;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = "Error al cargar el historial de seguimiento: " + error.message;
-      } 
-    });
-  }
 
 }

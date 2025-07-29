@@ -7,11 +7,14 @@ import { AsignaturaPlanService } from '../../../services/APIs/backend/models/Asi
 import { PlanesAsignatura } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.model';
 import { AsignaturaService } from '../../../services/APIs/backend/models/Asignatura/asignatura.service';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
+import { FormsModule } from '@angular/forms';
+import { QuillModule } from 'ngx-quill';
+import { AuthService } from '../../../services/APIs/backend/authentication/auth.service';
 
 @Component({
   selector: 'app-subject-info',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, LoadingComponent],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, LoadingComponent, QuillModule, FormsModule],
   templateUrl: './subject-info.component.html',
   styleUrl: './subject-info.component.scss'
 })
@@ -40,6 +43,13 @@ export class SubjectInfoComponent {
   protected page: number = 1;
 
   /**
+   * Variable para almacenar el nivel de permisos del usuario.
+   * @protected
+   * @property {number | null} nivelPermisos - Nivel de permisos del usuario.
+   */
+  protected nivelPermisos: number | null = null;
+
+  /**
    * ID de la asignatura obtenida de la ruta activa.
    * @protected
    * @property {string | null} idAsignatura - ID de la asignatura.
@@ -51,7 +61,22 @@ export class SubjectInfoComponent {
    * @type {Asignatura}
    * @protected
    */
-  protected asignatura: Asignatura | null = null;
+  protected asignatura: Asignatura = {
+    id: '',
+    nombre: '',
+    codigo: '',
+    creditos: 0,
+    uab: null,
+    fecha_creacion: new Date(),
+    fecha_modificacion: new Date(),
+    descripcion: '',
+    objetivos: '',
+    contenido: '',
+    referencias: '',
+    director: '',
+    fecha_aprobacion: null,
+    acta_aprobacion: '',
+  };
 
   /**
    * Variable para almacenar los planes de asignatura relacionados.
@@ -60,13 +85,53 @@ export class SubjectInfoComponent {
    */
   protected asignaturaPlans: PlanesAsignatura[] = [];
 
+
+  /**
+     * Módulos de Quill para el editor de texto enriquecido.
+     * @protected
+     * @type {any}
+     */
+  protected quillModules = {
+    toolbar: {
+      // Configuración de la barra de herramientas del editor Quill
+      container: [
+        ['bold', 'italic', 'underline', 'strike'],        // texto básico
+        ['blockquote', 'link'],
+        [{ list: 'ordered' }, { list: 'bullet' }],        // listas
+        [{ align: [] }],                                  // alineación
+        [{ 'indent': '-1' }, { 'indent': '+1' }],         // tabulación
+        ['clean'],
+      ],
+      handlers: {}
+    },
+    clipboard: true
+  };
+
+  protected formats = ['bold', 'italic', 'underline', 'strike', 'blockquote', 'link', 'list', 'bullet', 'align', 'indent'];
+
+  /**
+   * Formulario para editar la asignatura.
+   * @protected
+   * @type {FormGroup}
+   */
+  protected editSubjectForm: FormGroup = new FormGroup({
+    descripcion: new FormControl('', []),
+    objetivos: new FormControl('', []),
+    contenido: new FormControl('', []),
+    referencias: new FormControl('', []),
+    director: new FormControl('', []),
+    fecha_aprobacion: new FormControl('', []),
+    acta_aprobacion: new FormControl('', []),
+  });
+
   /**
    * Constructor del componente.
    * @param {AsignaturaService} asignaturaService - Servicio para manejar las asignaturas
      * @param {ActivatedRoute} route - Ruta activa para obtener parámetros de la URL.
      * @param {AsignaturaPlanService} asignaturaPlanService - Servicio para manejar los planes de asignatura.
+     * @param {AuthService} authService - Servicio de autenticación para obtener información del usuario.
    */
-  constructor(private asignaturaService: AsignaturaService, private asignaturaPlanService: AsignaturaPlanService, private route: ActivatedRoute) { }
+  constructor(private asignaturaService: AsignaturaService, private asignaturaPlanService: AsignaturaPlanService, private route: ActivatedRoute, private authService: AuthService) { }
 
   /**
      * Método para inicializar el componente y cargar los datos del plan de estudio.
@@ -74,6 +139,7 @@ export class SubjectInfoComponent {
      */
   protected ngOnInit(): void {
     this.idAsignatura = this.route.snapshot.paramMap.get('idSubject');
+    this.nivelPermisos = this.authService.getUserRole();
     this.loadSubject();
     this.loadAsignaturaPlans();
   }
@@ -116,7 +182,6 @@ export class SubjectInfoComponent {
           this.isLoading = false;
           this.isSuccess = true;
           this.successMessage = "Planes de asignatura cargados correctamente.";
-          console.log("Planes de asignatura:", asignaturaPlans);
           this.asignaturaPlans = asignaturaPlans;
         },
         error: (error: any) => {
@@ -133,3 +198,4 @@ export class SubjectInfoComponent {
 
 
 }
+

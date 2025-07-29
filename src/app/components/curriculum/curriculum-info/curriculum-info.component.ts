@@ -6,14 +6,12 @@ import { PlanEstudio } from '../../../services/APIs/backend/models/PlanEstudio/p
 import { AsignaturaPlanService } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.service';
 import { AsignaturaPlan } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.model';
 import { Tipologia } from '../../../services/APIs/backend/models/Tipologia/tipologia.model';
-import { FormsModule } from '@angular/forms';
-import { QuillModule } from 'ngx-quill';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
 
 @Component({
     selector: 'app-curriculum-info',
     standalone: true,
-    imports: [CommonModule, FormsModule, RouterModule, QuillModule, LoadingComponent],
+    imports: [CommonModule, RouterModule, LoadingComponent],
     templateUrl: './curriculum-info.component.html',
     styleUrl: './curriculum-info.component.scss'
 })
@@ -75,7 +73,6 @@ export class CurriculumInfoComponent {
         this.idPlanEstudio = this.route.snapshot.paramMap.get('idPlan');
         this.loadInfoPlanEstudio(this.idPlanEstudio);
         this.getAsignaturasByPlanEstudio(this.idPlanEstudio);
-
     }
 
     protected loadInfoPlanEstudio(id: string | null): void {

@@ -9,6 +9,10 @@ export interface Asignatura {
   descripcion: string;
   objetivos: string;
   contenido: string;
+  referencias: string;
+  director: string;
+  fecha_aprobacion: Date | null;
+  acta_aprobacion: string;
 }
 
 export interface AsignaturaResponse {

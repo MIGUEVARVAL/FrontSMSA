@@ -35,7 +35,7 @@ export class AppComponent {
    * @param {AuthService} authService - Servicio de autenticación.
    */
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
   ) 
   { }
 
@@ -46,7 +46,6 @@ export class AppComponent {
    */
   ngOnInit(): void {
   this.subscriptionLoggedIn = this.authService.isLoggedIn$.subscribe((loggedIn: boolean) => {
-    console.log('isLoggedIn$ emitió:', loggedIn);
     this.isLoggedIn = loggedIn;
   });
 }

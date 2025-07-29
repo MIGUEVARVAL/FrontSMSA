@@ -41,6 +41,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
               } else {
                 // Si el refresh también falla, limpia el localStorage
                 authService.logout();
+                window.location.href = '/login';
                 return throwError(() => error);
               }
             }),

@@ -15,7 +15,7 @@
             <div class="d-flex flex-column gap-4 flex-grow-1 bg-neutral-95 rounded-5 p-5">
 
                 <div class="bg-neutral-100 rounded-4 text-center p-3 ">
-                    <h2>{{asignatura?.nombre}}</h2>
+                    <h2>{{asignatura.nombre}}</h2>
                 </div>
 
                 <div class="vstack gap-4">
@@ -32,7 +32,7 @@
                                             <div class="card-stack gap-0 m-0">
                                                 <p class="fw-regular">Código</p>
                                                 <h5>
-                                                    {{asignatura?.codigo}}
+                                                    {{asignatura.codigo}}
                                                 </h5>
                                             </div>
                                         </div>
@@ -46,7 +46,7 @@
                                             <div class="card-stack gap-0 m-0">
                                                 <p class="fw-regular">Créditos</p>
                                                 <h5>
-                                                    {{asignatura?.creditos}}
+                                                    {{asignatura.creditos}}
                                                 </h5>
                                             </div>
                                         </div>
@@ -61,7 +61,7 @@
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Unidad Académica Básica</p>
                                             <h5>
-                                                {{asignatura?.uab.nombre}}
+                                                {{asignatura.uab.nombre}}
                                             </h5>
                                         </div>
                                     </div>
@@ -72,20 +72,129 @@
                         </div>
 
 
+
                         <div class="bg-neutral-100 rounded-4 p-3 my-3">
+
+                            @if (nivelPermisos === 1 ) {
+
+                            <div class="p-2 float-end">
+                                <div class="toolbar sm bg-fixed-warning" role="group" aria-label="btn-groups">
+                                    <a type="button" class="btn btn-icon" data-bs-toggle="modal"
+                                        [attr.data-bs-target]="'#editSubjectModal'">
+                                        <span class='material-symbols-fill'>edit</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" tabindex="-1" [attr.id]="'editSubjectModal'">
+                                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <form [formGroup]="editSubjectForm">
+                                            <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-title">Edición de la asignatura</div>
+                                            <div class="modal-body overflow-scroll" style="max-height: 70vh;">
+                                                <div class="my-2 ">
+                                                    <div class="p-4">
+                                                        <p>Descripción</p>
+                                                        <quill-editor [(ngModel)]="asignatura.descripcion"
+                                                            [modules]="quillModules"
+                                                            [formats]="formats"
+                                                            formControlName="descripcion"
+                                                            [style]="{height: '200px', width: '100%'}"
+                                                            placeholder="Escriba la descripción de la asignatura...">
+                                                        </quill-editor>
+                                                    </div>
+                                                    <div class="p-4">
+                                                        <p>Objetivos</p>
+                                                        <quill-editor [(ngModel)]="asignatura.objetivos"
+                                                            [modules]="quillModules"
+                                                            [formats]="formats"
+                                                            formControlName="objetivos"
+                                                            [style]="{height: '200px', width: '100%'}"
+                                                            placeholder="Escriba los objetivos de la asignatura...">
+                                                        </quill-editor>
+                                                    </div>
+                                                    <div class="p-4">
+                                                        <p>Contenido</p>
+                                                        <quill-editor [(ngModel)]="asignatura.contenido"
+                                                            [modules]="quillModules"
+                                                            [formats]="formats"
+                                                            formControlName="contenido"
+                                                            [style]="{height: '200px', width: '100%'}"
+                                                            placeholder="Escriba el contenido de la asignatura...">
+                                                        </quill-editor>
+                                                    </div>
+                                                    <div class="p-4">
+                                                        <p>Referencias</p>
+                                                        <quill-editor [(ngModel)]="asignatura.referencias"
+                                                            [modules]="quillModules"
+                                                            [formats]="formats"
+                                                            formControlName="referencias"
+                                                            [style]="{height: '200px', width: '100%'}"
+                                                            placeholder="Escriba las referencias de la asignatura...">
+                                                        </quill-editor>
+                                                    </div>
+                                                    <div class="p-4">
+                                                        <p>Director</p>
+                                                        <input type="text" formControlName="director"
+                                                            class="form-control">
+                                                    </div>
+                                                    <div class="p-4">
+                                                        <p>Fecha de Aprobación</p>
+                                                        <input type="date" formControlName="fecha_aprobacion"
+                                                            class="form-control">
+                                                    </div>
+                                                    <div class="p-4">
+                                                        <p>Acta de Aprobación</p>
+                                                        <input type="text" formControlName="acta_aprobacion"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer mt-4">
+                                                <button type="button" class="btn btn-outline-primary"
+                                                    data-bs-dismiss="modal">
+                                                    Cancelar
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">
+                                                    Actualizar
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+
+
+
                             <div class="m-3 my-5 py-2">
                                 <h5>Descripción</h5>
-                                <p class="my-2">
-                                    {{asignatura?.descripcion || 'No hay descripción disponible.'}}
-                                </p>
+                                <p class="my-2"
+                                    [innerHTML]="asignatura.descripcion || 'No hay descripción disponible.'"></p>
                             </div>
                             <div class="m-3 my-5 py-2">
                                 <h5>Objetivos</h5>
-                                <p class="my-4">{{asignatura?.objetivos || 'No hay objetivos disponibles.'}}</p>
+                                <p class="my-4">{{asignatura.objetivos || 'No hay objetivos disponibles.'}}</p>
                             </div>
                             <div class="m-3 my-5 py-2">
                                 <h5>Contenido</h5>
-                                <p class="my-4">{{asignatura?.contenido || 'No hay contenido disponible.'}}</p>
+                                <p class="my-4">{{asignatura.contenido || 'No hay contenido disponible.'}}</p>
+                            </div>
+                            <div class="m-3 my-5 py-2">
+                                <h5>Referencias</h5>
+                                <p class="my-4">{{asignatura.contenido || 'No hay referencias disponibles.'}}</p>
+                            </div>
+                            <div class="m-3 my-5 py-2">
+                                <h5>Datos de aprobación</h5>
+                                <div class="row my-4">
+                                    <div class="col"><strong>Director: </strong></div>
+                                    <div class="col"><strong>Fecha: </strong></div>
+                                    <div class="col"><strong>Acta: </strong></div>
+                                </div>
                             </div>
                         </div>
 

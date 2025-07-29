@@ -58,7 +58,7 @@ export class AuthService {
    * @public
    */
   public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
-  
+
   /**
    * Método para obtener el estado de autenticación del usuario.
    * @returns {Observable<boolean>} Observable que emite el estado de autenticación.
@@ -74,22 +74,32 @@ export class AuthService {
    * @public
    */
   public getUserInfo(): User | null {
-  // Intenta obtener el usuario desde el BehaviorSubject
-  let user = this.userInfoSubject.getValue();
-  if (user) {
-    return user;
+    // Intenta obtener el usuario desde el BehaviorSubject
+    let user = this.userInfoSubject.getValue();
+    if (user) {
+      return user;
+    }
+    // Si no hay usuario en memoria, intenta cargarlo de localStorage
+    const userInfoString = localStorage.getItem('userInfo');
+    console.log('userInfoString', userInfoString);
+    if (userInfoString) {
+      user = JSON.parse(userInfoString);
+      // Actualiza el BehaviorSubject para futuras llamadas
+      this.userInfoSubject.next(user);
+      return user;
+    }
+    return null;
   }
-  // Si no hay usuario en memoria, intenta cargarlo de localStorage
-  const userInfoString = localStorage.getItem('userInfo');
-  console.log('userInfoString', userInfoString);
-  if (userInfoString) {
-    user = JSON.parse(userInfoString);
-    // Actualiza el BehaviorSubject para futuras llamadas
-    this.userInfoSubject.next(user);
-    return user;
+
+  /**
+ * Método para obtener el rol del usuario.
+ * @returns {number | null} Rol del usuario o null si no está disponible.
+ * @public
+ */
+  public getUserRole(): number | null {
+    const user = this.getUserInfo();
+    return user?.nivel_permisos ?? null;
   }
-  return null;
-}
 
   /**
    * Funcón que guarda la información del usuario y cambia el estado de autenticación.

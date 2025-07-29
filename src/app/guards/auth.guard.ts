@@ -12,7 +12,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   }
 
   const roleValue = authService.getUserInfo()?.nivel_permisos;
-  const userRole = roleValue === 1 ? 'admin' : roleValue === 0 ? 'user' : '';
+  const userRole = roleValue === 1 ? 'admin' : roleValue === 2 ? 'user' : '';
   if (expectedRoles && !expectedRoles.includes(userRole)) {
     return router.createUrlTree(['/']);
   }
