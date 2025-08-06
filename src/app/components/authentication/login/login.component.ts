@@ -47,6 +47,7 @@ export class LoginComponent {
   protected loginForm = new FormGroup({
     username: new FormControl('mivargasv', Validators.required),
     password: new FormControl('12345678', Validators.required),
+    tratamientoDatos: new FormControl(true, Validators.requiredTrue)
   });
 
   /**

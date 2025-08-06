@@ -7,11 +7,14 @@ import { AsignaturaPlanService } from '../../../services/APIs/backend/models/Asi
 import { AsignaturaPlan } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.model';
 import { Tipologia } from '../../../services/APIs/backend/models/Tipologia/tipologia.model';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
+import { PlanesEstudioAcuerdosFilter, PlanesEstudioAcuerdos, CreatePlanesEstudioAcuerdosRequest } from '../../../services/APIs/backend/models/PlanEstudioAcuerdos/planes-estudio-acuerdos.model';
+import { PlanesEstudioAcuerdosService } from '../../../services/APIs/backend/models/PlanEstudioAcuerdos/planes-estudio-acuerdos.service';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-curriculum-info',
     standalone: true,
-    imports: [CommonModule, RouterModule, LoadingComponent],
+    imports: [CommonModule, RouterModule, LoadingComponent, ReactiveFormsModule],
     templateUrl: './curriculum-info.component.html',
     styleUrl: './curriculum-info.component.scss'
 })
@@ -39,19 +42,22 @@ export class CurriculumInfoComponent {
      * @type {PlanEstudio}
      * @protected
      */
-    protected planEstudio: PlanEstudio = {
-        id: '',
-        nombre: '',
-        codigo: '',
-        facultadId: 0,
-        tipo_nivel: '',
-        nivel: '',
-        activo: true,
-    }
+    protected planEstudio: PlanEstudio | null = null;
 
     protected asignaturaPlan: AsignaturaPlan[] = [];
 
     protected tipologias: any[] = [];
+
+    /**
+     * Formulario reactivo para la creación de un acuerdo de plan de estudio.
+     * @type {FormGroup}
+     * @protected
+     */
+    protected createAcuerdoForm: FormGroup = new FormGroup({
+        titulo: new FormControl('', Validators.required),
+        link: new FormControl('', Validators.required),
+        vigente: new FormControl(true),
+    });
 
     /**
      * Constructor de la clase CurriculumListComponent
@@ -59,10 +65,9 @@ export class CurriculumInfoComponent {
      * @param {AsignaturaPlanService} asignaturaPlanService - Servicio para manejar las asignaturas de los planes de estudio.
      * @param {ActivatedRoute} route - Ruta activa para obtener parámetros de la URL.
      * @param {TipologiaService} tipologiaService - Servicio para manejar las tipologías de asignaturas.
+     * @param {PlanesEstudioAcuerdosService} planesEstudioAcuerdosService - Servicio para manejar los acuerdos de planes de estudio.
      */
-    constructor(private planEstudioService: PlanEstudioService, private asignaturaPlanService: AsignaturaPlanService, private route: ActivatedRoute) {
-
-
+    constructor(private planEstudioService: PlanEstudioService, private asignaturaPlanService: AsignaturaPlanService, private route: ActivatedRoute, private planesEstudioAcuerdosService: PlanesEstudioAcuerdosService) {
     }
 
     /**
@@ -75,6 +80,11 @@ export class CurriculumInfoComponent {
         this.getAsignaturasByPlanEstudio(this.idPlanEstudio);
     }
 
+    /**
+     * Método para cargar la información del plan de estudio.
+     * @param id - ID del plan de estudio a cargar.
+     * @returns {void}
+     */
     protected loadInfoPlanEstudio(id: string | null): void {
 
         this.isLoading = true;
@@ -101,6 +111,11 @@ export class CurriculumInfoComponent {
 
     }
 
+    /**
+     * Método para obtener las asignaturas del plan de estudio.
+     * @param id - ID del plan de estudio.
+     * @returns {void}
+     */
     protected getAsignaturasByPlanEstudio(id: string | null): void {
         this.isLoading = true;
         if (!id) {
@@ -123,6 +138,44 @@ export class CurriculumInfoComponent {
         });
     }
 
+    /**
+     * Método para crear un nuevo acuerdo de plan de estudio.
+     * @returns {void}
+     */
+    protected onCreateAcuerdo(): void {
+        if (this.createAcuerdoForm.invalid, this.idPlanEstudio === null) {
+            this.isError = true;
+            this.errorMessage = "Formulario inválido. Por favor, complete todos los campos requeridos.";
+            return;
+        }
+
+        const acuerdoData: CreatePlanesEstudioAcuerdosRequest = {
+            titulo: this.createAcuerdoForm.value.titulo,
+            link: this.createAcuerdoForm.value.link,
+            vigente: this.createAcuerdoForm.value.vigente,
+            plan_estudio: this.idPlanEstudio,
+        };
+
+        this.planesEstudioAcuerdosService.createPlanesEstudioAcuerdo(acuerdoData).subscribe({
+            next: (response: PlanesEstudioAcuerdos) => {
+                this.isSuccess = true;
+                this.successMessage = "Acuerdo creado correctamente.";
+                this.createAcuerdoForm.reset();
+                this.isLoading = false;
+                console.log("Acuerdo creado:", response);
+            },
+            error: (error: any) => {
+                this.isError = true;
+                this.errorMessage = "Error al crear el acuerdo: " + error.message;
+                console.error("Error al crear el acuerdo:", error);
+            }
+        });
+    }
+
+    /**
+     * Método para cargar las tipologías de las asignaturas.
+     * @returns {void}
+     */
     protected loadTipologies(): void {
         this.isLoading = true;
         this.isError = false;
@@ -156,10 +209,6 @@ export class CurriculumInfoComponent {
         });
         this.isLoading = false;
     }
-
-
-
-
 
 
 

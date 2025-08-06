@@ -15,6 +15,7 @@
 
         <div class="d-flex flex-grow-1 row m-0 p-4 p-xl-8 gx-4 gy-4 gy-xl-0 bg-neutral-95">
 
+            @if (planEstudio) {
 
             <div class="col body flex-grow-1">
 
@@ -42,7 +43,6 @@
                             </div>
                         </div>
 
-
                         <div
                             class="row row-cols-2 row-cols-sm-3 row-cols-lg-3 row-cols-xxl-3 g-4 justify-content-center">
                             <div class="col">
@@ -54,7 +54,7 @@
                                         <div class="col d-flex justify-content-center align-items-center pt-4">
                                             <div class="bg-primary-90 rounded-circle p-2 d-flex">
                                                 <span translate='no'
-                                                    class="material-symbols-outlined lh-1 icon-md text-primary-30">person</span>
+                                                    class="material-symbols-outlined lh-1 icon-md text-primary-30">description</span>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -75,7 +75,7 @@
                                         <div class="col d-flex justify-content-center align-items-center pt-4">
                                             <div class="bg-primary-90 rounded-circle p-2 d-flex">
                                                 <span translate='no'
-                                                    class="material-symbols-outlined lh-1 icon-md text-primary-30">person</span>
+                                                    class="material-symbols-outlined lh-1 icon-md text-primary-30">book_5</span>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -96,7 +96,7 @@
                                         <div class="col d-flex justify-content-center align-items-center pt-4">
                                             <div class="bg-primary-90 rounded-circle p-2 d-flex">
                                                 <span translate='no'
-                                                    class="material-symbols-outlined lh-1 icon-md text-primary-30">person</span>
+                                                    class="material-symbols-outlined lh-1 icon-md text-primary-30">inventory</span>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -117,78 +117,116 @@
                         <div id="accordionCurriculum">
                             <div class="collapse show" id="collapseInformacion" data-bs-parent="#accordionCurriculum">
                                 <div class="bg-neutral-100 rounded-5 p-5 my-2">
-                                    <h4 class="text-center p-4">Información del plan de estudio</h4>
                                     <div class="p-4">
-                                        <div class="row row-cols-1 row-cols-md-2 gx-4 justify-content-center mb-5">
+                                        <div class="row row-cols-1 row-cols-md-2 gx-4 mb-5">
 
-                                            <div class="col">
-                                                <div
-                                                    class="card border border-neutral-variant-70 px-3 py-1 mw-100 bg-neutral-variant-99  h-100">
+                                            <div class="col my-3">
+                                                <div class="border-start px-3 mw-100 h-100">
                                                     <div class="card-body">
                                                         <div class="card-stack gap-0 m-0">
                                                             <p class="fw-regular">Facultad</p>
                                                             <h5>
-                                                                {{planEstudio.facultad?.nombre}}
+                                                                {{planEstudio.facultad.nombre}}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col my-3">
+                                                <div class="border-start px-3 mw-100 h-100">
+                                                    <div class="card-body">
+                                                        <div class="card-stack gap-0 m-0">
+                                                            <p class="fw-regular">Tipo nivel</p>
+                                                            <h5>
+                                                                {{planEstudio.tipo_nivel}}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col my-3">
+                                                <div class="border-start px-3 mw-100 h-100">
+                                                    <div class="card-body">
+                                                        <div class="card-stack gap-0 m-0">
+                                                            <p class="fw-regular">Nivel</p>
+                                                            <h5>
+                                                                {{planEstudio.nivel}}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col my-3">
+                                                <div class="border-start px-3  mw-100 h-100">
+                                                    <div class="card-body">
+                                                        <div class="card-stack gap-0 m-0">
+                                                            <p class="fw-regular">SNIES</p>
+                                                            <h5>
+                                                                {{planEstudio.snies}}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col my-3">
+                                                <div class="border-start px-3  mw-100 h-100">
+                                                    <div class="card-body">
+                                                        <div class="card-stack gap-0 m-0">
+                                                            <p class="fw-regular">Plan reformado</p>
+                                                            <h5>
+                                                                {{planEstudio.plan_reformado ? 'Sí' : 'No'}}
                                                             </h5>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row row-cols-1 row-cols-md-2 gx-4 justify-content-center">
-                                                <div class="col">
-                                                    <div
-                                                        class="card border border-neutral-variant-70 px-3 py-1 mw-100 bg-neutral-variant-99  h-100">
-                                                        <div class="card-body">
-                                                            <div class="card-stack gap-0 m-0">
-                                                                <p class="fw-regular">Tipo nivel</p>
-                                                                <h5>
-                                                                    {{planEstudio.tipo_nivel}}
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col">
-                                                    <div
-                                                        class="card border border-neutral-variant-70 px-3 py-1 mw-100 bg-neutral-variant-99  h-100">
-                                                        <div class="card-body">
-                                                            <div class="card-stack gap-0 m-0">
-                                                                <p class="fw-regular">Nivel</p>
-                                                                <h5>
-                                                                    {{planEstudio.nivel}}
-                                                                </h5>
-                                                            </div>
+                                            @if (planEstudio.puntos) {
+                                            <div class="col my-3">
+                                                <div class="border-start px-3  mw-100 h-100">
+                                                    <div class="card-body">
+                                                        <div class="card-stack gap-0 m-0">
+                                                            <p class="fw-regular">Puntos</p>
+                                                            <h5>
+                                                                {{planEstudio.puntos}}
+                                                            </h5>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            }
+                                            @if (planEstudio.inicio_extincion) {
+                                            <div class="col my-3">
+                                                <div class="border-start px-3  mw-100 h-100">
+                                                    <div class="card-body">
+                                                        <div class="card-stack gap-0 m-0">
+                                                            <p class="fw-regular">Periodo de inicio de extinción</p>
+                                                            <h5>
+                                                                {{planEstudio.inicio_extincion}}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            }
+                                            @if (planEstudio.extincion_definitiva) {
+                                            <div class="col my-3">
+                                                <div class="border-start px-3  mw-100 h-100">
+                                                    <div class="card-body">
+                                                        <div class="card-stack gap-0 m-0">
+                                                            <p class="fw-regular">Periodo de extinción definitiva</p>
+                                                            <h5>
+                                                                {{planEstudio.extincion_definitiva}}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            }
+
                                         </div>
-                                        <div class="m-3 my-5">
-                                            <h5>Descripción</h5>
-                                            <p class="my-4">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                Temporibus modi consectetur facilis culpa, consequuntur minus adipisci,
-                                                eos
-                                                doloremque inventore earum hic natus soluta perferendis ad, praesentium
-                                                explicabo. Debitis, quod veniam! Lorem ipsum dolor sit amet consectetur
-                                                adipisicing elit. Assumenda itaque iste modi, deserunt consequatur in
-                                                provident voluptatum architecto atque quibusdam corrupti ipsam
-                                                dignissimos
-                                                repellat tempora quo praesentium, eos expedita similique.</p>
-                                        </div>
-                                        <div class="m-3 my-5">
-                                            <h5>Objetivos</h5>
-                                            <p class="my-4">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                Temporibus modi consectetur facilis culpa, consequuntur minus adipisci,
-                                                eos
-                                                doloremque inventore earum hic natus soluta perferendis ad, praesentium
-                                                explicabo. Debitis, quod veniam! Lorem ipsum dolor sit amet consectetur
-                                                adipisicing elit. Assumenda itaque iste modi, deserunt consequatur in
-                                                provident voluptatum architecto atque quibusdam corrupti ipsam
-                                                dignissimos
-                                                repellat tempora quo praesentium, eos expedita similique.</p>
-                                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +235,7 @@
                                 <div class="bg-neutral-100 rounded-5 p-4 my-2">
 
                                     <h4 class="text-center p-4">Asignaturas del plan de estudio</h4>
-                                    <div class="accordion" id="accordionExample9">
+                                    <div class="accordion" id="accordionAsignaturas">
 
                                         @for (tipologia of tipologias; track $index) {
 
@@ -217,7 +255,7 @@
                                                 class="accordion-collapse collapse show ">
                                                 <div class="accordion-body">
 
-                                                    <div class="row row-cols-2 row-cols-md-4 g-4 ">
+                                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 g-4 ">
 
                                                         @for (asignatura of tipologia.asignaturas; track $index) {
 
@@ -246,14 +284,10 @@
                                                                             Tipología:
                                                                             {{tipologia.codigo}} - {{tipologia.nombre}}
                                                                         </p>
-                                                                        <p class="small text-neutral-60 fw-regular">
-                                                                            Veces vista:
-                                                                            {{asignatura.veces_vista}}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         }
                                                     </div>
 
@@ -281,7 +315,7 @@
                                     <div class="modal fade" tabindex="-1" [attr.id]="'addAcuerdoModal'">
                                         <div class="modal-dialog modal-xl modal-dialog-scrollable">
                                             <div class="modal-content">
-                                                <form >
+                                                <form [formGroup]="createAcuerdoForm" (ngSubmit)="onCreateAcuerdo()">
                                                     <div class="modal-header">
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
@@ -296,14 +330,16 @@
                                                             </div>
                                                             <div class="p-4">
                                                                 <p>URL</p>
-                                                                <input type="url" formControlName="url"
+                                                                <input type="url" formControlName="link"
                                                                     class="form-control">
                                                             </div>
                                                             <div class="p-4">
                                                                 <p>Vigencia</p>
-                                                                <select name="vigencia" id="vigencia" formControlName="vigencia" class="form-select">
-                                                                    <option value="vigente">Acuerdo Vigente</option>
-                                                                    <option value="no_vigente">Acuerdo no Vigente</option>
+                                                                <select name="vigente" id="vigente"
+                                                                    formControlName="vigente" class="form-select">
+                                                                    <option value="true">Acuerdo Vigente</option>
+                                                                    <option value="false">Acuerdo no Vigente
+                                                                    </option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -335,6 +371,8 @@
                 </div>
 
             </div>
+
+            }
 
         </div>
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PlanEstudio, PlanEstudioListResponse } from './plan-estudio.model';
+import { PlanEstudio, PlanEstudioListResponse, PlanEstudioFilters } from './plan-estudio.model';
 import { UrlBackendService } from '../../url-backend.service';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class PlanEstudioService {
     this.apiUrl = this.urlBackendService.getUrlApi() + 'plan-estudio/';
   }
   
-  getPlanEstudioList(page: number = 1, planEstudio?: PlanEstudio): Observable<PlanEstudioListResponse> {
+  getPlanEstudioList(page: number = 1, planEstudio?: PlanEstudioFilters): Observable<PlanEstudioListResponse> {
     let params = `page=${page}`;
     if (planEstudio) {
       if (planEstudio.id) {

@@ -5,7 +5,7 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FacultadService } from '../../../services/APIs/backend/models/Facultad/facultad.service';
 import { Facultad, FacultadListResponse } from '../../../services/APIs/backend/models/Facultad/facultad.model';
 import { PlanEstudioService } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.service';
-import { PlanEstudioListResponse } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.model';
+import { PlanEstudioListResponse, PlanEstudioFilters } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.model';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
 
 @Component({
@@ -120,7 +120,7 @@ export class CurriculumListComponent {
    * Carga la lista de planes de estudio según los filtros aplicados.
    * @param filterData filtros para la búsqueda de planes de estudio
    */
-  protected loadCurriculum(filterData?: any): void {
+  protected loadCurriculum(filterData?: PlanEstudioFilters): void {
     this.isLoading = true;
     this.planEstudioService
       .getPlanEstudioList(this.page, filterData)
@@ -155,6 +155,7 @@ export class CurriculumListComponent {
       orderBy: this.filterForm.value.orderBy ? String(this.filterForm.value.orderBy) : undefined,
       orderDirection: this.filterForm.value.orderDirection ? String(this.filterForm.value.orderDirection) : undefined,
     };
+    this.page = 1;
     this.loadCurriculum(this.filtrosActivos);
   }
 
@@ -166,6 +167,7 @@ export class CurriculumListComponent {
   protected clearFilters(): void {
     this.filterForm.reset();
     this.filtrosActivos = {};
+    this.page = 1;
     this.loadCurriculum();
   }
 
@@ -175,10 +177,8 @@ export class CurriculumListComponent {
    * @returns {string}
    */
   protected getFacultadNombre(facultad_id: string | number): string {
-
     const facultad = this.facultades.find(f => String(f.id) === String(facultad_id));
     return facultad ? facultad.nombre : '';
-
   }
 
 
@@ -189,7 +189,7 @@ export class CurriculumListComponent {
   protected onPageChange(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.page = page;
-      this.loadCurriculum(this.filterForm.value);
+      this.loadCurriculum(this.filtrosActivos);
     }
   }
 
