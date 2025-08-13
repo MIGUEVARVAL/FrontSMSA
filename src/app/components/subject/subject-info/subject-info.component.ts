@@ -4,6 +4,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Asignatura } from '../../../services/APIs/backend/models/Asignatura/asignatura.model';
 import { AsignaturaPlanService } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.service';
+import { Uab } from '../../../services/APIs/backend/models/UAB/uab.model';
 import { PlanesAsignatura } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.model';
 import { AsignaturaService } from '../../../services/APIs/backend/models/Asignatura/asignatura.service';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
@@ -66,7 +67,7 @@ export class SubjectInfoComponent {
     nombre: '',
     codigo: '',
     creditos: 0,
-    uab: null,
+    uab: {} as Uab,
     fecha_creacion: new Date(),
     fecha_modificacion: new Date(),
     descripcion: '',
@@ -154,8 +155,6 @@ export class SubjectInfoComponent {
       this.asignaturaService.getAsignaturaById(this.idAsignatura).subscribe({
         next: (asignatura: Asignatura) => {
           this.isLoading = false;
-          this.isSuccess = true;
-          this.successMessage = "Asignatura cargada correctamente.";
           this.asignatura = asignatura;
         },
         error: (error: any) => {
@@ -180,8 +179,6 @@ export class SubjectInfoComponent {
       this.asignaturaPlanService.getAsignaturaPlanByAsignatura(this.idAsignatura).subscribe({
         next: (asignaturaPlans: PlanesAsignatura[]) => {
           this.isLoading = false;
-          this.isSuccess = true;
-          this.successMessage = "Planes de asignatura cargados correctamente.";
           this.asignaturaPlans = asignaturaPlans;
         },
         error: (error: any) => {
@@ -193,6 +190,40 @@ export class SubjectInfoComponent {
     } else {
       this.isError = true;
       this.errorMessage = "ID de asignatura no proporcionado.";
+    }
+  }
+
+  /**
+   * Método para actualizar la asignatura con los datos del formulario.
+   * @returns {void}
+   */
+  protected updateSubject(): void {
+    if (this.editSubjectForm.valid) {
+      this.isLoading = true;
+      const updatedData = {
+        ...this.editSubjectForm.value,
+        fecha_aprobacion: this.editSubjectForm.value.fecha_aprobacion
+          ? new Date(this.editSubjectForm.value.fecha_aprobacion).toISOString().slice(0, 10)
+          : null
+      };
+      console.log("Datos actualizados:", updatedData);
+      this.asignaturaService.updateAsignatura(this.idAsignatura!, updatedData).subscribe({
+        next: (asignatura: Asignatura) => {
+          this.isLoading = false;
+          this.isSuccess = true;
+          this.successMessage = "Asignatura actualizada correctamente.";
+          this.asignatura = asignatura; 
+        },
+        error: (error: any) => {
+          this.isLoading = false;
+          this.isError = true;
+          this.errorMessage = "Error al actualizar la asignatura: " + error.message;
+          console.error("Error al actualizar la asignatura:", error);
+        }
+      });
+    } else {
+      this.isError = true;
+      this.errorMessage = "Formulario inválido. Por favor, complete todos los campos requeridos.";
     }
   }
 
