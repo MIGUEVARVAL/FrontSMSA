@@ -113,6 +113,36 @@
 
                         <hr class="hr my-4">
 
+                        @if (isSuccess) {
+                        <div class="alert alert-success">
+                            <div class="alert-header">
+                                <div class="alert-icon">
+                                    <span class="material-symbols-outlined">info</span>
+                                </div>
+                                <div class="alert-title">
+                                    {{successMessage}}
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        </div>
+                        }
+
+                        @if (isError) {
+                        <div class="alert alert-danger">
+                            <div class="alert-header">
+                                <div class="alert-icon">
+                                    <span class="material-symbols-outlined">info</span>
+                                </div>
+                                <div class="alert-title">
+                                    {{errorMessage}}
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        </div>
+                        }
+
 
                         <div id="accordionCurriculum">
                             <div class="collapse show" id="collapseInformacion" data-bs-parent="#accordionCurriculum">
@@ -255,7 +285,8 @@
                                                 class="accordion-collapse collapse show ">
                                                 <div class="accordion-body">
 
-                                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 g-4 ">
+                                                    <div
+                                                        class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 g-4 ">
 
                                                         @for (asignatura of tipologia.asignaturas; track $index) {
 
@@ -349,8 +380,9 @@
                                                             data-bs-dismiss="modal">
                                                             Cancelar
                                                         </button>
-                                                        <button type="submit" class="btn btn-primary">
-                                                            Actualizar
+                                                        <button type="submit" class="btn btn-primary"
+                                                            data-bs-dismiss="modal">
+                                                            Crear acuerdo
                                                         </button>
                                                     </div>
                                                 </form>
@@ -359,9 +391,109 @@
                                     </div>
 
                                     <h4 class="text-center p-4">Acuerdos del plan de estudio</h4>
+                                    @if (acuerdos.length > 0) {
+
+
+                                    <table class="table table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Título</th>
+                                                <th>Estado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (acuerdo of acuerdos; track $index) {
+                                            <tr>
+                                                <td>
+                                                    <a [href]="acuerdo.link" target="_blank">{{ acuerdo.titulo }}</a>
+                                                </td>
+                                                <td>
+                                                    <span class="tag"
+                                                        [ngClass]="{'tag-success': acuerdo.vigente, 'tag-neutral': !acuerdo.vigente}">
+                                                        {{ acuerdo.vigente ? 'Vigente' : 'No Vigente' }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="toolbar sm bg-fixed-warning" role="group"
+                                                        aria-label="Basic example">
+                                                        <a type="button" class="btn btn-icon" data-bs-toggle="modal"
+                                                            [attr.data-bs-target]="'#editAcuerdoModal'"
+                                                            (click)="prepareEditAcuerdo(acuerdo)">
+                                                            <span translate="no"
+                                                                class="material-symbols-fill">edit</span>
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="toolbar sm bg-fixed-danger" role="group"
+                                                        aria-label="Basic example">
+                                                        <a type="button" class="btn btn-icon" data-bs-toggle="tooltip"
+                                                            data-bs-title="Añadir"
+                                                            (click)="onDeleteAcuerdo(acuerdo.id)">
+                                                            <span translate="no"
+                                                                class="material-symbols-fill">delete</span>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            }
+                                            
+                                        </tbody>
+                                    </table>
+                                    <div class="modal fade" tabindex="-1" [attr.id]="'editAcuerdoModal'">
+                                                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                                                    <div class="modal-content">
+                                                        <form [formGroup]="editAcuerdoForm"
+                                                            (ngSubmit)="onEditAcuerdo()">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-title">Edición del acuerdo</div>
+                                                            <div class="modal-body overflow-scroll"
+                                                                style="max-height: 70vh;">
+                                                                <div class="my-2">
+                                                                    <div class="p-4">
+                                                                        <p>Título</p>
+                                                                        <input type="text" formControlName="titulo"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                    <div class="p-4">
+                                                                        <p>URL</p>
+                                                                        <input type="url" formControlName="link"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                    <div class="p-4">
+                                                                        <p>Vigencia</p>
+                                                                        <select formControlName="vigente"
+                                                                            class="form-select">
+                                                                            <option [value]="true">Acuerdo
+                                                                                Vigente</option>
+                                                                            <option [value]="false">Acuerdo no
+                                                                                Vigente</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer mt-4">
+                                                                <button type="button" class="btn btn-outline-primary"
+                                                                    data-bs-dismiss="modal">
+                                                                    Cancelar
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    data-bs-dismiss="modal">
+                                                                    Actualizar acuerdo
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    } @else {
                                     <div class="p-4">
                                         Aun no se han registrado acuerdos para este plan de estudio.
                                     </div>
+                                    }
                                 </div>
                             </div>
                         </div>
