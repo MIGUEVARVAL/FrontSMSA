@@ -1,4 +1,5 @@
 export interface PlanesEstudioAcuerdos {
+    id: string;
     titulo: string;
     link?: string;
     vigente: boolean;
@@ -13,6 +14,11 @@ export interface PlanesEstudioAcuerdosListResponse {
     results: PlanesEstudioAcuerdos[];
 }
 
+export interface PlanesEstudioAcuerdosFilter {
+    titulo?: string;
+    vigente?: boolean;
+}
+
 export interface CreatePlanesEstudioAcuerdosRequest {
     titulo: string;
     link?: string;
@@ -20,7 +26,9 @@ export interface CreatePlanesEstudioAcuerdosRequest {
     plan_estudio: string;
 }
 
-export interface PlanesEstudioAcuerdosFilter {
+export interface UpdatePlanesEstudioAcuerdosRequest {
+    id: string;
     titulo?: string;
+    link?: string;
     vigente?: boolean;
 }

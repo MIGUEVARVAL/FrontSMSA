@@ -7,7 +7,7 @@ import { AsignaturaPlanService } from '../../../services/APIs/backend/models/Asi
 import { AsignaturaPlan } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.model';
 import { Tipologia } from '../../../services/APIs/backend/models/Tipologia/tipologia.model';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
-import { PlanesEstudioAcuerdosFilter, PlanesEstudioAcuerdos, CreatePlanesEstudioAcuerdosRequest } from '../../../services/APIs/backend/models/PlanEstudioAcuerdos/planes-estudio-acuerdos.model';
+import { PlanesEstudioAcuerdosFilter, PlanesEstudioAcuerdos, CreatePlanesEstudioAcuerdosRequest, UpdatePlanesEstudioAcuerdosRequest } from '../../../services/APIs/backend/models/PlanEstudioAcuerdos/planes-estudio-acuerdos.model';
 import { PlanesEstudioAcuerdosService } from '../../../services/APIs/backend/models/PlanEstudioAcuerdos/planes-estudio-acuerdos.service';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -44,9 +44,33 @@ export class CurriculumInfoComponent {
      */
     protected planEstudio: PlanEstudio | null = null;
 
+    /**
+     * Variable para almacenar las asignaturas del plan de estudio.
+     * @type {AsignaturaPlan[]}
+     * @protected
+     */
     protected asignaturaPlan: AsignaturaPlan[] = [];
 
+    /**
+     * Variable para almacenar las tipologías de las asignaturas del plan de estudio.
+     * @type {Tipologia[]}
+     * @protected
+     */
     protected tipologias: any[] = [];
+
+    /**
+     * Variable para almacenar los acuerdos del plan de estudio.
+     * @type {PlanesEstudioAcuerdos[]}
+     * @protected
+     */
+    protected acuerdos: PlanesEstudioAcuerdos[] = [];
+
+    /**
+     * Variable para almacenar el ID del acuerdo actual a editar
+     * @type {string | null}
+     * @protected
+     */
+    protected currentAcuerdoId: string | null = null;
 
     /**
      * Formulario reactivo para la creación de un acuerdo de plan de estudio.
@@ -55,7 +79,18 @@ export class CurriculumInfoComponent {
      */
     protected createAcuerdoForm: FormGroup = new FormGroup({
         titulo: new FormControl('', Validators.required),
-        link: new FormControl('', Validators.required),
+        link: new FormControl(''),
+        vigente: new FormControl(true),
+    });
+
+    /**
+     * Formulario para editar los acuerdos del plan de estudio
+     * @type {FormGroup}
+     * @protected
+     */
+    protected editAcuerdoForm: FormGroup = new FormGroup({
+        titulo: new FormControl(''),
+        link: new FormControl(''),
         vigente: new FormControl(true),
     });
 
@@ -78,6 +113,7 @@ export class CurriculumInfoComponent {
         this.idPlanEstudio = this.route.snapshot.paramMap.get('idPlan');
         this.loadInfoPlanEstudio(this.idPlanEstudio);
         this.getAsignaturasByPlanEstudio(this.idPlanEstudio);
+        this.loadAcuerdos(this.idPlanEstudio);
     }
 
     /**
@@ -90,22 +126,17 @@ export class CurriculumInfoComponent {
         this.isLoading = true;
         if (!id) {
             this.isLoading = false;
-            this.isError = true;
-            this.errorMessage = "ID del plan de estudio no proporcionado.";
+            this.showMessage('error', "ID del plan de estudio no proporcionado.");
             return;
         }
         this.planEstudioService.getPlanEstudioById(id).subscribe({
             next: (response: PlanEstudio) => {
-                console.log("Plan de estudio cargado:", response);
                 this.planEstudio = response;
                 this.isLoading = false;
-                this.isSuccess = true;
-                this.successMessage = "Plan de estudio cargado correctamente.";
             },
             error: (error: any) => {
                 this.isLoading = false;
-                this.isError = true;
-                this.errorMessage = "Error al cargar el plan de estudio: " + error.message;
+                this.showMessage('error', "Error al cargar el plan de estudio: " + error.message);
             }
         });
 
@@ -119,21 +150,43 @@ export class CurriculumInfoComponent {
     protected getAsignaturasByPlanEstudio(id: string | null): void {
         this.isLoading = true;
         if (!id) {
-            this.isError = true;
-            this.errorMessage = "ID del plan de estudio no proporcionado.";
+            this.showMessage('error', "ID del plan de estudio no proporcionado.");
+            this.isLoading = false;
             return;
         }
         this.asignaturaPlanService.getAsignaturaPlanByPlan(id).subscribe({
             next: (response: any) => {
                 this.isLoading = false;
-                this.isSuccess = true;
                 this.asignaturaPlan = response;
-                console.log("Asignaturas del plan de estudio cargadas:", this.asignaturaPlan);
                 this.loadTipologies();
             },
             error: (error: any) => {
-                this.isError = true;
-                this.errorMessage = "Error al cargar las asignaturas del plan de estudio: " + error.message;
+                this.isLoading = false;
+                this.showMessage('error', "Error al cargar las asignaturas del plan de estudio: " + error.message);
+            }
+        });
+    }
+
+    /**
+     * Método para cargar los acuerdos del plan de estudio.
+     * @param id - ID del plan de estudio.
+     * @returns {void}
+     */
+    protected loadAcuerdos(id: string | null): void {
+        this.isLoading = true;
+        if (!id) {
+            this.showMessage('error', "ID del plan de estudio no proporcionado.");
+            this.isLoading = false;
+            return;
+        }
+        this.planesEstudioAcuerdosService.getPlanesEstudioAcuerdosList(id).subscribe({
+            next: (response: PlanesEstudioAcuerdos[]) => {
+                this.acuerdos = response;
+                this.isLoading = false;
+            },
+            error: (error: any) => {
+                this.isLoading = false;
+                this.showMessage('error', "Error al cargar los acuerdos del plan de estudio: " + error.message);
             }
         });
     }
@@ -143,9 +196,9 @@ export class CurriculumInfoComponent {
      * @returns {void}
      */
     protected onCreateAcuerdo(): void {
-        if (this.createAcuerdoForm.invalid, this.idPlanEstudio === null) {
-            this.isError = true;
-            this.errorMessage = "Formulario inválido. Por favor, complete todos los campos requeridos.";
+        if (this.createAcuerdoForm.invalid || this.idPlanEstudio === null) {
+            this.showMessage('error', "Formulario inválido. Por favor, complete todos los campos requeridos.");
+            this.isLoading = false;
             return;
         }
 
@@ -158,19 +211,99 @@ export class CurriculumInfoComponent {
 
         this.planesEstudioAcuerdosService.createPlanesEstudioAcuerdo(acuerdoData).subscribe({
             next: (response: PlanesEstudioAcuerdos) => {
-                this.isSuccess = true;
-                this.successMessage = "Acuerdo creado correctamente.";
+                this.showMessage('success', "Acuerdo creado correctamente.");
                 this.createAcuerdoForm.reset();
                 this.isLoading = false;
-                console.log("Acuerdo creado:", response);
+                this.loadAcuerdos(this.idPlanEstudio);
             },
             error: (error: any) => {
-                this.isError = true;
-                this.errorMessage = "Error al crear el acuerdo: " + error.message;
-                console.error("Error al crear el acuerdo:", error);
+                this.isLoading = false;
+                this.showMessage('error', "Error al crear el acuerdo: " + error.message);
             }
         });
     }
+
+    /**
+     * Método para editar un acuerdo de plan de estudio.
+     * @returns {void}
+     */
+    protected onEditAcuerdo(): void {
+        this.isLoading = true;
+
+        if (!this.currentAcuerdoId) {
+            this.showMessage('error', "No se ha seleccionado un acuerdo para editar.");
+            return;
+        }
+
+        const acuerdoIds = this.acuerdos.map(acuerdo => acuerdo.id);
+
+        if (this.editAcuerdoForm.invalid || this.idPlanEstudio === null || !acuerdoIds.includes(this.currentAcuerdoId)) {
+            console.log("Formulario inválido o acuerdo no encontrado:", this.editAcuerdoForm.invalid, this.idPlanEstudio, acuerdoIds.includes(this.currentAcuerdoId));
+            this.showMessage('error', "Formulario inválido o acuerdo no encontrado.");
+            this.isLoading = false;
+            return;
+        }
+
+        const acuerdoData: UpdatePlanesEstudioAcuerdosRequest = {
+            id: this.currentAcuerdoId,
+            titulo: this.editAcuerdoForm.value.titulo,
+            link: this.editAcuerdoForm.value.link,
+            vigente: this.editAcuerdoForm.value.vigente,
+        };
+
+        this.planesEstudioAcuerdosService.updatePlanesEstudioAcuerdo(acuerdoData).subscribe({
+            next: (response: PlanesEstudioAcuerdos) => {
+                this.showMessage('success', "Acuerdo editado correctamente.");
+                this.editAcuerdoForm.reset();
+                this.isLoading = false;
+                this.loadAcuerdos(this.idPlanEstudio);
+            },
+            error: (error: any) => {
+                this.isLoading = false;
+                this.showMessage('error', "Error al editar el acuerdo: " + error.message);
+                console.error("Error al editar el acuerdo:", error);
+            }
+        });
+    }
+
+    /**
+     * Método para preparar el formulario de edición con los datos del acuerdo.
+     * @param acuerdo - Acuerdo a editar.
+     * @returns {void}
+     */
+    protected prepareEditAcuerdo(acuerdo: PlanesEstudioAcuerdos): void {
+        this.currentAcuerdoId = acuerdo.id;
+        this.editAcuerdoForm.patchValue({
+            titulo: acuerdo.titulo,
+            link: acuerdo.link,
+            vigente: acuerdo.vigente
+        });
+    }
+
+    /**
+     * Método para eliminar un acuerdo de plan de estudio.
+     * @param id - ID del acuerdo a eliminar.
+     * @returns {void}
+     */
+    protected onDeleteAcuerdo(id: string): void {
+        const acuerdoExists = this.acuerdos.find(acuerdo => acuerdo.id === id);
+
+        if (!id || !acuerdoExists) {
+            this.showMessage('error', "ID del acuerdo no proporcionado o acuerdo no encontrado.");
+            return;
+        }
+
+        this.planesEstudioAcuerdosService.deletePlanesEstudioAcuerdo(id).subscribe({
+            next: () => {
+                this.showMessage('success', "Acuerdo eliminado correctamente.");
+                this.loadAcuerdos(this.idPlanEstudio);
+            },
+            error: (error: any) => {
+                this.showMessage('error', "Error al eliminar el acuerdo: " + error.message);
+            }
+        });
+    }
+
 
     /**
      * Método para cargar las tipologías de las asignaturas.
@@ -210,6 +343,23 @@ export class CurriculumInfoComponent {
         this.isLoading = false;
     }
 
+    protected showMessage(type: 'success' | 'error', message: string): void {
+        if (type === 'success') {
+            this.isSuccess = true;
+            this.successMessage = message;
+            this.isError = false;
+        } else {
+            this.isError = true;
+            this.errorMessage = message;
+            this.isSuccess = false;
+        }
+        setTimeout(() => {
+            this.isSuccess = false;
+            this.successMessage = "";
+            this.isError = false;
+            this.errorMessage = "";
+        }, 10000);
+    }
 
 
 }
