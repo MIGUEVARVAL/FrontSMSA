@@ -116,19 +116,8 @@
 
 
 
-    @if (isError) {
-    <div class="alert alert-danger">
-        <div class="alert-header">
-            <div class="alert-icon">
-                <span class="material-symbols-outlined">info</span>
-            </div>
-            <div class="alert-title">
-                {{errorMessage}}
-            </div>
-        </div>
-    </div>
-    }
-    @else {
+    <app-messages></app-messages>
+
     <div class="d-flex flex-column flex-xl-row gap-6 px-4 py-4">
         <div class="d-flex flex-column gap-4 flex-grow-1 mw-xl-50">
 
@@ -163,7 +152,8 @@
                                 [attr.data-bs-target]="'#editUserModal' + user.id" (click)="openEditUserModal(user)">
                                 <span class='material-symbols-fill'>edit</span>
                             </a>
-                            <div class="modal fade" tabindex="-1" [attr.id]="'editUserModal' + user.id">
+                        </div>
+                        <div class="modal fade" tabindex="-1" [attr.id]="'editUserModal' + user.id">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <form [formGroup]="UserEditForm" (ngSubmit)="editUser(user.id!)">
@@ -173,16 +163,6 @@
                                             </div>
                                             <div class="modal-title">Edición del usuario</div>
                                             <div class="modal-body">
-                                                @if (isSuccessUpdate) {
-                                                <div class="alert alert-success" role="alert">
-                                                    Usuario actualizado correctamente.
-                                                </div>
-                                                }
-                                                @if (isErrorUpdate) {
-                                                <div class="alert alert-danger" role="alert">
-                                                    {{ errorMessageUpdate }}
-                                                </div>
-                                                }
                                                 <div class="vstack gap-4">
                                                     <div>
                                                         <label class="form-label required">Nombres</label>
@@ -245,7 +225,7 @@
                                                     data-bs-dismiss="modal">
                                                     Cancelar
                                                 </button>
-                                                <button type="submit" class="btn btn-primary">
+                                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
                                                     Actualizar
                                                 </button>
                                             </div>
@@ -253,13 +233,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         <div class="toolbar sm bg-fixed-danger" role="group" aria-label="btn-groups">
                             <a type="button" class="btn btn-icon" data-bs-toggle="modal"
                                 [attr.data-bs-target]="'#deleteModal' + user.id">
                                 <span class='material-symbols-fill'>delete</span>
                             </a>
-                            <div class="modal modal-danger fade" tabindex="-1" [attr.id]="'deleteModal' + user.id">
+                        </div>
+                        <div class="modal modal-danger fade" tabindex="-1" [attr.id]="'deleteModal' + user.id">
                                 <div class="modal-dialog ">
                                     <div class="modal-content text-center">
                                         <div class="modal-header">
@@ -289,7 +269,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                     }
                 </div>
@@ -444,7 +423,7 @@
 
         </div>
     </div>
-    }
+    
 
 </div>
 

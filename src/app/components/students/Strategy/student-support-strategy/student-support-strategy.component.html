@@ -245,6 +245,8 @@
 
                         </div>
 
+                        <app-messages class="mt-5"></app-messages>
+
                         @if (strategiesListResponse.results.length === 0) {
                         <div
                             class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4 my-5">
@@ -369,33 +371,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-title">Estrategia</div>
-                @if (isSuccess) {
-                <div class="alert alert-success">
-                    <div class="alert-header">
-                        <div class="alert-icon">
-                            <span class="material-symbols-outlined">info</span>
-                        </div>
-                        <div class="alert-title">
-                            {{successMessage}}
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-                }
-
-                @if (isError) {
-                <div class="alert alert-danger">
-                    <div class="alert-header">
-                        <div class="alert-icon">
-                            <span class="material-symbols-outlined">info</span>
-                        </div>
-                        <div class="alert-title">
-                            {{errorMessage}}
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-                }
                 <div class="modal-body">
                     <form [formGroup]="studentSupportStrategyForm" (ngSubmit)="createStrategy()">
                         <div class="form-complete container">
@@ -423,7 +398,7 @@
 
                         <div class="form-footer text-center mt-4">
                             <button class="btn btn-primary btn-mn" type="submit"
-                                [disabled]="!studentSupportStrategyForm.valid">
+                                [disabled]="!studentSupportStrategyForm.valid" data-bs-dismiss="modal">
                                 <span>Crear</span>
                             </button>
                         </div>

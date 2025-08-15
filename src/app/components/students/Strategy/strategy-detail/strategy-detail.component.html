@@ -146,7 +146,7 @@
                         <li class="breadcrumb-item active"><a routerLink="/students/student-info">Información del
                                 estudiante</a></li>
                         <li class="breadcrumb-item active"><a
-                                routerLink="/students/student-support-strategy">Estrategia</a></li>
+                                routerLink="/students/student-support-strategy">Estrategias</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Seguimiento</li>
                     </ol>
                 </nav>
@@ -251,6 +251,7 @@
                         </p>
 
                         <h4 class="my-5">Seguimiento</h4>
+                        <app-messages></app-messages>
                         @if (strategyFollowUpList.results.length === 0) {
                             <div
                             class="bg-neutral-variant-99 border-neutral-variant-80 border-2 border w-100 rounded-5 text-center p-4 my-5">
@@ -401,33 +402,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-title">Seguimiento</div>
-                @if (isSuccess) {
-                <div class="alert alert-success">
-                    <div class="alert-header">
-                        <div class="alert-icon">
-                            <span class="material-symbols-outlined">info</span>
-                        </div>
-                        <div class="alert-title">
-                            {{successMessage}}
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-                }
-
-                @if (isError) {
-                <div class="alert alert-danger">
-                    <div class="alert-header">
-                        <div class="alert-icon">
-                            <span class="material-symbols-outlined">info</span>
-                        </div>
-                        <div class="alert-title">
-                            {{errorMessage}}
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-                }
                 <div class="modal-body">
                     <form [formGroup]="strategyDetailForm" (ngSubmit)="createFollowUp()">
 
@@ -451,7 +425,7 @@
                         </div>
 
                         <div class="form-footer text-center mt-4">
-                            <button class="btn btn-primary btn-mn" type="submit" [disabled]="!strategyDetailForm.valid">
+                            <button class="btn btn-primary btn-mn" type="submit" [disabled]="!strategyDetailForm.valid" data-bs-dismiss="modal">
                                 <span>Crear</span>
                             </button>
                         </div>

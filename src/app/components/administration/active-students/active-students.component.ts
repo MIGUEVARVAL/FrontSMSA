@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
 import { LoadFileService } from '../../../services/APIs/backend/loadFile/load-file.service';
+import { MessagesComponent } from '../../../templates/messages/messages.component';
 
 /**
  * Utilizada para el manejo de archivos y formularios
@@ -13,26 +14,20 @@ declare const kitUnal: any;
 @Component({
   selector: 'app-active-students',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, LoadingComponent],
+  imports: [RouterModule, ReactiveFormsModule, LoadingComponent, MessagesComponent],
   templateUrl: './active-students.component.html',
   styleUrl: './active-students.component.scss'
 })
 export class ActiveStudentsComponent {
 
+  @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
+
   /**
    * Variables booleanas para mostrar carga, exito y error
    * @protected
    * @property {boolean} isLoading - Indica el proceso de carga.
-   * @property {boolean} isSuccess - Indica si la carga fue exitosa.
-   * @property {string} successMessage - Mensaje de éxito a mostrar.
-   * @property {boolean} isError - Indica si hubo un error en la carga.
-   * @property {string} errorMessage - Mensaje de error a mostrar.
    */
   protected isLoading: boolean = false;
-  protected isSuccess: boolean = false;
-  protected successMessage: string = '';
-  protected isError: boolean = false;
-  protected errorMessage: string = '';
 
   /**
    * Formulario reactivo para cargar los estudiantes
@@ -75,26 +70,22 @@ export class ActiveStudentsComponent {
 
     if (!file) {
       this.isLoading = false;
-      this.isError = true;
-      this.errorMessage = 'Debes seleccionar un archivo.';
+      this.showMessage('error', 'Debes seleccionar un archivo.');
       return;
     }
 
     this.loadFileService.loadFileActiveStudents(file).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.isSuccess = true;
-        this.successMessage =
-          'Los estudiantes fueron cargados exitosamente. ' +
-          'Se han cargado ' + response.data.length + ' estudiantes.';
+        this.showMessage('success', 'Los estudiantes fueron cargados exitosamente. ' +
+          'Se han cargado ' + response.data.length + ' estudiantes.');
         this.createStudentsForm.reset();
         this.selectedFile = null;
         this.selectedFileName = null;
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = 'Error al cargar el archivo: ' + error.message;
+        this.showMessage('error', 'Error al cargar el archivo: ' + error.message);
       },
     });
   }
@@ -149,4 +140,15 @@ export class ActiveStudentsComponent {
       this.onFileSelected({ target: fileInput } as any);
     }
   }
+
+  /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+    private showMessage(type: 'success' | 'error', message: string): void {
+        if (this.messagesComponent) {
+            this.messagesComponent.showMessage(type, message);
+        }
+    }
 }

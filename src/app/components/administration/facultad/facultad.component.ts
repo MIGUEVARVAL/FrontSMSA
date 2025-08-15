@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FacultadService } from '../../../services/APIs/backend/models/Facultad/facultad.service';
 import { Facultad, FacultadListResponse } from '../../../services/APIs/backend/models/Facultad/facultad.model';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
@@ -8,36 +8,25 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { MessagesComponent } from '../../../templates/messages/messages.component';
 
 @Component({
   selector: 'app-facultad',
-  imports: [LoadingComponent, ReactiveFormsModule],
+  imports: [LoadingComponent, ReactiveFormsModule, MessagesComponent],
   standalone: true,
   templateUrl: './facultad.component.html',
   styleUrl: './facultad.component.scss'
 })
 export class FacultadComponent {
 
+  @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
+
   /**
    * Variables booleanas para mostrar carga, exito y error
    * @protected
    * @property {boolean} isLoading - Indica el proceso de carga.
-   * @property {boolean} isSuccess - Indica si la carga fue exitosa.
-   * @property {string} successMessage - Mensaje de éxito a mostrar.
-   * @property {boolean} isError - Indica si hubo un error en la carga.
-   * @property {string} errorMessage - Mensaje de error a mostrar.
-   * @property {boolean} isSuccessUpdate - Indica si la actualización fue exitosa.
-   * @property {boolean} isErrorUpdate - Indica si hubo un error al actualizar.
-   * @property {string} errorMessageUpdate - Mensaje de error al actualizar
    */
   protected isLoading: boolean = false;
-  protected isSuccess: boolean = false;
-  protected successMessage: string = '';
-  protected isError: boolean = false;
-  protected errorMessage: string = '';
-  protected isSuccessUpdate: boolean = false;
-  protected isErrorUpdate: boolean = false;
-  protected errorMessageUpdate: string = '';
 
   /**
    * Página actual para la paginación.
@@ -121,11 +110,11 @@ export class FacultadComponent {
           this.FacultadListResponse.results.push(response);
           this.createFacultadForm.reset();
           this.isLoading = false;
-          this.isSuccess = true;
-          this.successMessage = 'Facultad creada exitosamente.';
+          this.showMessage('success', 'Facultad creada exitosamente.');
         },
         error: (error) => {
-          console.error('Error creating facultad:', error);
+          this.isLoading = false;
+          this.showMessage('error', 'Error al crear la facultad: ' + error.message);
         }
       });
     }
@@ -145,9 +134,7 @@ export class FacultadComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = 'Error al cargar las facultades.';
-        console.error('Error loading facultades:', error);
+        this.showMessage('error', 'Error al cargar las facultades.');
       }
     });
   }
@@ -163,14 +150,11 @@ export class FacultadComponent {
       next: () => {
         this.FacultadListResponse.results = this.FacultadListResponse.results.filter(facultad => facultad.id !== id);
         this.isLoading = false;
-        this.isSuccess = true;
-        this.successMessage = 'Facultad eliminada exitosamente.';
+        this.showMessage('success', 'Facultad eliminada exitosamente.');
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = 'Error al eliminar la facultad.';
-        console.error('Error deleting facultad:', error);
+        this.showMessage('error', 'Error al eliminar la facultad.');
       }
     });
   }
@@ -190,14 +174,11 @@ export class FacultadComponent {
             this.FacultadListResponse.results[index] = response;
           }
           this.isLoading = false;
-          this.isSuccessUpdate = true;
-          this.successMessage = 'Facultad actualizada exitosamente.';
+          this.showMessage('success', 'Facultad actualizada exitosamente.');
         },
         error: (error) => {
           this.isLoading = false;
-          this.isErrorUpdate = true;
-          this.errorMessageUpdate = 'Error al actualizar la facultad.';
-          console.error('Error updating facultad:', error);
+          this.showMessage('error', 'Error al actualizar la facultad.');
         }
       });
     }
@@ -239,5 +220,16 @@ export class FacultadComponent {
       this.loadFacultades(this.searchFacultadForm.value);
     }
   }
+
+  /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+    private showMessage(type: 'success' | 'error', message: string): void {
+        if (this.messagesComponent) {
+            this.messagesComponent.showMessage(type, message);
+        }
+    }
 
 }

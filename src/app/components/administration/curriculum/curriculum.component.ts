@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   FormGroup,
@@ -8,11 +8,8 @@ import {
 } from '@angular/forms';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
 import { LoadFileService } from '../../../services/APIs/backend/loadFile/load-file.service';
-import { PlanEstudioService } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.service';
-import {
-  PlanEstudio,
-  PlanEstudioListResponse,
-} from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.model';
+import { MessagesComponent } from '../../../templates/messages/messages.component';
+
 
 /**
  * Utilizada para el manejo de archivos y formularios
@@ -22,26 +19,21 @@ declare const kitUnal: any;
 
 @Component({
   selector: 'app-curriculum',
-  imports: [RouterModule, ReactiveFormsModule, LoadingComponent],
+  imports: [RouterModule, ReactiveFormsModule, LoadingComponent, MessagesComponent],
   standalone: true,
   templateUrl: './curriculum.component.html',
   styleUrl: './curriculum.component.scss',
 })
 export class CurriculumComponent {
+
+  @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
+  
   /**
-   * Variables booleanas para mostrar carga, exito y error
+   * Variables booleanas para mostrar carga
    * @protected
    * @property {boolean} isLoading - Indica si se está cargando el formulario.
-   * @property {boolean} isSuccess - Indica si la carga fue exitosa.
-   * @property {string} successMessage - Mensaje de éxito a mostrar.
-   * @property {boolean} isError - Indica si hubo un error en la carga.
-   * @property {string} errorMessage - Mensaje de error a mostrar.
    */
   protected isLoading: boolean = false;
-  protected isSuccess: boolean = false;
-  protected successMessage: string = '';
-  protected isError: boolean = false;
-  protected errorMessage: string = '';
 
   /**
    * Página actual para la paginación.
@@ -62,12 +54,10 @@ export class CurriculumComponent {
   /**
    * Constructor del componente.
    * @param {LoadFileService} loadFileService - Servicio para manejar la carga de archivos.
-   * @param {PlanEstudioService} planEstudioService - Servicio para manejar los planes de estudio.
    * @constructor
    */
   constructor(
     private loadFileService: LoadFileService,
-    private planEstudioService: PlanEstudioService
   ) {}
 
   /**
@@ -82,25 +72,21 @@ export class CurriculumComponent {
 
     if (!file) {
       this.isLoading = false;
-      this.isError = true;
-      this.errorMessage = 'Debes seleccionar un archivo.';
+      this.showMessage('error', 'Debes seleccionar un archivo.');
       return;
     }
 
     this.loadFileService.loadFileCurriculum(file).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.isSuccess = true;
-        this.successMessage =
-          'Los planes de estudio fueron cargados correctamente.';
+        this.showMessage('success', 'Los planes de estudio fueron cargados correctamente.');
         this.createCurriculumForm.reset();
         this.selectedFile = null;
         this.selectedFileName = null;
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = 'Error al cargar el archivo: ' + error.message;
+        this.showMessage('error', 'Error al cargar el archivo: ' + error.message);
       },
     });
   }
@@ -159,5 +145,16 @@ export class CurriculumComponent {
       this.onFileSelected({ target: fileInput } as any);
     }
   }
+
+  /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+    private showMessage(type: 'success' | 'error', message: string): void {
+        if (this.messagesComponent) {
+            this.messagesComponent.showMessage(type, message);
+        }
+    }
 
 }

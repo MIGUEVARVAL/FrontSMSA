@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
 import { LoadFileService } from '../../../services/APIs/backend/loadFile/load-file.service';
+import { MessagesComponent } from '../../../templates/messages/messages.component';
 
 /**
  * Utilizada para el manejo de archivos y formularios
@@ -13,27 +14,21 @@ declare const kitUnal: any;
 @Component({
   selector: 'app-cancellations',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, LoadingComponent],
+  imports: [RouterModule, ReactiveFormsModule, LoadingComponent, MessagesComponent],
   templateUrl: './cancellations.component.html',
   styleUrl: './cancellations.component.scss'
 })
 
 export class CancellationsComponent {
 
+  @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
+
   /**
-   * Variables booleanas para mostrar carga, exito y error
+   * Variables booleanas para mostrar carga
    * @protected
    * @property {boolean} isLoading - Indica si se está cargando el formulario.
-   * @property {boolean} isSuccess - Indica si la carga fue exitosa.
-   * @property {string} successMessage - Mensaje de éxito a mostrar.
-   * @property {boolean} isError - Indica si hubo un error en la carga.
-   * @property {string} errorMessage - Mensaje de error a mostrar.
    */
   protected isLoading: boolean = false;
-  protected isSuccess: boolean = false;
-  protected successMessage: string = "";
-  protected isError: boolean = false;
-  protected errorMessage: string = "";
 
   /**
    * Formulario reactivo para cargar las asignaturas canceladas
@@ -65,21 +60,17 @@ export class CancellationsComponent {
 
     if (!file) {
       this.isLoading = false;
-      this.isError = true;
-      this.errorMessage = 'Debes seleccionar un archivo.';
+      this.showMessage('error', 'Debes seleccionar un archivo.');
       return;
     }
     this.loadFileService.loadFileCancellation(file).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.isSuccess = true;
-        this.successMessage = response.message || 'Asignaturas canceladas cargadas exitosamente.';
+        this.showMessage('success', response.message || 'Asignaturas canceladas cargadas exitosamente.');
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = error.error?.message || 'Error al cargar las asignaturas canceladas.';
-        console.error('Error al cargar las asignaturas canceladas:', error);
+        this.showMessage('error', error.error?.message || 'Error al cargar las asignaturas canceladas.');
       }
     });
   }
@@ -137,5 +128,16 @@ export class CancellationsComponent {
       this.onFileSelected({ target: fileInput } as any);
     }
   }
+
+  /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+    private showMessage(type: 'success' | 'error', message: string): void {
+        if (this.messagesComponent) {
+            this.messagesComponent.showMessage(type, message);
+        }
+    }
 
 }

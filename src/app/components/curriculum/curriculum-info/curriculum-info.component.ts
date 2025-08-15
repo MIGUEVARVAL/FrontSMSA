@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { PlanEstudioService } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.service';
@@ -7,6 +7,7 @@ import { AsignaturaPlanService } from '../../../services/APIs/backend/models/Asi
 import { AsignaturaPlan } from '../../../services/APIs/backend/models/AsignaturaPlan/asignatura-plan.model';
 import { Tipologia } from '../../../services/APIs/backend/models/Tipologia/tipologia.model';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
+import { MessagesComponent } from '../../../templates/messages/messages.component';
 import { PlanesEstudioAcuerdosFilter, PlanesEstudioAcuerdos, CreatePlanesEstudioAcuerdosRequest, UpdatePlanesEstudioAcuerdosRequest } from '../../../services/APIs/backend/models/PlanEstudioAcuerdos/planes-estudio-acuerdos.model';
 import { PlanesEstudioAcuerdosService } from '../../../services/APIs/backend/models/PlanEstudioAcuerdos/planes-estudio-acuerdos.service';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -14,11 +15,13 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
 @Component({
     selector: 'app-curriculum-info',
     standalone: true,
-    imports: [CommonModule, RouterModule, LoadingComponent, ReactiveFormsModule],
+    imports: [CommonModule, RouterModule, LoadingComponent, ReactiveFormsModule, MessagesComponent],
     templateUrl: './curriculum-info.component.html',
     styleUrl: './curriculum-info.component.scss'
 })
 export class CurriculumInfoComponent {
+
+    @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
 
     /**
        * Variables booleanas para mostrar carga, exito y error
@@ -30,11 +33,12 @@ export class CurriculumInfoComponent {
        * @property {string} errorMessage - Mensaje de error a mostrar.
        */
     protected isLoading: boolean = false;
-    protected isSuccess: boolean = false;
-    protected successMessage: string = "";
-    protected isError: boolean = false;
-    protected errorMessage: string = "";
 
+    /**
+     * Variable para almacenar el ID del plan de estudio desde la ruta.
+     * @type {string | null}
+     * @protected
+     */
     protected idPlanEstudio: string | null = null;
 
     /**
@@ -311,7 +315,6 @@ export class CurriculumInfoComponent {
      */
     protected loadTipologies(): void {
         this.isLoading = true;
-        this.isError = false;
         this.tipologias = [];
         if (!this.asignaturaPlan || this.asignaturaPlan.length === 0) {
             this.isLoading = false;
@@ -343,22 +346,15 @@ export class CurriculumInfoComponent {
         this.isLoading = false;
     }
 
-    protected showMessage(type: 'success' | 'error', message: string): void {
-        if (type === 'success') {
-            this.isSuccess = true;
-            this.successMessage = message;
-            this.isError = false;
-        } else {
-            this.isError = true;
-            this.errorMessage = message;
-            this.isSuccess = false;
+    /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+    private showMessage(type: 'success' | 'error', message: string): void {
+        if (this.messagesComponent) {
+            this.messagesComponent.showMessage(type, message);
         }
-        setTimeout(() => {
-            this.isSuccess = false;
-            this.successMessage = "";
-            this.isError = false;
-            this.errorMessage = "";
-        }, 10000);
     }
 
 

@@ -113,36 +113,7 @@
 
                         <hr class="hr my-4">
 
-                        @if (isSuccess) {
-                        <div class="alert alert-success">
-                            <div class="alert-header">
-                                <div class="alert-icon">
-                                    <span class="material-symbols-outlined">info</span>
-                                </div>
-                                <div class="alert-title">
-                                    {{successMessage}}
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        </div>
-                        }
-
-                        @if (isError) {
-                        <div class="alert alert-danger">
-                            <div class="alert-header">
-                                <div class="alert-icon">
-                                    <span class="material-symbols-outlined">info</span>
-                                </div>
-                                <div class="alert-title">
-                                    {{errorMessage}}
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        </div>
-                        }
-
+                        <app-messages></app-messages>
 
                         <div id="accordionCurriculum">
                             <div class="collapse show" id="collapseInformacion" data-bs-parent="#accordionCurriculum">

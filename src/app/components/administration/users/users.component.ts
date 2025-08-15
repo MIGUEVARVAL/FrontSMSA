@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   FormGroup,
@@ -13,36 +13,26 @@ import {
 } from '../../../services/APIs/backend/models/User/user.model';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
 import { DatePipe } from '../../../templates/pipes/date.pipe';
+import { MessagesComponent } from '../../../templates/messages/messages.component';
+
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, LoadingComponent, DatePipe],
+  imports: [RouterModule, ReactiveFormsModule, LoadingComponent, DatePipe, MessagesComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })
 export class UsersComponent {
-  
+
+  @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
+
   /**
    * Variables booleanas para mostrar carga, exito y error
    * @protected
    * @property {boolean} isLoading - Indica el proceso de carga.
-   * @property {boolean} isSuccess - Indica si la carga fue exitosa.
-   * @property {string} successMessage - Mensaje de éxito a mostrar.
-   * @property {boolean} isError - Indica si hubo un error en la carga.
-   * @property {string} errorMessage - Mensaje de error a mostrar.
-   * @property {boolean} isSuccessUpdate - Indica si la actualización fue exitosa.
-   * @property {boolean} isErrorUpdate - Indica si hubo un error al actualizar.
-   * @property {string} errorMessageUpdate - Mensaje de error al actualizar
    */
   protected isLoading: boolean = false;
-  protected isSuccess: boolean = false;
-  protected successMessage: string = '';
-  protected isError: boolean = false;
-  protected errorMessage: string = '';
-  protected isSuccessUpdate: boolean = false;
-  protected isErrorUpdate: boolean = false;
-  protected errorMessageUpdate: string = '';
 
   /**
    * Variables para la paginación de usuarios activos.
@@ -94,7 +84,7 @@ export class UsersComponent {
     lastName: new FormControl('', Validators.required),
     username: new FormControl('', Validators.required),
     dependence: new FormControl('', Validators.required),
-    nivel_permisos: new FormControl(0, Validators.required), 
+    nivel_permisos: new FormControl(0, Validators.required),
   });
 
   /**
@@ -133,9 +123,9 @@ export class UsersComponent {
   protected getUsersActivos(filterData?: any): void {
     this.isLoading = true;
     let page = this.activosPage;
-      if (filterData && filterData.nivel_permisos !== undefined) {
-        filterData.nivel_permisos = Number(filterData.nivel_permisos);
-      }
+    if (filterData && filterData.nivel_permisos !== undefined) {
+      filterData.nivel_permisos = Number(filterData.nivel_permisos);
+    }
     this.userService.getUsersWithPermissionsGreaterThanOne(page, filterData).subscribe({
       next: (users: UserListResponse) => {
         this.isLoading = false;
@@ -143,9 +133,7 @@ export class UsersComponent {
       },
       error: (error: any) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = 'Error al cargar los usuarios: ' + error.message;
-        console.error(error);
+        this.showMessage('error', 'Error al cargar los usuarios activos: ' + error.message);
       },
     });
   }
@@ -158,18 +146,16 @@ export class UsersComponent {
   protected getUsersSolicitudes(filterData?: any): void {
     this.isLoading = true;
     if (filterData) {
-      filterData.nivel_permisos = 0; 
+      filterData.nivel_permisos = 0;
     }
     this.userService.getUsersWithPermissionsZero(this.solicitudesPage, filterData).subscribe({
       next: (users: UserListResponse) => {
-        console.log(users);
         this.isLoading = false;
         this.usersSolicitudes = users;
       },
       error: (error: any) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = 'Error al cargar las solicitudes: ' + error.message;
+        this.showMessage('error', 'Error al cargar las solicitudes: ' + error.message);
       },
     });
   }
@@ -185,15 +171,15 @@ export class UsersComponent {
     this.userService.deleteUser(userId).subscribe({
       next: () => {
         this.isLoading = false;
-        this.isSuccess = true;
-        this.successMessage = 'Usuario eliminado correctamente.';
-        this.getUsersActivos(); 
-        this.getUsersSolicitudes(); 
+        this.showMessage('success', 'Usuario eliminado correctamente.');
+        this.solicitudesPage = 1;
+        this.activosPage = 1;
+        this.getUsersActivos();
+        this.getUsersSolicitudes();
       },
       error: (error: any) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = 'Error al eliminar el usuario: ' + error.message;
+        this.showMessage('error', 'Error al eliminar el usuario: ' + error.message);
         console.error(error);
       },
     });
@@ -210,8 +196,7 @@ export class UsersComponent {
     user.nivel_permisos = 1; // Asignar permisos de usuario
     this.userService.updateUser(user.id!, { nivel_permisos: 2 }).subscribe({
       next: () => {
-        this.isSuccess = true;
-        this.successMessage = 'Solicitud aprobada correctamente.';
+        this.showMessage('success', 'Solicitud aprobada correctamente.');
         // Eliminar el usuario de la lista de solicitudes
         this.usersSolicitudes.results = this.usersSolicitudes.results.filter(u => u.id !== user.id);
         const updatedUser: User = { ...user, nivel_permisos: 2 };
@@ -222,9 +207,7 @@ export class UsersComponent {
       },
       error: (error: any) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = 'Error al aprobar la solicitud: ' + error.message;
-        console.error(error);
+        this.showMessage('error', 'Error al aprobar la solicitud: ' + error.message);
       },
     });
   }
@@ -263,7 +246,7 @@ export class UsersComponent {
       };
       this.userService.updateUser(userId, userUpdate).subscribe({
         next: () => {
-          this.isSuccessUpdate = true;
+          this.showMessage('success', 'Usuario actualizado correctamente.');
           const index = this.usersActivos.results.findIndex(user => user.id === userId);
           if (index !== -1) {
             this.usersActivos.results[index] = {
@@ -273,9 +256,7 @@ export class UsersComponent {
           }
         },
         error: (error: any) => {
-          this.isErrorUpdate = true;
-          this.errorMessageUpdate = 'Error al actualizar el usuario: ' + error.message;
-          console.error(error);
+          this.showMessage('error', 'Error al actualizar el usuario: ' + error.message);
         }
       });
     }
@@ -294,12 +275,15 @@ export class UsersComponent {
       dependence: this.UserSearchForm.value.dependence || '',
       nivel_permisos: this.UserSearchForm.value.nivel_permisos || 0
     };
+    this.activosPage = 1;
+    this.solicitudesPage = 1;
     this.getUsersActivos(this.UserSearchForm.value);
     this.getUsersSolicitudes(this.UserSearchForm.value);
-    console.log("Filtros",this.filtrosActivos);
   }
 
   protected clearSearch(): void {
+    this.activosPage = 1;
+    this.solicitudesPage = 1;
     this.UserSearchForm.reset();
     this.getUsersActivos();
     this.getUsersSolicitudes();
@@ -335,6 +319,17 @@ export class UsersComponent {
     const selectTriggerList = document.querySelectorAll('.form-tom-select');
     const config = {};
     const selectList = [...selectTriggerList].map(selectEl => new (window as any).bootstrap.FormSelect(selectEl, config));
+  }
+
+  /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+  private showMessage(type: 'success' | 'error', message: string): void {
+    if (this.messagesComponent) {
+      this.messagesComponent.showMessage(type, message);
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EstudianteService } from '../../../services/APIs/backend/models/Estudiante/estudiante.service';
@@ -9,31 +9,25 @@ import { AsignaturaPlanService } from '../../../services/APIs/backend/models/Asi
 import { HistoricoSeguimientoListResponse, HistoricoSeguimiento } from '../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.model';
 import { HistoricoSeguimientoService } from '../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.service';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
-
+import { MessagesComponent } from '../../../templates/messages/messages.component';
 
 @Component({
     selector: 'app-students-info',
     standalone: true,
-    imports: [RouterModule, CommonModule, LoadingComponent],
+    imports: [RouterModule, CommonModule, LoadingComponent, MessagesComponent],
     templateUrl: './students-info.component.html',
     styleUrl: './students-info.component.scss'
 })
 export class StudentsInfoComponent {
 
+    @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
+
     /**
-     * Variables booleanas para mostrar carga, exito y error
+     * Variables booleanas para mostrar carga
      * @protected
      * @property {boolean} isLoading - Indica si se está cargando el formulario.
-     * @property {boolean} isSuccess - Indica si la carga fue exitosa.
-     * @property {string} successMessage - Mensaje de éxito a mostrar.
-     * @property {boolean} isError - Indica si hubo un error en la carga.
-     * @property {string} errorMessage - Mensaje de error a mostrar.
      */
     protected isLoading: boolean = false;
-    protected isSuccess: boolean = false;
-    protected successMessage: string = "";
-    protected isError: boolean = false;
-    protected errorMessage: string = "";
 
 
     /**
@@ -115,14 +109,11 @@ export class StudentsInfoComponent {
             .subscribe((historial: HistorialAcademico[]) => {
                 this.HistorialAcademico = historial;
                 this.isLoading = false;
-                this.isSuccess = true;
-                this.successMessage = "Historial académico cargado exitosamente.";
                 this.semesters = this.getSemesters();
                 this.getTipologies();
             }, (error) => {
                 this.isLoading = false;
-                this.isError = true;
-                this.errorMessage = "Error al cargar el historial académico: " + error.message;
+                this.showMessage('error', "Error al cargar el historial académico: " + error.message);
             });
     }
 
@@ -139,23 +130,15 @@ export class StudentsInfoComponent {
             .subscribe((historial: HistorialAcademicoByPlanEstudios[]) => {
                 if (!historial || historial.length === 0) {
                     this.isLoading = false;
-                    this.isError = true;
-                    this.errorMessage = "No se encontraron asignaturas en el historial académico.";
-                    console.error("No se encontraron asignaturas en el historial académico.");
+                    this.showMessage('error', "No se encontraron asignaturas en el historial académico.");
                     return;
                 }
                 this.HistorialAcademicoBytipologies = historial;
-                console.log("Historial académico por tipologías:", this.HistorialAcademicoBytipologies);
                 this.isLoading = false;
-                this.isSuccess = true;
-                this.successMessage = "Historial académico por tipologías cargado exitosamente.";
-            }
-                , (error) => {
-                    this.isLoading = false;
-                    this.isError = true;
-                    this.errorMessage = "Error al cargar el historial académico por tipologías: " + error.message;
-                    console.error("Error al cargar el historial académico por tipologías:", error);
-                });
+            }, (error) => {
+                this.isLoading = false;
+                this.showMessage('error', "Error al cargar el historial académico por tipologías: " + error.message);
+            });
     }
 
 
@@ -186,8 +169,7 @@ export class StudentsInfoComponent {
         this.isLoading = true;
         if (!this.studentInfo?.id) {
             this.isLoading = false;
-            this.isError = true;
-            this.errorMessage = "No se pudo obtener el ID del estudiante.";
+            this.showMessage('error', "No se pudo obtener el ID del estudiante.");
             return;
         }
         this.historicoSeguimientoService.getHistoricoSeguimientoList(1, this.studentInfo.id.toString()).subscribe({
@@ -197,10 +179,20 @@ export class StudentsInfoComponent {
             },
             error: (error) => {
                 this.isLoading = false;
-                this.isError = true;
-                this.errorMessage = "Error al cargar el historial de seguimiento: " + error.message;
+                this.showMessage('error', "Error al cargar el historial de seguimiento: " + error.message);
             }
         });
+    }
+
+     /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+    private showMessage(type: 'success' | 'error', message: string): void {
+        if (this.messagesComponent) {
+            this.messagesComponent.showMessage(type, message);
+        }
     }
 
 }

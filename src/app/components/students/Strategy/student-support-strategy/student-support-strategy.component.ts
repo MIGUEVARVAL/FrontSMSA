@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -8,30 +8,25 @@ import { EstrategiaService } from '../../../../services/APIs/backend/models/Estr
 import { Estrategia, EstrategiaListResponse } from '../../../../services/APIs/backend/models/Estrategia/estrategia.model';
 import { LoadingComponent } from '../../../../templates/loading/loading.component';
 import { QuillModule } from 'ngx-quill';
+import { MessagesComponent } from '../../../../templates/messages/messages.component';
 
 @Component({
   selector: 'app-student-support-strategy',
   standalone: true,
-  imports: [RouterModule, CommonModule, ReactiveFormsModule, LoadingComponent, QuillModule],
+  imports: [RouterModule, CommonModule, ReactiveFormsModule, LoadingComponent, QuillModule, MessagesComponent],
   templateUrl: './student-support-strategy.component.html',
   styleUrl: './student-support-strategy.component.scss'
 })
 export class StudentSupportStrategyComponent {
 
+  @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
+
   /**
-   * Variables booleanas para mostrar carga, exito y error
+   * Variables booleanas para mostrar carga
    * @protected
    * @property {boolean} isLoading - Indica si se está cargando el formulario.
-   * @property {boolean} isSuccess - Indica si la carga fue exitosa.
-   * @property {string} successMessage - Mensaje de éxito a mostrar.
-   * @property {boolean} isError - Indica si hubo un error en la carga.
-   * @property {string} errorMessage - Mensaje de error a mostrar.
    */
   protected isLoading: boolean = false;
-  protected isSuccess: boolean = false;
-  protected successMessage: string = "";
-  protected isError: boolean = false;
-  protected errorMessage: string = "";
 
   /**
      * Página actual para la paginación.
@@ -112,8 +107,7 @@ export class StudentSupportStrategyComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = "Error al cargar las estrategias: " + error.message;
+        this.showMessage('error', "Error al cargar las estrategias: " + error.message);
       }
     });
   }
@@ -126,8 +120,7 @@ export class StudentSupportStrategyComponent {
   protected createStrategy(): void {
     this.isLoading = true;
     if (!this.studentInfo?.id) {
-      this.isError = true;
-      this.errorMessage = "No se pudo obtener el ID del estudiante.";
+      this.showMessage('error', "No se pudo obtener el ID del estudiante.");
       return;
     }
     const estrategia: Estrategia = {
@@ -138,44 +131,16 @@ export class StudentSupportStrategyComponent {
     this.estrategiaService.createEstrategia(estrategia).subscribe({
       next: (response: Estrategia) => {
         this.isLoading = false;
-        this.isSuccess = true;
-        this.successMessage = "Estrategia creada correctamente.";
+        this.showMessage('success', "Estrategia creada correctamente.");
+        this.studentSupportStrategyForm.reset();
         this.strategiesListResponse?.results.push(response);
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = "Error al crear la estrategia: " + error.message;
+        this.showMessage('error', "Error al crear la estrategia: " + error.message);
       }
     });
   }
-
-  /**
-     * Lista de estrategias de apoyo al estudiante.
-     * @protected
-     * @type {Array<any>}
-     
-    protected strategiesListResponse: any = [
-      {
-        id: 1,
-        title: 'Acompañamiento por tutor',
-        date: '22 de abril de 2025',
-        description: ' Se asigna el tutor José Restrepo, profesor de planta con conocimientos en matemáticas. Esto con el fin de acompañar al estudiante en asignaturas como cálculo en varias variables la cual se le ha dificultado mucho al estudiantes Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, amet deserunt est perferendis sequi consectetur. Eligendi maxime similique eaque, fugit, aliquam natus quas fugiat quos doloremque provident quasi modi? Doloribus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eaque, maiores ea dolore id a corporis voluptatibus cupiditate beatae rem distinctio quibusdam tempora rerum, eligendi assumenda! Explicabo laborum harum tenetur'
-      },
-      {
-        id: 2,
-        title: 'Programa de Orientación Vocacional',
-        date: '22 de abril de 2025',
-        description: 'Ofrecer orientación vocacional para ayudar a los estudiantes a elegir su camino profesional.'
-      },
-      {
-        id: 3,
-        title: 'Asesoramiento Psicológico',
-        date: '22 de abril de 2025',
-        description: 'Brindar apoyo psicológico para manejar el estrés y la ansiedad.'
-      }
-    ];
-    */
 
   get totalPages(): number {
     return Math.ceil(this.strategiesListResponse.count / (this.estrategiaService.getCustomPageSize())) || 1;
@@ -186,6 +151,17 @@ export class StudentSupportStrategyComponent {
       this.page = page;
       this.getStrategies();
 
+    }
+  }
+
+  /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+  private showMessage(type: 'success' | 'error', message: string): void {
+    if (this.messagesComponent) {
+      this.messagesComponent.showMessage(type, message);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -7,30 +7,25 @@ import { Facultad, FacultadListResponse } from '../../../services/APIs/backend/m
 import { PlanEstudioService } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.service';
 import { PlanEstudioListResponse, PlanEstudioFilters } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.model';
 import { LoadingComponent } from '../../../templates/loading/loading.component';
+import { MessagesComponent } from '../../../templates/messages/messages.component';
 
 @Component({
   selector: 'app-curriculum-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, LoadingComponent],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, LoadingComponent, MessagesComponent],
   templateUrl: './curriculum-list.component.html',
   styleUrl: './curriculum-list.component.scss'
 })
 export class CurriculumListComponent {
 
+  @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
+
   /**
      * Variables booleanas para mostrar carga, exito y error
      * @protected
      * @property {boolean} isLoading - Indica si se está cargando el formulario.
-     * @property {boolean} isSuccess - Indica si la carga fue exitosa.
-     * @property {string} successMessage - Mensaje de éxito a mostrar.
-     * @property {boolean} isError - Indica si hubo un error en la carga.
-     * @property {string} errorMessage - Mensaje de error a mostrar.
      */
   protected isLoading: boolean = false;
-  protected isSuccess: boolean = false;
-  protected successMessage: string = "";
-  protected isError: boolean = false;
-  protected errorMessage: string = "";
 
   /**
    * Página actual para la paginación.
@@ -105,13 +100,10 @@ export class CurriculumListComponent {
     this.facultadService.getFacultades(1).subscribe({
       next: (response: FacultadListResponse) => {
         this.facultades = response.results;
-        this.isSuccess = true;
-        this.successMessage = "Facultades cargadas correctamente.";
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = "Error al cargar las facultades: " + error.message;
+        this.showMessage('error', "Error al cargar las facultades: " + error.message);
       }
     });
   }
@@ -131,9 +123,7 @@ export class CurriculumListComponent {
         },
         error: (error) => {
           this.isLoading = false;
-          this.isError = true;
-          this.errorMessage =
-            'Error al cargar los planes de estudio: ' + error.message;
+          this.showMessage('error', 'Error al cargar los planes de estudio: ' + error.message);
         },
       });
   }
@@ -192,6 +182,17 @@ export class CurriculumListComponent {
       this.loadCurriculum(this.filtrosActivos);
     }
   }
+
+  /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+    private showMessage(type: 'success' | 'error', message: string): void {
+        if (this.messagesComponent) {
+            this.messagesComponent.showMessage(type, message);
+        }
+    }
 
 
 }

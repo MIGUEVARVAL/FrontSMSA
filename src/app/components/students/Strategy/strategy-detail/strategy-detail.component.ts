@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -10,32 +10,26 @@ import { HistoricoSeguimiento, HistoricoSeguimientoListResponse } from '../../..
 import { HistoricoSeguimientoService } from '../../../../services/APIs/backend/models/HistoricoSeguimiento/historico-seguimiento.service';
 import { LoadingComponent } from '../../../../templates/loading/loading.component';
 import { DatePipe } from '../../../../templates/pipes/date.pipe';
+import { MessagesComponent } from '../../../../templates/messages/messages.component';
 
 @Component({
   selector: 'app-strategy-detail',
   standalone: true,
-  imports: [RouterModule, CommonModule, ReactiveFormsModule, LoadingComponent, DatePipe],
+  imports: [RouterModule, CommonModule, ReactiveFormsModule, LoadingComponent, DatePipe, MessagesComponent],
   templateUrl: './strategy-detail.component.html',
   styleUrl: './strategy-detail.component.scss'
 })
 
 export class StrategyDetailComponent {
 
+  @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
+
   /**
    * Variables booleanas para mostrar carga, exito y error
    * @protected
    * @property {boolean} isLoading - Indica si se está cargando el formulario.
-   * @property {boolean} isSuccess - Indica si la carga fue exitosa.
-   * @property {string} successMessage - Mensaje de éxito a mostrar.
-   * @property {boolean} isError - Indica si hubo un error en la carga.
-   * @property {string} errorMessage - Mensaje de error a mostrar.
    */
   protected isLoading: boolean = false;
-  protected isSuccess: boolean = false;
-  protected successMessage: string = "";
-  protected isError: boolean = false;
-  protected errorMessage: string = "";
-
   /**
      * Página actual para la paginación.
      * @protected
@@ -130,8 +124,7 @@ export class StrategyDetailComponent {
     this.isLoading = true;
     if (!this.idStrategy) {
       this.isLoading = false;
-      this.isError = true;
-      this.errorMessage = "No se pudo obtener la estrategia, por favor intente más tarde.";
+      this.showMessage('error', "No se pudo obtener la estrategia, por favor intente más tarde.");
       return;
     }
 
@@ -142,8 +135,7 @@ export class StrategyDetailComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = "Error al cargar la estrategia: " + error.message;
+        this.showMessage('error', "Error al cargar la estrategia: " + error.message);
       }
     });
   }
@@ -157,8 +149,7 @@ export class StrategyDetailComponent {
     this.isLoading = true;
     if (!this.idStrategy) {
       this.isLoading = false;
-      this.isError = true;
-      this.errorMessage = "No se pudo obtener el ID de la estrategia.";
+      this.showMessage('error', "No se pudo obtener el historial de seguimiento, por favor intente más tarde.");
       return;
     }
     this.historicoSeguimientoService.getHistoricoSeguimientoByEstrategia(this.page, this.idStrategy).subscribe({
@@ -168,8 +159,7 @@ export class StrategyDetailComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = "Error al cargar el historial de seguimiento: " + error.message;
+        this.showMessage('error', "Error al cargar el historial de seguimiento: " + error.message);
       }
     });
   }
@@ -183,8 +173,7 @@ export class StrategyDetailComponent {
     this.isLoading = true;
     if (!this.strategyDetailForm.valid || !this.idStrategy) {
       this.isLoading = false;
-      this.isError = true;
-      this.errorMessage = "Por favor complete todos los campos del formulario.";
+      this.showMessage('error', "Por favor complete todos los campos requeridos.");
       return;
     }
     const historicoSeguimiento: HistoricoSeguimiento = {
@@ -195,15 +184,13 @@ export class StrategyDetailComponent {
     this.historicoSeguimientoService.createHistoricoSeguimiento(historicoSeguimiento).subscribe({
       next: (response: HistoricoSeguimiento) => {
         this.isLoading = false;
-        this.isSuccess = true;
-        this.successMessage = "Seguimiento creado correctamente.";
+        this.showMessage('success', "Seguimiento creado exitosamente.");
         this.strategyFollowUpList.results.push(response);
         this.strategyDetailForm.reset();
       },
       error: (error) => {
         this.isLoading = false;
-        this.isError = true;
-        this.errorMessage = "Error al crear el seguimiento: " + error.message;
+        this.showMessage('error', "Error al crear el seguimiento: " + error.message);
       }
     });
   }
@@ -222,5 +209,15 @@ export class StrategyDetailComponent {
     }
   }
   
+   /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+    private showMessage(type: 'success' | 'error', message: string): void {
+        if (this.messagesComponent) {
+            this.messagesComponent.showMessage(type, message);
+        }
+    }
 
 }

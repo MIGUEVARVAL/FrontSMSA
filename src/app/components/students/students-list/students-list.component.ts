@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -6,30 +6,25 @@ import { LoadingComponent } from '../../../templates/loading/loading.component';
 import { Estudiante, EstudianteListResponse, EstudianteFilter } from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
 import { EstudianteService } from '../../../services/APIs/backend/models/Estudiante/estudiante.service';
 import { PlanEstudio } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.model';
+import { MessagesComponent } from '../../../templates/messages/messages.component';
 
 @Component({
     selector: 'app-students-list',
     standalone: true,
-    imports: [CommonModule, RouterModule, ReactiveFormsModule, LoadingComponent],
+    imports: [CommonModule, RouterModule, ReactiveFormsModule, LoadingComponent, MessagesComponent],
     templateUrl: './students-list.component.html',
     styleUrl: './students-list.component.scss'
 })
 export class StudentsListComponent {
 
+    @ViewChild(MessagesComponent) messagesComponent!: MessagesComponent;
+
     /**
-     * Variables booleanas para mostrar carga, exito y error
+     * Variables booleanas para mostrar carga
      * @protected
      * @property {boolean} isLoading - Indica si se está cargando el formulario.
-     * @property {boolean} isSuccess - Indica si la carga fue exitosa.
-     * @property {string} successMessage - Mensaje de éxito a mostrar.
-     * @property {boolean} isError - Indica si hubo un error en la carga.
-     * @property {string} errorMessage - Mensaje de error a mostrar.
      */
     protected isLoading: boolean = false;
-    protected isSuccess: boolean = false;
-    protected successMessage: string = "";
-    protected isError: boolean = false;
-    protected errorMessage: string = "";
 
     /**
      * Página actual para la paginación.
@@ -136,14 +131,10 @@ export class StudentsListComponent {
             next: (response: EstudianteListResponse) => {
                 this.isLoading = false;
                 this.estudiantesListResponse = response;
-                console.log(response);
-                this.isSuccess = true;
-                this.successMessage = "Estudiantes cargados correctamente.";
             },
             error: (error) => {
                 this.isLoading = false;
-                this.isError = true;
-                this.errorMessage = "Error al cargar los estudiantes: " + error.message;
+                this.showMessage('error', "Error al cargar los estudiantes: " + error.message);
             }
         });
     }
@@ -164,8 +155,7 @@ export class StudentsListComponent {
             },
             error: (error) => {
                 this.isLoading = false;
-                this.isError = true;
-                this.errorMessage = "Error al cargar el estudiante: " + error.message;
+                this.showMessage('error', "Error al cargar el estudiante: " + error.message);
             }
         });
 
@@ -196,6 +186,7 @@ export class StudentsListComponent {
             avanceMax: formValue.avanceMax !== 100 ? formValue.avanceMax : undefined,
             riesgo: formValue.riesgo ? true : undefined,
         };
+        this.page = 1;
         this.loadStudents(this.filtrosActivos);
     }
 
@@ -223,6 +214,7 @@ export class StudentsListComponent {
             orderDirection: ''
         };
         this.filterForm.reset();
+        this.page = 1;
         this.loadStudents();
     }
 
@@ -234,6 +226,17 @@ export class StudentsListComponent {
         if (page >= 1 && page <= this.totalPages) {
             this.page = page;
             this.loadStudents();
+        }
+    }
+
+    /**
+     * Método unificado para mostrar mensajes
+     * @param type - Tipo de mensaje ('success' o 'error')
+     * @param message - Mensaje a mostrar
+     */
+    private showMessage(type: 'success' | 'error', message: string): void {
+        if (this.messagesComponent) {
+            this.messagesComponent.showMessage(type, message);
         }
     }
 

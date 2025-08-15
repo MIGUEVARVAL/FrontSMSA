@@ -32,33 +32,7 @@
         <p>La carga masiva se realiza a partir del informe <mark>RE_ACT_PER</mark>, titulado "ACTIVOS DEL PERIODO A LA FECHA", el cual se descarga desde BI Publisher. Es importante no modificar el archivo después de su descarga, ya que el procesamiento de datos depende de la estructura y el formato definidos por BI Publisher. Si se detecta alguna alteración, la información no será cargada.</p>
 
 
-        @if (isSuccess) {
-        <div class="alert alert-success">
-            <div class="alert-header">
-                <div class="alert-icon">
-                    <span class="material-symbols-outlined">info</span>
-                </div>
-                <div class="alert-title">
-                    {{successMessage}}
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-        }
-
-        @if (isError) {
-        <div class="alert alert-danger">
-            <div class="alert-header">
-                <div class="alert-icon">
-                    <span class="material-symbols-outlined">info</span>
-                </div>
-                <div class="alert-title">
-                    {{errorMessage}}
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-        }
+         <app-messages></app-messages>
 
         <div class="form-complete container mt-4">
             <div class="form-container container rounded-diag-secondary-5 rounded-diag-primary-3" bs-progress-step>
