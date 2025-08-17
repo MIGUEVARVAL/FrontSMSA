@@ -107,9 +107,10 @@ export class StudentsInfoComponent {
         }
         this.academicHistoryService.getHistorialAcademicoByEstudiante(this.studentInfo.id)
             .subscribe((historial: HistorialAcademico[]) => {
+                console.log("Historial académico obtenido:", historial);
                 this.HistorialAcademico = historial;
                 this.isLoading = false;
-                this.semesters = this.getSemesters();
+                this.semesters = this.getPeriodo();
                 this.getTipologies();
             }, (error) => {
                 this.isLoading = false;
@@ -123,9 +124,7 @@ export class StudentsInfoComponent {
      * @returns {any[]} - Lista de tipologías con asignaturas del plan de estudios.
      */
     protected getTipologies(): void {
-        console.log("Obteniendo tipologías del plan de estudios...");
         this.isLoading = true;
-        console.log("Plan de estudios ID:", this.studentInfo);
         this.academicHistoryService.getHistorialAcademicoByPlanEstudios(this.studentInfo?.plan_estudio?.id || '', this.studentInfo?.id || 0)
             .subscribe((historial: HistorialAcademicoByPlanEstudios[]) => {
                 if (!historial || historial.length === 0) {
@@ -143,21 +142,21 @@ export class StudentsInfoComponent {
 
 
     /**
-     * Método para obtener los semestres disponibles.
-     * @method getSemesters
-     * @returns {string[]} - Lista de semestres disponibles.
+     * Método para obtener los periodos disponibles.
+     * @method getPeriodo
+     * @returns {string[]} - Lista de periodos disponibles.
      */
-    protected getSemesters(): string[] {
-        const semesters: string[] = [];
+    protected getPeriodo(): string[] {
+        const periodos: string[] = [];
         if (!this.HistorialAcademico) {
-            return semesters;
+            return periodos;
         }
         this.HistorialAcademico.forEach((subject: any) => {
-            if (subject.semestre && !semesters.includes(subject.semestre)) {
-                semesters.push(subject.semestre);
+            if (subject.periodo && !periodos.includes(subject.periodo)) {
+                periodos.push(subject.periodo);
             }
         });
-        return semesters.sort((a, b) => a.localeCompare(b));
+        return periodos.sort((a, b) => a.localeCompare(b));
     }
 
     /**

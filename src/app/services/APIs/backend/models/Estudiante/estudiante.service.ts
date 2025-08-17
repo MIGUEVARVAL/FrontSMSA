@@ -74,8 +74,8 @@ export class EstudianteService {
       if (estudiante.programa) {
         params += `&programa=${estudiante.programa}`;
       }
-      if (estudiante.estado) {
-        params += `&estado=${estudiante.estado}`;
+      if (estudiante.activo !== undefined && estudiante.activo !== null) {
+        params += `&activo=${estudiante.activo}`;
       }
       if (estudiante.matriculas !== undefined && estudiante.matriculas !== null && estudiante.matriculas !== '') {
         params += `&matriculas=${estudiante.matriculas}`;
@@ -91,9 +91,6 @@ export class EstudianteService {
       }
       if (estudiante.avanceMax !== undefined && estudiante.avanceMax !== null) {
         params += `&avanceMax=${estudiante.avanceMax}`;
-      }
-      if (estudiante.riesgo !== undefined && estudiante.riesgo !== null) {
-        params += `&estudianteRiesgo=${estudiante.riesgo}`;
       }
     }
     return params;

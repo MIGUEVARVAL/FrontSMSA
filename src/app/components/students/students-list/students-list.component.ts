@@ -5,7 +5,6 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { LoadingComponent } from '../../../templates/loading/loading.component';
 import { Estudiante, EstudianteListResponse, EstudianteFilter } from '../../../services/APIs/backend/models/Estudiante/estudiante.model';
 import { EstudianteService } from '../../../services/APIs/backend/models/Estudiante/estudiante.service';
-import { PlanEstudio } from '../../../services/APIs/backend/models/PlanEstudio/plan-estudio.model';
 import { MessagesComponent } from '../../../templates/messages/messages.component';
 
 @Component({
@@ -45,13 +44,12 @@ export class StudentsListComponent {
         programa: '',
         acceso: '',
         subacceso: '',
-        estado: '',
+        activo: true,
         matriculas: '',
         papaMin: 0,
         papaMax: 5,
         avanceMin: 0,
         avanceMax: 100,
-        riesgo: false,
         orderBy: '',
         orderDirection: ''
     };
@@ -91,7 +89,7 @@ export class StudentsListComponent {
         programa: new FormControl(''),
         acceso: new FormControl(''),
         subacceso: new FormControl(''),
-        estado: new FormControl(''),
+        activo: new FormControl(true),
         matriculas: new FormControl(''),
         papaMin: new FormControl(0, { nonNullable: true }),
         papaMax: new FormControl(5, { nonNullable: true }),
@@ -178,13 +176,12 @@ export class StudentsListComponent {
             programa: formValue.programa || undefined,
             acceso: formValue.acceso || undefined,
             subacceso: formValue.subacceso || undefined,
-            estado: formValue.estado || undefined,
+            activo: formValue.activo || undefined,
             matriculas: formValue.matriculas !== '' && formValue.matriculas != null ? formValue.matriculas : undefined,
             papaMin: formValue.papaMin !== 0 ? formValue.papaMin : undefined,
             papaMax: formValue.papaMax !== 5 ? formValue.papaMax : undefined,
             avanceMin: formValue.avanceMin !== 0 ? formValue.avanceMin : undefined,
-            avanceMax: formValue.avanceMax !== 100 ? formValue.avanceMax : undefined,
-            riesgo: formValue.riesgo ? true : undefined,
+            avanceMax: formValue.avanceMax !== 100 ? formValue.avanceMax : undefined
         };
         this.page = 1;
         this.loadStudents(this.filtrosActivos);
@@ -204,7 +201,7 @@ export class StudentsListComponent {
             programa: '',
             acceso: '',
             subacceso: '',
-            estado: '',
+            activo: true,
             matriculas: '',
             papaMin: 0,
             papaMax: 5,

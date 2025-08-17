@@ -2,7 +2,7 @@ import { Asignatura } from "../Asignatura/asignatura.model";
 import { Tipologia } from "../Tipologia/tipologia.model";
 
 export interface HistorialAcademico {
-    semestre: string;
+    periodo: string;
     estado: string;
     nota: number;
     veces_vista: number;

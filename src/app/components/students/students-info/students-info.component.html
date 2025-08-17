@@ -71,7 +71,7 @@
                                     </a>
                                     <a class="item-link">
                                         <div class="item">
-                                            <div class="text"> {{studentInfo?.semestres_cancelados}} semestres
+                                            <div class="text"> {{studentInfo?.semestres_cancelados}} periodos
                                                 cancelados
                                             </div>
                                         </div>
@@ -154,12 +154,12 @@
                         <div class="row row-cols-1 row-cols-md-3 row-cols-xl-5 g-4 justify-content-center">
                             <div class="col">
                                 <div class="card border-0 px-3 py-1 mw-100 h-100"
-                                    [ngClass]="studentInfo?.matricula_periodo_activo === 'SI' ? 'bg-success-90' : 'bg-danger-90'">
+                                    [ngClass]="studentInfo?.activo ? 'bg-success-90' : 'bg-danger-90'">
                                     <div class="card-body">
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Estado</p>
                                             <h3>
-                                                @if (studentInfo?.matricula_periodo_activo == "SI") {
+                                                @if (studentInfo?.activo ) {
                                                 Activo
                                                 }@else {
                                                 Inactivo
@@ -233,8 +233,8 @@
                             <button class="btn btn-neutral-variant btn-mn" data-bs-toggle="modal"
                                 data-bs-target="#ModalGuiaColores">
                                 <span class="material-symbols-outlined">
-palette
-</span>
+                                    palette
+                                </span>
                                 <span>Guía de colores</span>
                             </button>
 
@@ -254,7 +254,8 @@ palette
                                                     <div
                                                         class="card mw-100 h-100 rounded-diag-secondary border-0 bg-success-95">
                                                         <div class="card-body text-center">
-                                                            Asignaturas con nota mayor a 3.8 o aprobadas para los casos en la que no se encuentre la nota
+                                                            Asignaturas con nota mayor a 3.8 o aprobadas para los casos
+                                                            en la que no se encuentre la nota
                                                         </div>
                                                     </div>
                                                 </div>
@@ -270,7 +271,8 @@ palette
                                                     <div
                                                         class="card mw-100 h-100 rounded-diag-secondary border-0 bg-danger-95">
                                                         <div class="card-body text-center">
-                                                            Asignaturas con nota menor a 3.0 o reprobadas para los casos en la que no se encuentre la nota
+                                                            Asignaturas con nota menor a 3.0 o reprobadas para los casos
+                                                            en la que no se encuentre la nota
                                                         </div>
                                                     </div>
                                                 </div>
@@ -292,7 +294,7 @@ palette
                         </div>
 
 
-                         <app-messages class="my-5"></app-messages>
+                        <app-messages class="my-5"></app-messages>
 
                         @if (HistorialAcademico.length === 0) {
                         <div
@@ -309,13 +311,13 @@ palette
                         <div class="d-flex  flex-column tab-neutral mt-5">
                             <ul class="tab " role="tablist" id="pills-tab">
                                 <li class="tab-item" role="presentation">
-                                    <a class="tab-link active" aria-current="page" id="semestre-tab"
-                                        data-bs-toggle="tab" data-bs-target="#semestre" type="button" role="tab"
-                                        aria-controls="semestre" aria-selected="true" tabindex="-1">
+                                    <a class="tab-link active" aria-current="page" id="periodo-tab" data-bs-toggle="tab"
+                                        data-bs-target="#periodo" type="button" role="tab" aria-controls="periodo"
+                                        aria-selected="true" tabindex="-1">
                                         <div class="material-symbols-outlined">
                                             published_with_changes
                                         </div>
-                                        Semestre
+                                        periodo
                                     </a>
                                 </li>
                                 <li class="tab-item" role="presentation">
@@ -338,27 +340,27 @@ palette
                             </ul>
                             <div class="tab-content" id="myTabContent">
 
-                                <div class="tab-pane fade show active" id="semestre" role="tabpanel"
+                                <div class="tab-pane fade show active" id="periodo" role="tabpanel"
                                     aria-labelledby="home-tab" tabindex="0">
                                     <div class="accordion" id="accordionExample9">
-                                        @for (semestre of semesters; track $index) {
+                                        @for (periodo of semesters; track $index) {
                                         <div class="accordion-item rounded-3">
-                                            <h2 class="accordion-header" [id]="'heading-semestre-'+semestre">
+                                            <h2 class="accordion-header" [id]="'heading-periodo-'+periodo">
                                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    [attr.data-bs-target]="'#collapse-semestre-'+semestre"
+                                                    [attr.data-bs-target]="'#collapse-periodo-'+periodo"
                                                     aria-expanded="true"
-                                                    [attr.aria-controls]="'collapse-semestre-'+semestre">
-                                                    {{ semestre }}
+                                                    [attr.aria-controls]="'collapse-periodo-'+periodo">
+                                                    {{ periodo }}
                                                 </button>
                                             </h2>
-                                            <div [id]="'collapse-semestre-'+semestre"
+                                            <div [id]="'collapse-periodo-'+periodo"
                                                 class="accordion-collapse collapse show">
                                                 <div class="accordion-body">
                                                     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
                                                         @for (asignatura of HistorialAcademico; track $index) {
-                                                        @if (asignatura.semestre == semestre){
+                                                        @if (asignatura.periodo == periodo){
                                                         <div class="col">
-                                                            <div class="card px-3 py-1 mw-100 h-100 rounded-diag-secondary border-0"
+                                                            <div class="card px-1 py-1 mw-100 h-100 rounded-diag-secondary border-0"
                                                                 [ngClass]="asignatura.nota > 3.8 ? 'bg-success-95' :
                                                             asignatura.nota >= 3.0 ? 'bg-warning-95' :
                                                             asignatura.estado === 'AP' ? 'bg-success-95' :
@@ -371,7 +373,7 @@ palette
                                                                             <div class="item-flex">
                                                                                 {{asignatura.asignatura.codigo}}</div>
                                                                             <div class="item-flex fw-regular"><span
-                                                                                    class="tag tag-neutral">{{asignatura.semestre}}</span>
+                                                                                    class="tag tag-neutral">{{asignatura.periodo}}</span>
                                                                             </div>
                                                                         </div>
 
@@ -379,6 +381,7 @@ palette
 
                                                                         <p class="fw-regular"></p>
                                                                         <p>{{asignatura.asignatura.nombre}}</p>
+                                                                        @if (!asignatura.tipo_cancelacion) {
                                                                         <div class="row">
                                                                             <div class="col-6">
                                                                                 <p
@@ -393,16 +396,36 @@ palette
 
                                                                             </div>
                                                                             <div class="col-6">
+                                                                                @if (asignatura.nota) {
                                                                                 <p
                                                                                     class="small text-neutral-60 fw-regular">
                                                                                     Nota:
                                                                                     {{asignatura.nota}}</p>
+                                                                                }
                                                                                 <p
                                                                                     class="small text-neutral-60 fw-regular">
                                                                                     Estado:
                                                                                     {{asignatura.estado}}</p>
                                                                             </div>
                                                                         </div>
+                                                                        }@else {
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <p
+                                                                                    class="small text-neutral-60 fw-regular">
+                                                                                    Créditos:
+                                                                                    {{asignatura.asignatura.creditos}}
+                                                                                </p>
+
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <p
+                                                                                    class="small text-neutral-60 fw-regular">
+                                                                                    Cancelación:
+                                                                                    {{asignatura.tipo_cancelacion}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        }
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -444,7 +467,7 @@ palette
                                                         @for (asignatura of tipologia.historialAcademico; track $index)
                                                         {
                                                         <div class="col">
-                                                            <div class="card px-3 py-1 mw-100 h-100 rounded-diag-secondary border-0"
+                                                            <div class="card px-1 py-1 mw-100 h-100 rounded-diag-secondary border-0"
                                                                 [ngClass]="asignatura.nota > 3.8 ? 'bg-success-95' :
                                                             asignatura.nota >= 3.0 ? 'bg-warning-95' :
                                                             asignatura.estado === 'AP' ? 'bg-success-95' :
@@ -457,7 +480,7 @@ palette
                                                                             <div class="item-flex">
                                                                                 {{asignatura.asignatura.codigo}}</div>
                                                                             <div class="item-flex fw-regular"><span
-                                                                                    class="tag tag-neutral">{{asignatura.semestre}}</span>
+                                                                                    class="tag tag-neutral">{{asignatura.periodo}}</span>
                                                                             </div>
                                                                         </div>
 
@@ -465,6 +488,7 @@ palette
 
                                                                         <p class="fw-regular"></p>
                                                                         <p>{{asignatura.asignatura.nombre}}</p>
+                                                                        @if (!asignatura.tipo_cancelacion) {
                                                                         <div class="row">
                                                                             <div class="col-6">
                                                                                 <p
@@ -479,16 +503,37 @@ palette
 
                                                                             </div>
                                                                             <div class="col-6">
+                                                                                @if (asignatura.nota) {
                                                                                 <p
                                                                                     class="small text-neutral-60 fw-regular">
                                                                                     Nota:
                                                                                     {{asignatura.nota}}</p>
+                                                                                }
                                                                                 <p
                                                                                     class="small text-neutral-60 fw-regular">
                                                                                     Estado:
                                                                                     {{asignatura.estado}}</p>
                                                                             </div>
                                                                         </div>
+                                                                        }@else {
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <p
+                                                                                    class="small text-neutral-60 fw-regular">
+                                                                                    Créditos:
+                                                                                    {{asignatura.asignatura.creditos}}
+                                                                                </p>
+
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <p
+                                                                                    class="small text-neutral-60 fw-regular">
+                                                                                    Cancelación:
+                                                                                    {{asignatura.tipo_cancelacion}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        }
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -512,7 +557,7 @@ palette
                                         @for (asignatura of HistorialAcademico; track $index) {
 
                                         <div class="col">
-                                            <div class="card px-3 py-1 mw-100 h-100 rounded-diag-secondary border-0"
+                                            <div class="card px-1 py-1 mw-100 h-100 rounded-diag-secondary border-0"
                                                 [ngClass]="asignatura.nota > 3.8 ? 'bg-success-95' :
                                                             asignatura.nota >= 3.0 ? 'bg-warning-95' :
                                                             asignatura.estado === 'AP' ? 'bg-success-95' :
@@ -524,7 +569,7 @@ palette
                                                             <div class="item-flex">
                                                                 {{asignatura.asignatura.codigo}}</div>
                                                             <div class="item-flex fw-regular"><span
-                                                                    class="tag tag-neutral">{{asignatura.semestre}}</span>
+                                                                    class="tag tag-neutral">{{asignatura.periodo}}</span>
                                                             </div>
                                                         </div>
 
@@ -532,25 +577,44 @@ palette
 
                                                         <p class="fw-regular"></p>
                                                         <p>{{asignatura.asignatura.nombre}}</p>
+                                                        @if (!asignatura.tipo_cancelacion) {
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <p class="small text-neutral-60 fw-regular">
                                                                     Créditos:
-                                                                    {{asignatura.asignatura.creditos}}</p>
+                                                                    {{asignatura.asignatura.creditos}}
+                                                                </p>
                                                                 <p class="small text-neutral-60 fw-regular">
                                                                     Veces vista:
                                                                     {{asignatura.veces_vista}}</p>
 
                                                             </div>
                                                             <div class="col-6">
+                                                                @if (asignatura.nota) {
                                                                 <p class="small text-neutral-60 fw-regular">
                                                                     Nota:
                                                                     {{asignatura.nota}}</p>
+                                                                }
                                                                 <p class="small text-neutral-60 fw-regular">
                                                                     Estado:
                                                                     {{asignatura.estado}}</p>
                                                             </div>
                                                         </div>
+                                                        }@else {
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p class="small text-neutral-60 fw-regular">
+                                                                    Créditos:
+                                                                    {{asignatura.asignatura.creditos}}
+                                                                </p>
+
+                                                            </div>
+                                                            <div class="col">
+                                                                <p class="small text-neutral-60 fw-regular">
+                                                                    {{asignatura.tipo_cancelacion}}</p>
+                                                            </div>
+                                                        </div>
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>

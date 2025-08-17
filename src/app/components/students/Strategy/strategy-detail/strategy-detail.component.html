@@ -161,12 +161,12 @@
                         <div class="row row-cols-1 row-cols-md-3 row-cols-xl-5 g-4 justify-content-center">
                             <div class="col">
                                 <div class="card border-0 px-3 py-1 mw-100 h-100"
-                                    [ngClass]="studentInfo?.matricula_periodo_activo === 'SI' ? 'bg-success-90' : 'bg-danger-90'">
+                                    [ngClass]="studentInfo?.activo ? 'bg-success-90' : 'bg-danger-90'">
                                     <div class="card-body">
                                         <div class="card-stack gap-0 m-0">
                                             <p class="fw-regular">Estado</p>
                                             <h3>
-                                                @if (studentInfo?.matricula_periodo_activo == "SI") {
+                                                @if (studentInfo?.activo ) {
                                                 Activo
                                                 }@else {
                                                 Inactivo
