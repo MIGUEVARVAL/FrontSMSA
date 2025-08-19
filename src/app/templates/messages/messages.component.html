@@ -23,3 +23,63 @@
     </div>
 </div>
 }
+
+<div style="max-height: 70vh;" class="overflow-auto">
+@if (responseLoadFileSuccess) {
+
+  <div class="alert alert-success my-5">
+    <div class="alert-header">
+        <div class="alert-icon">
+            <span class="material-symbols-outlined">info</span>
+        </div>
+        <div class="alert-title">
+            {{responseLoadFileSuccess.mensajeExito}}
+        </div>
+    </div>
+</div>
+
+@if (responseLoadFileSuccess.errores && responseLoadFileSuccess.errores.length > 0) {
+  <div class="table-responsive">
+      <table class="table table-striped table-hover ">
+        <thead>
+          <tr>
+            <th>Error</th>
+            <th>Detalle</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          @for (item of responseLoadFileSuccess.errores; track $index) {
+          <tr>
+            <td>{{ item.codigo_error }} - {{ item.tipo_error }}</td>
+            <td>{{ item.detalle }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+}
+
+
+@if (responseLoadFileError) {
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-tertiary-red">
+        <thead>
+          <tr>
+            <th>Error</th>
+            <th>Detalle</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          @for (item of responseLoadFileError.error.errores; track $index) {
+          <tr>
+            <td>{{ item.codigo_error }} - {{ item.tipo_error }}</td>
+            <td>{{ item.detalle }}</td>
+          </tr>
+          }
+
+        </tbody>
+      </table>
+    </div>
+}
+</div>

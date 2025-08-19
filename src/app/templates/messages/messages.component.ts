@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LoadFileErrorResponse, LoadFileSuccessResponse } from '../../services/APIs/backend/loadFile/load-file-response.interface';
 
 @Component({
   selector: 'app-messages',
@@ -14,6 +15,8 @@ export class MessagesComponent {
   @Input() successMessage: string = "";
   @Input() isError: boolean = false;
   @Input() errorMessage: string = "";
+  @Input() responseLoadFileSuccess: LoadFileSuccessResponse | null = null;
+  @Input() responseLoadFileError: LoadFileErrorResponse | null = null;
 
   public showMessage(type: 'success' | 'error', message: string): void {
     if (type === 'success') {
@@ -26,10 +29,7 @@ export class MessagesComponent {
       this.isSuccess = false;
     }
     setTimeout(() => {
-      this.isSuccess = false;
-      this.successMessage = "";
-      this.isError = false;
-      this.errorMessage = "";
+      this.clearMessages();
     }, 10000);
   }
 
@@ -39,4 +39,5 @@ export class MessagesComponent {
     this.isError = false;
     this.errorMessage = "";
   }
+
 }

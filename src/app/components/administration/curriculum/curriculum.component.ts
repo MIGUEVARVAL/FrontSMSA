@@ -79,14 +79,14 @@ export class CurriculumComponent {
     this.loadFileService.loadFileCurriculum(file).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.showMessage('success', 'Los planes de estudio fueron cargados correctamente.');
+        this.messagesComponent.responseLoadFileSuccess = response;
         this.createCurriculumForm.reset();
         this.selectedFile = null;
         this.selectedFileName = null;
       },
       error: (error) => {
         this.isLoading = false;
-        this.showMessage('error', 'Error al cargar el archivo: ' + error.message);
+        this.messagesComponent.responseLoadFileError = error;
       },
     });
   }
