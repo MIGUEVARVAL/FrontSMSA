@@ -66,12 +66,15 @@ export class CancellationsComponent {
     this.loadFileService.loadFileCancellation(file).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.showMessage('success', response.message || 'Asignaturas canceladas cargadas exitosamente.');
+        this.messagesComponent.responseLoadFileSuccess = response;
+        this.loadCancellationsForm.reset();
+        this.selectedFile = null;
+        this.selectedFileName = null;
       },
       error: (error) => {
         this.isLoading = false;
-        this.showMessage('error', error.error?.message || 'Error al cargar las asignaturas canceladas.');
-      }
+        this.messagesComponent.responseLoadFileError = error;
+      },
     });
   }
 

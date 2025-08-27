@@ -69,14 +69,14 @@ export class FinalGradesComponent {
     this.loadFileService.loadFileFinalGrades(file).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.showMessage('success', 'Las notas finales fueron cargadas correctamente.');
+        this.messagesComponent.responseLoadFileSuccess = response;
         this.createFinalGradesForm.reset();
         this.selectedFile = null;
         this.selectedFileName = null;
       },
       error: (error) => {
         this.isLoading = false;
-        this.showMessage('error', 'No se lograron cargar las notas finales, por favor verifique el archivo y vuelva a intentarlo ' + error.message);
+        this.messagesComponent.responseLoadFileError = error;
       },
     });
   }

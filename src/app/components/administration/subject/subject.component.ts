@@ -27,7 +27,7 @@ export class SubjectComponent {
    * @protected
    * @property {boolean} isLoading - Indica si se está cargando el formulario. 
    */
-  protected isLoading: boolean = false; 
+  protected isLoading: boolean = false;
 
   /**
    * Formulario reactivo para cargar las notas finales
@@ -43,9 +43,9 @@ export class SubjectComponent {
      * @param {LoadFileService} loadFileService - Servicio para manejar la carga de archivos.
      * @constructor
      */
-    constructor(
-      private loadFileService: LoadFileService
-    ) {}
+  constructor(
+    private loadFileService: LoadFileService
+  ) { }
 
   /**
    * Función para cargar las notas finales.
@@ -53,7 +53,7 @@ export class SubjectComponent {
    * @protected
    * @returns {void}
    */
-   protected loadSubjectParametrization() {
+  protected loadSubjectParametrization() {
     this.isLoading = true;
     const file = this.selectedFile;
 
@@ -66,14 +66,14 @@ export class SubjectComponent {
     this.loadFileService.loadFileSubjectParametrization(file).subscribe({
       next: (response) => {
         this.isLoading = false;
-          this.showMessage('success', 'Los planes de estudio fueron cargados correctamente.');
-          this.loadSubjectParametrizationForm.reset();
-          this.selectedFile = null;
-          this.selectedFileName = null;
+        this.messagesComponent.responseLoadFileSuccess = response;
+        this.loadSubjectParametrizationForm.reset();
+        this.selectedFile = null;
+        this.selectedFileName = null;
       },
       error: (error) => {
         this.isLoading = false;
-        this.showMessage('error', 'Error al cargar el archivo: ' + error.message);
+        this.messagesComponent.responseLoadFileError = error;
       }
     });
   }
@@ -137,11 +137,11 @@ export class SubjectComponent {
      * @param type - Tipo de mensaje ('success' o 'error')
      * @param message - Mensaje a mostrar
      */
-    private showMessage(type: 'success' | 'error', message: string): void {
-        if (this.messagesComponent) {
-            this.messagesComponent.showMessage(type, message);
-        }
+  private showMessage(type: 'success' | 'error', message: string): void {
+    if (this.messagesComponent) {
+      this.messagesComponent.showMessage(type, message);
     }
+  }
 
 
 }

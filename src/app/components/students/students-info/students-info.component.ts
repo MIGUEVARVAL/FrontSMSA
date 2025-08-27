@@ -151,12 +151,12 @@ export class StudentsInfoComponent {
         if (!this.HistorialAcademico) {
             return periodos;
         }
-        this.HistorialAcademico.forEach((subject: any) => {
+        this.HistorialAcademico.forEach((subject: HistorialAcademico) => {
             if (subject.periodo && !periodos.includes(subject.periodo)) {
                 periodos.push(subject.periodo);
             }
         });
-        return periodos.sort((a, b) => a.localeCompare(b));
+        return periodos.sort((b, a) => a.localeCompare(b));
     }
 
     /**

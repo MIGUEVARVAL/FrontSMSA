@@ -24,9 +24,18 @@
                 <hr>
 
 
+                @if (nivel_permisos === 1) {
+                <a class="user-section-menu-item d-flex gap-3 mouseClick" routerLink="/administration/users">
+                    <div class="user-section-menu-item-content">
+                        <span class="material-symbols-fill" translate="no">manage_accounts</span>
+                        Administrar
+                    </div>
+                </a>
+                }
 
                 <a class="user-section-menu-item d-flex gap-3 mouseClick" (click)="onLogout()">
                     <div class="user-section-menu-item-content">
+                        <span class="material-symbols-fill" translate="no">logout</span>
                         Cerrar Sesión
                     </div>
                 </a>
@@ -61,16 +70,7 @@
                         Asignaturas
                     </a>
                 </li>
-
-
-                @if (nivel_permisos === 1) {
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/administration/users">
-                        <span class="material-symbols-fill" translate="no">manage_accounts</span>
-                        Administrar
-                    </a>
-                </li>
-                }
+ 
             </ul>
         </div>
     </div>

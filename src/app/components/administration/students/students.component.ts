@@ -70,14 +70,15 @@ export class StudentsComponent {
       .subscribe({
         next: (response) => {
           this.isLoading = false;
-          this.showMessage('success', 'Los estudiantes fueron cargados correctamente.');
+          this.messagesComponent.responseLoadFileSuccess = response;
           this.loadStudentsForm.reset();
           this.selectedFile = null;
           this.selectedFileName = null;
         },
         error: (error) => {
           this.isLoading = false;
-          this.showMessage('error', 'No se lograron cargar los estudiantes, por favor verifique el archivo y vuelva a intentarlo');
+          this.messagesComponent.responseLoadFileError = error;
+          console.error('Error al cargar el archivo:', error);
         },
       });
   }

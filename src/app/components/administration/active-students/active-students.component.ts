@@ -77,15 +77,14 @@ export class ActiveStudentsComponent {
     this.loadFileService.loadFileActiveStudents(file).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.showMessage('success', 'Los estudiantes fueron cargados exitosamente. ' +
-          'Se han cargado ' + response.data.length + ' estudiantes.');
+        this.messagesComponent.responseLoadFileSuccess = response;
         this.createStudentsForm.reset();
         this.selectedFile = null;
         this.selectedFileName = null;
       },
       error: (error) => {
-        this.isLoading = false;
-        this.showMessage('error', 'Error al cargar el archivo: ' + error.message);
+          this.isLoading = false;
+          this.messagesComponent.responseLoadFileError = error;
       },
     });
   }

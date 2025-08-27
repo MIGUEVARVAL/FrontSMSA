@@ -30,6 +30,7 @@ export interface Estudiante {
     cupo_creditos: number;
     creditos_pendientes: number;
     creditos_disponibles: number;
+    edad: number;
 }
 
 export interface EstudianteListResponse {
